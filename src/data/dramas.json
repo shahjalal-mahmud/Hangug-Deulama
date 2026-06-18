@@ -1,0 +1,123 @@
+/* src/data/dramas.json */
+[
+  {
+    "id": 1,
+    "title": "Crash Landing on You",
+    "genre": ["Romance", "Comedy", "Drama"],
+    "rating": 4.8,
+    "year": 2019,
+    "poster": "https://via.placeholder.com/300x450/6366f1/ffffff?text=Crash+Landing",
+    "banner": "https://via.placeholder.com/1200x400/6366f1/ffffff?text=Crash+Landing+Banner",
+    "synopsis": "A wealthy South Korean heiress accidentally paraglides into North Korea and meets a charismatic North Korean army officer who helps her hide. As they navigate the dangers of their situation, they fall in love despite the political tensions between their countries."
+  },
+  {
+    "id": 2,
+    "title": "Squid Game",
+    "genre": ["Thriller", "Drama", "Mystery"],
+    "rating": 4.7,
+    "year": 2021,
+    "poster": "https://via.placeholder.com/300x450/8b5cf6/ffffff?text=Squid+Game",
+    "banner": "https://via.placeholder.com/1200x400/8b5cf6/ffffff?text=Squid+Game+Banner",
+    "synopsis": "A group of financially desperate people are invited to play a mysterious survival game on a remote island. The stakes are high as they compete in children's games with deadly consequences, all for a chance to win a massive cash prize."
+  },
+  {
+    "id": 3,
+    "title": "Vincenzo",
+    "genre": ["Action", "Comedy", "Drama"],
+    "rating": 4.6,
+    "year": 2021,
+    "poster": "https://via.placeholder.com/300x450/ec4899/ffffff?text=Vincenzo",
+    "banner": "https://via.placeholder.com/1200x400/ec4899/ffffff?text=Vincenzo+Banner",
+    "synopsis": "An Italian-Korean mafia lawyer returns to South Korea and becomes involved with a tenant lawyer who is fighting against a corrupt conglomerate. Using his unique skills and methods, he brings justice to the corrupt while falling for the passionate lawyer."
+  },
+  {
+    "id": 4,
+    "title": "Queen of Tears",
+    "genre": ["Romance", "Drama", "Family"],
+    "rating": 4.5,
+    "year": 2024,
+    "poster": "https://via.placeholder.com/300x450/3b82f6/ffffff?text=Queen+of+Tears",
+    "banner": "https://via.placeholder.com/1200x400/3b82f6/ffffff?text=Queen+of+Tears+Banner",
+    "synopsis": "A married couple facing relationship challenges must navigate their turbulent marriage while dealing with family obligations and personal ambitions. The story explores the complexity of love, sacrifice, and the meaning of true partnership."
+  },
+  {
+    "id": 5,
+    "title": "Goblin",
+    "genre": ["Fantasy", "Romance", "Drama"],
+    "rating": 4.9,
+    "year": 2016,
+    "poster": "https://via.placeholder.com/300x450/22c55e/ffffff?text=Goblin",
+    "banner": "https://via.placeholder.com/1200x400/22c55e/ffffff?text=Goblin+Banner",
+    "synopsis": "A centuries-old goblin cursed with immortality seeks his human bride to end his immortal life. When he meets a young woman who can see ghosts, their fates become intertwined in a tale of love, destiny, and the price of eternal life."
+  },
+  {
+    "id": 6,
+    "title": "Descendants of the Sun",
+    "genre": ["Romance", "Action", "Drama"],
+    "rating": 4.7,
+    "year": 2016,
+    "poster": "https://via.placeholder.com/300x450/f59e0b/ffffff?text=Descendants",
+    "banner": "https://via.placeholder.com/1200x400/f59e0b/ffffff?text=Descendants+Banner",
+    "synopsis": "A special forces captain and a highly skilled surgeon fall in love amidst dangerous missions and humanitarian efforts in a war-torn country. Their relationship faces challenges from their demanding careers and the harsh realities of their work."
+  },
+  {
+    "id": 7,
+    "title": "My Love from the Star",
+    "genre": ["Romance", "Sci-Fi", "Comedy"],
+    "rating": 4.6,
+    "year": 2013,
+    "poster": "https://via.placeholder.com/300x450/ef4444/ffffff?text=My+Love+Star",
+    "banner": "https://via.placeholder.com/1200x400/ef4444/ffffff?text=My+Love+Banner",
+    "synopsis": "An alien who has been living on Earth for 400 years falls in love with a famous actress who is his neighbor. Despite their impossible love story, they navigate the challenges of his impending departure and her celebrity life."
+  },
+  {
+    "id": 8,
+    "title": "It's Okay to Not Be Okay",
+    "genre": ["Romance", "Drama", "Mental Health"],
+    "rating": 4.8,
+    "year": 2020,
+    "poster": "https://via.placeholder.com/300x450/6366f1/ffffff?text=Not+Okay",
+    "banner": "https://via.placeholder.com/1200x400/6366f1/ffffff?text=Not+Okay+Banner",
+    "synopsis": "A children's book author who struggles with antisocial personality disorder meets a psychiatric ward caregiver who works at a hospital. Their relationship helps both heal from their traumatic pasts and learn to accept love."
+  },
+  {
+    "id": 9,
+    "title": "Kingdom",
+    "genre": ["Historical", "Thriller", "Horror"],
+    "rating": 4.7,
+    "year": 2019,
+    "poster": "https://via.placeholder.com/300x450/8b5cf6/ffffff?text=Kingdom",
+    "banner": "https://via.placeholder.com/1200x400/8b5cf6/ffffff?text=Kingdom+Banner",
+    "synopsis": "Set in Korea's Joseon period, a crown prince investigates a mysterious plague that is turning people into zombies. He must uncover the truth while fighting political enemies and surviving the undead threat."
+  },
+  {
+    "id": 10,
+    "title": "Extraordinary Attorney Woo",
+    "genre": ["Legal", "Drama", "Comedy"],
+    "rating": 4.9,
+    "year": 2022,
+    "poster": "https://via.placeholder.com/300x450/ec4899/ffffff?text=Attorney+Woo",
+    "banner": "https://via.placeholder.com/1200x400/ec4899/ffffff?text=Attorney+Woo+Banner",
+    "synopsis": "A brilliant young lawyer with autism spectrum disorder starts her career at a top law firm. Despite her challenges with social interactions, she shows exceptional legal abilities and empathy for her clients."
+  },
+  {
+    "id": 11,
+    "title": "The Glory",
+    "genre": ["Thriller", "Drama", "Revenge"],
+    "rating": 4.8,
+    "year": 2022,
+    "poster": "https://via.placeholder.com/300x450/3b82f6/ffffff?text=The+Glory",
+    "banner": "https://via.placeholder.com/1200x400/3b82f6/ffffff?text=The+Glory+Banner",
+    "synopsis": "A woman who suffered brutal school violence as a teenager returns as an adult to take revenge on her bullies. She carefully orchestrates a plan to destroy their lives while they are now successful adults."
+  },
+  {
+    "id": 12,
+    "title": "Reply 1988",
+    "genre": ["Comedy", "Drama", "Family"],
+    "rating": 4.9,
+    "year": 2015,
+    "poster": "https://via.placeholder.com/300x450/22c55e/ffffff?text=Reply+1988",
+    "banner": "https://via.placeholder.com/1200x400/22c55e/ffffff?text=Reply+1988+Banner",
+    "synopsis": "The series follows the lives of five childhood friends and their families living in the same neighborhood in Seoul during the late 1980s. It portrays the beauty of friendship, family bonds, and first loves through a nostalgic lens."
+  }
+]
