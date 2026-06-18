@@ -40,7 +40,7 @@ const DramaDetails = () => {
           alt={drama.title}
           className="w-full h-full object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-base-100 via-transparent to-transparent" />
+        <div className="absolute inset-0 bg-linear-to-t from-base-100 via-transparent to-transparent" />
       </div>
 
       {/* Drama Info */}
@@ -96,7 +96,7 @@ const DramaDetails = () => {
                   <img 
                     src={d.banner_url} 
                     alt={d.title}
-                    className="w-full aspect-[2/3] object-cover"
+                    className="w-full aspect-2/3 object-cover"
                   />
                 </figure>
                 <div className="card-body">

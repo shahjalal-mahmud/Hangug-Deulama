@@ -32,7 +32,7 @@ const SwipeCard = ({ drama, onLike, onDislike, onWatched }) => {
         <img 
           src={drama.banner_url || drama.poster} 
           alt={drama.title}
-          className="w-full aspect-[2/3] object-cover"
+          className="w-full aspect-2/3 object-cover"
         />
         <div className="absolute top-2 right-2 badge badge-secondary">
           ⭐ {drama.imdb_rating || 'N/A'}

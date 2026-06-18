@@ -18,7 +18,7 @@ const Home = () => {
   return (
     <div className="space-y-12">
       {/* Hero Section */}
-      <section className="hero min-h-[60vh] rounded-xl bg-gradient-to-r from-primary to-secondary text-white">
+      <section className="hero min-h-[60vh] rounded-xl bg-linear-to-r from-primary to-secondary text-white">
         <div className="hero-content text-center">
           <div className="max-w-2xl">
             <h1 className="text-5xl font-bold mb-6">
