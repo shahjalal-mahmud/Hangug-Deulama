@@ -4,13 +4,21 @@ import { useDrama } from '../context/DramaContext';
 import DramaCard from '../components/DramaCard';
 
 const Home = () => {
-  const { dramas } = useDrama();
+  const { dramas, loading } = useDrama();
   const featuredDramas = dramas.slice(0, 4);
+
+  if (loading) {
+    return (
+      <div className="min-h-[60vh] flex items-center justify-center">
+        <span className="loading loading-spinner loading-lg"></span>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-12">
       {/* Hero Section */}
-      <section className="hero min-h-[60vh] rounded-xl bg-linear-to-r from-primary to-secondary text-white">
+      <section className="hero min-h-[60vh] rounded-xl bg-gradient-to-r from-primary to-secondary text-white">
         <div className="hero-content text-center">
           <div className="max-w-2xl">
             <h1 className="text-5xl font-bold mb-6">

@@ -1,6 +1,6 @@
 /* src/context/DramaContext.jsx */
-import { createContext, useContext, useState, useEffect } from 'react';
-import dramasData from '../data/dramas.json';
+import React, { createContext, useContext, useState, useEffect } from 'react';
+import dramasData from '../data/dramas.json?url';
 
 const DramaContext = createContext();
 
@@ -13,10 +13,36 @@ export const useDrama = () => {
 };
 
 export const DramaProvider = ({ children }) => {
-  const [dramas] = useState(dramasData);
+  const [dramas, setDramas] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [likedDramas, setLikedDramas] = useState([]);
   const [dislikedDramas, setDislikedDramas] = useState([]);
   const [watchedDramas, setWatchedDramas] = useState([]);
+
+  // Load dramas data
+  useEffect(() => {
+    const loadDramas = async () => {
+      try {
+        // Try importing directly
+        const data = await import('../data/dramas.json');
+        setDramas(data.default);
+        setLoading(false);
+      } catch (error) {
+        console.error('Error loading dramas:', error);
+        // Fallback: fetch the JSON file
+        try {
+          const response = await fetch('/src/data/dramas.json');
+          const data = await response.json();
+          setDramas(data);
+          setLoading(false);
+        } catch (fetchError) {
+          console.error('Error fetching dramas:', fetchError);
+          setLoading(false);
+        }
+      }
+    };
+    loadDramas();
+  }, []);
 
   // Load from localStorage
   useEffect(() => {
@@ -31,21 +57,26 @@ export const DramaProvider = ({ children }) => {
 
   // Save to localStorage
   useEffect(() => {
-    localStorage.setItem('likedDramas', JSON.stringify(likedDramas));
+    if (likedDramas.length > 0 || localStorage.getItem('likedDramas')) {
+      localStorage.setItem('likedDramas', JSON.stringify(likedDramas));
+    }
   }, [likedDramas]);
 
   useEffect(() => {
-    localStorage.setItem('dislikedDramas', JSON.stringify(dislikedDramas));
+    if (dislikedDramas.length > 0 || localStorage.getItem('dislikedDramas')) {
+      localStorage.setItem('dislikedDramas', JSON.stringify(dislikedDramas));
+    }
   }, [dislikedDramas]);
 
   useEffect(() => {
-    localStorage.setItem('watchedDramas', JSON.stringify(watchedDramas));
+    if (watchedDramas.length > 0 || localStorage.getItem('watchedDramas')) {
+      localStorage.setItem('watchedDramas', JSON.stringify(watchedDramas));
+    }
   }, [watchedDramas]);
 
   const likeDrama = (dramaId) => {
     if (!likedDramas.includes(dramaId)) {
       setLikedDramas([...likedDramas, dramaId]);
-      // Remove from disliked if present
       if (dislikedDramas.includes(dramaId)) {
         setDislikedDramas(dislikedDramas.filter(id => id !== dramaId));
       }
@@ -55,7 +86,6 @@ export const DramaProvider = ({ children }) => {
   const dislikeDrama = (dramaId) => {
     if (!dislikedDramas.includes(dramaId)) {
       setDislikedDramas([...dislikedDramas, dramaId]);
-      // Remove from liked if present
       if (likedDramas.includes(dramaId)) {
         setLikedDramas(likedDramas.filter(id => id !== dramaId));
       }
@@ -82,6 +112,7 @@ export const DramaProvider = ({ children }) => {
 
   const value = {
     dramas,
+    loading,
     likedDramas,
     dislikedDramas,
     watchedDramas,
