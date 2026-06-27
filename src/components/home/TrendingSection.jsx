@@ -1,5 +1,5 @@
 import SectionHeader from '../SectionHeader';
-import DramaPosterCard from '../DramaPosterCard';
+import DramaPosterCard from '../drama/DramaPosterCard';
 import SkeletonCard from '../SkeletonCard';
 import EmptyState from '../EmptyState';
 

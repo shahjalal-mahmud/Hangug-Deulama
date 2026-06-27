@@ -1,7 +1,7 @@
 import { memo } from 'react';
 import { Link } from 'react-router-dom';
-import ImageWithSkeleton from './ImageWithSkeleton';
-import { parseGenres } from '../utils/dramaHelpers';
+import ImageWithSkeleton from '../ImageWithSkeleton';
+import { parseGenres } from '../../utils/dramaHelpers';
 
 const DramaPosterCard = ({ drama }) => {
   const genres = parseGenres(drama.genre);
