@@ -1,4 +1,4 @@
-import useScrollReveal from '../hooks/useScrollReveal';
+import useScrollReveal from '../../hooks/useScrollReveal';
 
 const RevealSection = ({ as: Tag = 'div', className = '', children, ...rest }) => {
   const { ref, isVisible } = useScrollReveal();
