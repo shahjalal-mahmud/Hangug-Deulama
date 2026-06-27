@@ -1,5 +1,5 @@
 import SectionHeader from '../SectionHeader';
-import LandscapeDramaCard from '../LandscapeDramaCard';
+import LandscapeDramaCard from '../drama/LandscapeDramaCard';
 import SkeletonCard from '../SkeletonCard';
 
 const ContinueWatching = ({ items, loading }) => {
