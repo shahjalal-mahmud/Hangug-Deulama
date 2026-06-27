@@ -1,6 +1,6 @@
 /* src/pages/Recommendations.jsx */
 import { useDrama } from '../context/DramaContext';
-import DramaCard from '../components/DramaCard';
+import DramaCard from '../components/drama/DramaCard';
 import EmptyState from '../components/EmptyState';
 
 const Recommendations = () => {

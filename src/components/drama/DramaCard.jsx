@@ -1,6 +1,6 @@
 /* src/components/DramaCard.jsx */
 import { Link } from 'react-router-dom';
-import GenreBadge from './GenreBadge';
+import GenreBadge from '../GenreBadge';
 
 const DramaCard = ({ drama }) => {
   // Split genres for display

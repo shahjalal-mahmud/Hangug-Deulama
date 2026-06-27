@@ -1,7 +1,7 @@
 /* src/pages/Activity.jsx */
 import { useState } from 'react';
 import { useDrama } from '../context/DramaContext';
-import DramaCard from '../components/DramaCard';
+import DramaCard from '../components/drama/DramaCard';
 import EmptyState from '../components/EmptyState';
 
 const Activity = () => {
