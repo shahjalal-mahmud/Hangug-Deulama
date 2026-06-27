@@ -18,6 +18,7 @@ export const DramaProvider = ({ children }) => {
   const [likedDramas, setLikedDramas] = useState([]);
   const [dislikedDramas, setDislikedDramas] = useState([]);
   const [watchedDramas, setWatchedDramas] = useState([]);
+  const [bookmarkedDramas, setBookmarkedDramas] = useState([]);
   const [loading, setLoading] = useState(false);
 
   // Load from localStorage
@@ -25,10 +26,12 @@ export const DramaProvider = ({ children }) => {
     const savedLiked = localStorage.getItem('likedDramas');
     const savedDisliked = localStorage.getItem('dislikedDramas');
     const savedWatched = localStorage.getItem('watchedDramas');
-    
+    const savedBookmarked = localStorage.getItem('bookmarkedDramas');
+
     if (savedLiked) setLikedDramas(JSON.parse(savedLiked));
     if (savedDisliked) setDislikedDramas(JSON.parse(savedDisliked));
     if (savedWatched) setWatchedDramas(JSON.parse(savedWatched));
+    if (savedBookmarked) setBookmarkedDramas(JSON.parse(savedBookmarked));
   }, []);
 
   // Save to localStorage
@@ -44,11 +47,15 @@ export const DramaProvider = ({ children }) => {
     localStorage.setItem('watchedDramas', JSON.stringify(watchedDramas));
   }, [watchedDramas]);
 
+  useEffect(() => {
+    localStorage.setItem('bookmarkedDramas', JSON.stringify(bookmarkedDramas));
+  }, [bookmarkedDramas]);
+
   const likeDrama = (dramaId) => {
     if (!likedDramas.includes(dramaId)) {
       setLikedDramas([...likedDramas, dramaId]);
       if (dislikedDramas.includes(dramaId)) {
-        setDislikedDramas(dislikedDramas.filter(id => id !== dramaId));
+        setDislikedDramas(dislikedDramas.filter((id) => id !== dramaId));
       }
     }
   };
@@ -57,7 +64,7 @@ export const DramaProvider = ({ children }) => {
     if (!dislikedDramas.includes(dramaId)) {
       setDislikedDramas([...dislikedDramas, dramaId]);
       if (likedDramas.includes(dramaId)) {
-        setLikedDramas(likedDramas.filter(id => id !== dramaId));
+        setLikedDramas(likedDramas.filter((id) => id !== dramaId));
       }
     }
   };
@@ -68,17 +75,20 @@ export const DramaProvider = ({ children }) => {
     }
   };
 
-  const getDramaById = (id) => {
-    return dramas.find(drama => drama.drama_id === id);
+  const toggleBookmark = (dramaId) => {
+    setBookmarkedDramas((prev) =>
+      prev.includes(dramaId) ? prev.filter((id) => id !== dramaId) : [...prev, dramaId]
+    );
   };
 
-  const getDramaStatus = (dramaId) => {
-    return {
-      isLiked: likedDramas.includes(dramaId),
-      isDisliked: dislikedDramas.includes(dramaId),
-      isWatched: watchedDramas.includes(dramaId),
-    };
-  };
+  const getDramaById = (id) => dramas.find((drama) => drama.drama_id === id);
+
+  const getDramaStatus = (dramaId) => ({
+    isLiked: likedDramas.includes(dramaId),
+    isDisliked: dislikedDramas.includes(dramaId),
+    isWatched: watchedDramas.includes(dramaId),
+    isBookmarked: bookmarkedDramas.includes(dramaId),
+  });
 
   const value = {
     dramas,
@@ -86,16 +96,14 @@ export const DramaProvider = ({ children }) => {
     likedDramas,
     dislikedDramas,
     watchedDramas,
+    bookmarkedDramas,
     likeDrama,
     dislikeDrama,
     watchDrama,
+    toggleBookmark,
     getDramaById,
     getDramaStatus,
   };
 
-  return (
-    <DramaContext.Provider value={value}>
-      {children}
-    </DramaContext.Provider>
-  );
+  return <DramaContext.Provider value={value}>{children}</DramaContext.Provider>;
 };
