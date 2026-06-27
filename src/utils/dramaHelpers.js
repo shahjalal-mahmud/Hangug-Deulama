@@ -1,6 +1,7 @@
 /* src/utils/dramaHelpers.js
-   Pure functions that derive home-page data from the raw dramas array.
-   Kept outside DramaContext so they're easy to unit test in isolation. */
+   Pure functions that derive home-page and discover-page data from the
+   raw dramas array. Kept outside DramaContext so they're easy to unit
+   test in isolation. */
 
 export const parseGenres = (genreString = '') =>
   genreString.split(',').map((g) => g.trim()).filter(Boolean);
@@ -16,12 +17,23 @@ export const filterByGenre = (dramas, genre) => {
   return dramas.filter((d) => parseGenres(d.genre).includes(genre));
 };
 
+export const filterBySearch = (dramas, query) => {
+  if (!query?.trim()) return dramas;
+  const q = query.trim().toLowerCase();
+  return dramas.filter(
+    (d) =>
+      d.title.toLowerCase().includes(q) ||
+      (d.stars || '').toLowerCase().includes(q) ||
+      parseGenres(d.genre).some((g) => g.toLowerCase().includes(q))
+  );
+};
+
 export const getTrending = (dramas, limit = 10) =>
   [...dramas]
     .sort((a, b) => (b.imdb_rating || 0) - (a.imdb_rating || 0))
     .slice(0, limit);
 
-const getLikedGenres = (dramas, likedIds) => {
+export const getLikedGenres = (dramas, likedIds) => {
   const set = new Set();
   dramas
     .filter((d) => likedIds.includes(d.drama_id))
@@ -29,7 +41,7 @@ const getLikedGenres = (dramas, likedIds) => {
   return Array.from(set);
 };
 
-const computeMatchScore = (drama, likedGenres) => {
+export const getMatchScore = (drama, likedGenres = []) => {
   const dramaGenres = parseGenres(drama.genre);
   if (!likedGenres.length) {
     // No taste signal yet — fall back to rating as a proxy, never below 60.
@@ -38,6 +50,21 @@ const computeMatchScore = (drama, likedGenres) => {
   const shared = dramaGenres.filter((g) => likedGenres.includes(g)).length;
   const score = Math.round((shared / dramaGenres.length) * 100);
   return Math.max(score, 60);
+};
+
+export const sortDramas = (dramas, sortBy, likedGenres = []) => {
+  const list = [...dramas];
+  switch (sortBy) {
+    case 'rating':
+      return list.sort((a, b) => (b.imdb_rating || 0) - (a.imdb_rating || 0));
+    case 'newest':
+      return list.sort((a, b) => Number(b.release_year) - Number(a.release_year));
+    case 'title':
+      return list.sort((a, b) => a.title.localeCompare(b.title));
+    case 'match':
+    default:
+      return list.sort((a, b) => getMatchScore(b, likedGenres) - getMatchScore(a, likedGenres));
+  }
 };
 
 export const getRecommendations = (
@@ -52,7 +79,7 @@ export const getRecommendations = (
 
   return [...dramas]
     .filter((d) => !excluded.has(d.drama_id))
-    .map((d) => ({ ...d, matchScore: computeMatchScore(d, likedGenres) }))
+    .map((d) => ({ ...d, matchScore: getMatchScore(d, likedGenres) }))
     .sort((a, b) => b.matchScore - a.matchScore)
     .slice(0, limit);
 };
