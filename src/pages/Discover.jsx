@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import { useDrama } from '../context/DramaContext';
 import SwipeCard from '../components/drama/SwipeCard';
-import EmptyState from '../components/EmptyState';
+import EmptyState from '../components/ui/EmptyState';
 
 const Discover = () => {
   const { dramas, likedDramas, dislikedDramas, watchedDramas, likeDrama, dislikeDrama, watchDrama } = useDrama();

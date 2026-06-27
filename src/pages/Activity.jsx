@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import { useDrama } from '../context/DramaContext';
 import DramaCard from '../components/drama/DramaCard';
-import EmptyState from '../components/EmptyState';
+import EmptyState from '../components/ui/EmptyState';
 
 const Activity = () => {
   const { dramas, likedDramas, dislikedDramas, watchedDramas } = useDrama();

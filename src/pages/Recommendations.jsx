@@ -1,7 +1,7 @@
 /* src/pages/Recommendations.jsx */
 import { useDrama } from '../context/DramaContext';
 import DramaCard from '../components/drama/DramaCard';
-import EmptyState from '../components/EmptyState';
+import EmptyState from '../components/ui/EmptyState';
 
 const Recommendations = () => {
   const { dramas, likedDramas, watchedDramas } = useDrama();
