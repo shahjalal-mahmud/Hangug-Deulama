@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 /* src/context/DramaContext.jsx */
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import dramasData from '../data/dramas.json';
