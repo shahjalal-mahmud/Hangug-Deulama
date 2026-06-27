@@ -1,7 +1,7 @@
 /* src/pages/Discover.jsx */
 import { useState } from 'react';
 import { useDrama } from '../context/DramaContext';
-import SwipeCard from '../components/SwipeCard';
+import SwipeCard from '../components/drama/SwipeCard';
 import EmptyState from '../components/EmptyState';
 
 const Discover = () => {
