@@ -1,10 +1,13 @@
 /* src/utils/dramaHelpers.js
-   Pure functions that derive home-page and discover-page data from the
-   raw dramas array. Kept outside DramaContext so they're easy to unit
-   test in isolation. */
+   Pure functions that derive home/discover/details-page data from the raw
+   dramas array. Kept outside DramaContext so they're easy to unit test
+   in isolation. */
 
 export const parseGenres = (genreString = '') =>
   genreString.split(',').map((g) => g.trim()).filter(Boolean);
+
+export const parseStars = (starsString = '') =>
+  starsString.split(',').map((s) => s.trim()).filter(Boolean);
 
 export const getUniqueGenres = (dramas) => {
   const set = new Set();
@@ -50,6 +53,25 @@ export const getMatchScore = (drama, likedGenres = []) => {
   const shared = dramaGenres.filter((g) => likedGenres.includes(g)).length;
   const score = Math.round((shared / dramaGenres.length) * 100);
   return Math.max(score, 60);
+};
+
+/* Builds the human-readable line shown in the "Why Recommend" card.
+   Falls back gracefully when there's no taste signal yet. */
+export const getReasonText = (drama, likedGenres = [], likedDramaTitles = []) => {
+  const dramaGenres = parseGenres(drama.genre);
+  const sharedGenres = dramaGenres.filter((g) => likedGenres.includes(g));
+
+  if (!sharedGenres.length) {
+    return drama.imdb_rating >= 8.5
+      ? 'A critically acclaimed pick — one of the highest-rated stories in the library.'
+      : 'A solid pick to help us learn your taste. Swipe to refine future picks.';
+  }
+
+  const genreLabel = sharedGenres.slice(0, 2).join(' & ');
+  if (likedDramaTitles.length) {
+    return `Because you liked "${likedDramaTitles[0]}", you might enjoy this ${genreLabel.toLowerCase()} story too.`;
+  }
+  return `Matches your taste for ${genreLabel} — shared with titles you've liked.`;
 };
 
 export const sortDramas = (dramas, sortBy, likedGenres = []) => {
@@ -109,3 +131,22 @@ export const getContinueWatching = (
       ...d,
       progress: hashToPercent(String(d.drama_id ?? d.title)),
     }));
+
+/* Deterministic hue for cast-initial avatars, since dramas.json has no
+   actor photos. Keeps each name's color stable across renders. */
+export const hashToHue = (str = '') => {
+  let hash = 0;
+  for (let i = 0; i < str.length; i++) {
+    hash = str.charCodeAt(i) + ((hash << 5) - hash);
+  }
+  return Math.abs(hash) % 360;
+};
+
+export const getInitials = (name = '') =>
+  name
+    .split(' ')
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((n) => n[0])
+    .join('')
+    .toUpperCase();
