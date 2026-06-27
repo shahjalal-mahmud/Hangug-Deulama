@@ -4,7 +4,7 @@ import HeroSection from '../components/home/HeroSection';
 import GenrePills from '../components/home/GenrePills';
 import ContinueWatching from '../components/home/ContinueWatching';
 import TrendingSection from '../components/home/TrendingSection';
-import RecommendationSection from '../components/RecommendationSection';
+import RecommendationSection from '../components/home/RecommendationSection';
 import RevealSection from '../components/RevealSection';
 import {
   getUniqueGenres,
