@@ -2,7 +2,7 @@
 import { NavLink } from 'react-router-dom';
 import clsx from 'clsx';
 import SearchBar from '../SearchBar';
-import NotificationButton from '../NotificationButton';
+import NotificationButton from './NotificationButton';
 import ProfileMenu from '../ProfileMenu';
 
 const navLinks = [
