@@ -1,4 +1,4 @@
-import Button from '../Button';
+import Button from '../ui/Button';
 
 const HeroSection = ({ name = 'there' }) => {
   const greeting = new Date().getHours() < 18 ? 'Good Afternoon' : 'Good Evening';
