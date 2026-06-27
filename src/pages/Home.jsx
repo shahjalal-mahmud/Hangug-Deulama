@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 import { useDrama } from '../context/DramaContext';
-import HeroSection from '../components/HeroSection';
+import HeroSection from '../components/home/HeroSection';
 import GenrePills from '../components/GenrePills';
 import ContinueWatching from '../components/ContinueWatching';
 import TrendingSection from '../components/TrendingSection';
