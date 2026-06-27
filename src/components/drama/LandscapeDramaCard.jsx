@@ -1,6 +1,6 @@
 import { memo } from 'react';
 import { Link } from 'react-router-dom';
-import ImageWithSkeleton from '../ImageWithSkeleton';
+import ImageWithSkeleton from '../ui/ImageWithSkeleton';
 
 const LandscapeDramaCard = ({ drama }) => {
   return (
