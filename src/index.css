@@ -1,27 +1,116 @@
 /* src/index.css */
 @import "tailwindcss";
-@plugin "daisyui";
+@plugin "daisyui" {
+  themes: cinema --default;
+}
+
+/* ---------------------------------------------------------------
+   DESIGN TOKENS
+   Single source of truth for color, type, spacing. Everything else
+   in the app should reference these, never hardcode hex values.
+   ----------------------------------------------------------------*/
+@theme {
+  /* Surfaces — layered depth, darkest to lightest */
+  --color-background: #121414;
+  --color-surface: #1a1c1c;
+  --color-surface-elevated: #242626;
+  --color-surface-overlay: #2a2c2c;
+
+  /* Accent — restrained, used only to direct attention */
+  --color-accent: #b3373f;
+  --color-accent-hover: #c44a52;
+  --color-accent-muted: #5a2226;
+
+  /* Text */
+  --color-text-primary: #f2efea;
+  --color-text-secondary: #b8b3ac;
+  --color-text-tertiary: #7a7570;
+
+  /* Borders / dividers — kept hairline-thin and low-contrast */
+  --color-border: rgba(255, 255, 255, 0.06);
+  --color-border-strong: rgba(255, 255, 255, 0.12);
+
+  /* Typography */
+  --font-display: "Sora", system-ui, sans-serif;
+  --font-body: "Inter", system-ui, sans-serif;
+
+  /* Motion */
+  --ease-cinematic: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ---------------------------------------------------------------
+   DaisyUI theme mapping — bind DaisyUI's semantic colors to our
+   tokens so component classes (btn, card, etc.) inherit the look
+   automatically, instead of overriding DaisyUI defaults everywhere.
+   ----------------------------------------------------------------*/
+@plugin "daisyui/theme" {
+  name: "cinema";
+  default: true;
+  prefersdark: true;
+  color-scheme: dark;
+
+  --color-base-100: var(--color-surface);
+  --color-base-200: var(--color-background);
+  --color-base-300: var(--color-surface-elevated);
+  --color-base-content: var(--color-text-primary);
+
+  --color-primary: var(--color-accent);
+  --color-primary-content: #ffffff;
+
+  --color-secondary: var(--color-surface-elevated);
+  --color-secondary-content: var(--color-text-primary);
+
+  --color-neutral: var(--color-surface-overlay);
+  --color-neutral-content: var(--color-text-secondary);
+
+  --radius-box: 0.75rem;
+  --radius-field: 0.5rem;
+  --border: 1px;
+}
 
 @layer base {
+  html {
+    color-scheme: dark;
+  }
+
   body {
-    @apply bg-base-200 min-h-screen;
+    background-color: var(--color-background);
+    color: var(--color-text-primary);
+    font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+    letter-spacing: -0.01em;
+  }
+
+  ::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--color-background);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-surface-overlay);
+    border-radius: 10px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--color-accent-muted);
   }
 }
 
 @layer components {
-  .drama-card {
-    @apply card bg-base-100 shadow-xl hover:shadow-2xl transition-shadow duration-300;
+  /* Reusable surface elevation — replaces ad-hoc glassmorphism */
+  .surface-card {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
   }
-  
-  .swipe-card {
-    @apply card bg-base-100 shadow-2xl w-full max-w-md mx-auto;
-  }
-  
-  .genre-badge {
-    @apply badge badge-primary badge-sm;
-  }
-  
-  .empty-state {
-    @apply flex flex-col items-center justify-center p-12 text-center;
+
+  .surface-card-elevated {
+    background-color: var(--color-surface-elevated);
+    border: 1px solid var(--color-border-strong);
   }
 }
