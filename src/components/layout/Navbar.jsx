@@ -1,7 +1,7 @@
 /* src/components/Navbar.jsx */
 import { NavLink } from 'react-router-dom';
 import clsx from 'clsx';
-import SearchBar from '../SearchBar';
+import SearchBar from './SearchBar';
 import NotificationButton from './NotificationButton';
 import ProfileMenu from './ProfileMenu';
 
