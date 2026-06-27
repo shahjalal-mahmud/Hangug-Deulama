@@ -1,10 +1,11 @@
-/* src/components/SwipeCard.jsx */
 import { useState } from 'react';
+import ImageWithSkeleton from '../ui/ImageWithSkeleton';
 import GenreBadge from '../ui/GenreBadge';
+import { parseGenres } from '../../utils/dramaHelpers';
 
 const SwipeCard = ({ drama, onLike, onDislike, onWatched }) => {
   const [swipeDirection, setSwipeDirection] = useState(null);
-  const genres = drama.genre.split(',').map(g => g.trim());
+  const genres = parseGenres(drama.genre);
 
   const handleLike = () => {
     setSwipeDirection('like');
@@ -22,60 +23,82 @@ const SwipeCard = ({ drama, onLike, onDislike, onWatched }) => {
     }, 300);
   };
 
-  const handleWatched = () => {
-    onWatched(drama.drama_id);
-  };
-
   return (
-    <div className="swipe-card">
-      <figure className="relative">
-        <img 
-          src={drama.banner_url || drama.poster} 
+    <div className="surface-card rounded-2xl overflow-hidden max-w-md mx-auto w-full">
+      <div className="relative aspect-2/3">
+        <ImageWithSkeleton
+          src={drama.banner_url || drama.poster}
           alt={drama.title}
-          className="w-full aspect-2/3 object-cover"
+          className="w-full h-full"
         />
-        <div className="absolute top-2 right-2 badge badge-secondary">
-          ⭐ {drama.imdb_rating || 'N/A'}
+
+        {drama.imdb_rating && (
+          <span className="absolute top-3 right-3 bg-background/70 backdrop-blur-sm text-text-primary text-xs font-medium px-2.5 py-1 rounded-md">
+            ★ {drama.imdb_rating}
+          </span>
+        )}
+
+        <div
+          aria-hidden="true"
+          className={`absolute inset-0 flex items-center justify-center transition-opacity duration-300
+            ${swipeDirection ? 'opacity-100' : 'opacity-0 pointer-events-none'}
+            ${swipeDirection === 'like' ? 'bg-emerald-600/40' : 'bg-rose-700/40'}`}
+        >
+          <span className="material-symbols-outlined text-white text-6xl">
+            {swipeDirection === 'like' ? 'favorite' : 'close'}
+          </span>
         </div>
-        {swipeDirection === 'like' && (
-          <div className="absolute inset-0 bg-success/50 flex items-center justify-center">
-            <span className="text-6xl text-white font-bold">❤️</span>
-          </div>
-        )}
-        {swipeDirection === 'dislike' && (
-          <div className="absolute inset-0 bg-error/50 flex items-center justify-center">
-            <span className="text-6xl text-white font-bold">✖️</span>
-          </div>
-        )}
-      </figure>
-      <div className="card-body">
-        <h2 className="card-title text-2xl">{drama.title}</h2>
-        <div className="flex flex-wrap gap-1 mt-1">
-          {genres.map((g, idx) => (
-            <GenreBadge key={idx} genre={g} />
+      </div>
+
+      <div className="p-5">
+        <h2 className="font-display text-2xl font-semibold text-text-primary">{drama.title}</h2>
+        <p className="text-text-tertiary text-xs mt-1">{drama.release_year}</p>
+
+        <div className="flex flex-wrap gap-2 mt-3">
+          {genres.map((g) => (
+            <GenreBadge key={g} genre={g} />
           ))}
         </div>
-        <p className="text-sm opacity-70">{drama.release_year}</p>
-        <p className="text-xs opacity-50">⭐ {drama.stars}</p>
-        <p className="mt-2 text-sm line-clamp-3">{drama.storyline}</p>
-        <div className="card-actions justify-center mt-4 gap-2">
-          <button 
-            className="btn btn-error btn-circle btn-lg"
+
+        <p className="text-text-secondary text-sm leading-relaxed mt-4 line-clamp-3">
+          {drama.storyline}
+        </p>
+
+        <div className="flex items-center justify-center gap-4 mt-6">
+          <button
+            type="button"
             onClick={handleDislike}
+            aria-label="Not interested"
+            className="w-14 h-14 rounded-full border border-border-strong text-text-secondary
+                       hover:text-rose-400 hover:border-rose-400/50 transition-colors duration-300
+                       flex items-center justify-center focus-visible:outline-none
+                       focus-visible:ring-2 focus-visible:ring-accent/60"
           >
-            ✖
+            <span className="material-symbols-outlined text-2xl">close</span>
           </button>
-          <button 
-            className="btn btn-success btn-circle btn-lg"
+
+          <button
+            type="button"
+            onClick={() => onWatched(drama.drama_id)}
+            aria-label="Mark as watched"
+            className="w-12 h-12 rounded-full bg-white/5 text-text-secondary
+                       hover:text-text-primary hover:bg-white/10 transition-colors duration-300
+                       flex items-center justify-center focus-visible:outline-none
+                       focus-visible:ring-2 focus-visible:ring-accent/60"
+          >
+            <span className="material-symbols-outlined text-xl">visibility</span>
+          </button>
+
+          <button
+            type="button"
             onClick={handleLike}
+            aria-label="Like this drama"
+            className="w-14 h-14 rounded-full bg-accent text-white
+                       hover:bg-accent-hover transition-colors duration-300
+                       flex items-center justify-center focus-visible:outline-none
+                       focus-visible:ring-2 focus-visible:ring-accent/60"
           >
-            ❤
-          </button>
-          <button 
-            className="btn btn-info btn-circle btn-lg"
-            onClick={handleWatched}
-          >
-            👁
+            <span className="material-symbols-outlined text-2xl">favorite</span>
           </button>
         </div>
       </div>
