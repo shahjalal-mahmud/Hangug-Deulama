@@ -2,7 +2,7 @@ import { useMemo, useState } from 'react';
 import { useDrama } from '../context/DramaContext';
 import HeroSection from '../components/home/HeroSection';
 import GenrePills from '../components/home/GenrePills';
-import ContinueWatching from '../components/ContinueWatching';
+import ContinueWatching from '../components/home/ContinueWatching';
 import TrendingSection from '../components/TrendingSection';
 import RecommendationSection from '../components/RecommendationSection';
 import RevealSection from '../components/RevealSection';
