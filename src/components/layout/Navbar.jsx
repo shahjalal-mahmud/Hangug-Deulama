@@ -1,9 +1,9 @@
 /* src/components/Navbar.jsx */
 import { NavLink } from 'react-router-dom';
 import clsx from 'clsx';
-import SearchBar from './SearchBar';
-import NotificationButton from './NotificationButton';
-import ProfileMenu from './ProfileMenu';
+import SearchBar from '../SearchBar';
+import NotificationButton from '../NotificationButton';
+import ProfileMenu from '../ProfileMenu';
 
 const navLinks = [
   { label: 'Home', to: '/' },
