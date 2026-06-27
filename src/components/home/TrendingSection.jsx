@@ -1,6 +1,6 @@
 import SectionHeader from '../ui/SectionHeader';
 import DramaPosterCard from '../drama/DramaPosterCard';
-import SkeletonCard from '../SkeletonCard';
+import SkeletonCard from '../ui/SkeletonCard';
 import EmptyState from '../EmptyState';
 
 const TrendingSection = ({ items, loading }) => {

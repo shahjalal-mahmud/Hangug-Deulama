@@ -1,6 +1,6 @@
 import SectionHeader from '../ui/SectionHeader';
 import LandscapeDramaCard from '../drama/LandscapeDramaCard';
-import SkeletonCard from '../SkeletonCard';
+import SkeletonCard from '../ui/SkeletonCard';
 
 const ContinueWatching = ({ items, loading }) => {
   // Nothing in progress and we're not loading — just don't show the section.
