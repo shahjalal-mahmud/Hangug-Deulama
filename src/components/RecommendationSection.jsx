@@ -18,7 +18,7 @@ const PickCard = ({ drama }) => {
       <ImageWithSkeleton
         src={drama.poster || drama.banner_url}
         alt={drama.title}
-        className="w-28 md:w-32 aspect-[2/3] flex-none rounded-lg"
+        className="w-28 md:w-32 aspect-2/3 flex-none rounded-lg"
         imgClassName="transition-transform duration-500 ease-cinematic group-hover:scale-105"
       />
       <div className="flex flex-col justify-center py-1 min-w-0">

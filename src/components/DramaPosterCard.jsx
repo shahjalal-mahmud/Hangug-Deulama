@@ -12,7 +12,7 @@ const DramaPosterCard = ({ drama }) => {
       className="group flex-none w-40 sm:w-48 md:w-56 block focus-visible:outline-none"
       aria-label={`View details for ${drama.title}`}
     >
-      <div className="relative aspect-[2/3] rounded-xl overflow-hidden surface-card">
+      <div className="relative aspect-2/3 rounded-xl overflow-hidden surface-card">
         <ImageWithSkeleton
           src={drama.poster || drama.banner_url}
           alt={drama.title}
@@ -20,7 +20,7 @@ const DramaPosterCard = ({ drama }) => {
           imgClassName="transition-transform duration-700 ease-cinematic group-hover:scale-105"
         />
         <div
-          className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-surface via-surface/40 to-transparent
+          className="absolute inset-x-0 bottom-0 h-1/2 bg-linear-to-t from-surface via-surface/40 to-transparent
                      opacity-0 group-hover:opacity-100 transition-opacity duration-400 ease-cinematic"
         />
         <div

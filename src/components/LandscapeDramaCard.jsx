@@ -16,7 +16,7 @@ const LandscapeDramaCard = ({ drama }) => {
         className="w-full h-full"
         imgClassName="transition-transform duration-700 ease-cinematic group-hover:scale-105"
       />
-      <div className="absolute inset-0 bg-gradient-to-t from-surface via-surface/20 to-transparent" />
+      <div className="absolute inset-0 bg-linear-to-t from-surface via-surface/20 to-transparent" />
 
       <div className="absolute bottom-0 left-0 w-full p-4">
         <h3 className="font-display text-base font-semibold text-text-primary leading-tight">
