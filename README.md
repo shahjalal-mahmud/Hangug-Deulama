@@ -110,23 +110,102 @@ Lee Dong-wook
 ```text
 Hangug-Deulama/
 │
-├── frontend/
-│   ├── src/
-│   ├── public/
-│   └── package.json
+├── public/
+│   └── favicon.svg
 │
-├── backend/
-│   ├── api/
-│   ├── config/
-│   ├── models/
-│   └── controllers/
+├── src/
+│   ├── assets/
+│   │
+│   ├── components/
+│   │   ├── layout/
+│   │   │   ├── Navbar.jsx
+│   │   │   ├── BottomNav.jsx
+│   │   │   ├── NotificationsButton.jsx
+│   │   │   ├── ProfileMenu.jsx
+│   │   │   ├── SearchBar.jsx
+│   │   │   └── Footer.jsx
+│   │   │
+│   │   ├── home/
+│   │   │   ├── HeroSection.jsx
+│   │   │   ├── GenrePills.jsx
+│   │   │   ├── ContinueWatching.jsx
+│   │   │   ├── TrendingSection.jsx
+│   │   │   └── RecommendationSection.jsx
+│   │   │
+│   │   ├── discover/
+│   │   │   ├── DiscoverHero.jsx
+│   │   │   ├── DiscoverSearchBar.jsx
+│   │   │   ├── CategoryTabs.jsx
+│   │   │   ├── GenreFilter.jsx
+│   │   │   ├── SortDropdown.jsx
+│   │   │   ├── SwipeDeck.jsx
+│   │   │   ├── SwipeCard.jsx
+│   │   │   ├── ActionButtons.jsx
+│   │   │   ├── RecommendationBadge.jsx
+│   │   │   ├── SwipeProgress.jsx
+│   │   │   └── KeyboardHints.jsx
+│   │   │
+│   │   ├── details/
+│   │   │   ├── BackdropHero.jsx
+│   │   │   ├── ActionBar.jsx
+│   │   │   ├── SynopsisSection.jsx
+│   │   │   ├── InfoGrid.jsx
+│   │   │   ├── CastCard.jsx
+│   │   │   ├── CastSection.jsx
+│   │   │   ├── RecommendationReason.jsx
+│   │   │   ├── SimilarDramas.jsx
+│   │   │   └── DetailsSkeleton.jsx
+│   │   │
+│   │   ├── drama/
+│   │   │   ├── DramaCard.jsx
+│   │   │   ├── DramaPosterCard.jsx
+│   │   │   └── LandscapeDramaCard.jsx
+│   │   │
+│   │   └── ui/
+│   │       ├── Button.jsx
+│   │       ├── EmptyState.jsx
+│   │       ├── ErrorState.jsx
+│   │       ├── LoadingState.jsx
+│   │       ├── GenreBadge.jsx
+│   │       ├── ImageWithSkeleton.jsx
+│   │       ├── RevealSection.jsx
+│   │       ├── SectionHeader.jsx
+│   │       └── SkeletonCard.jsx
+│   │
+│   ├── context/
+│   │   └── DramaContext.jsx
+│   │
+│   ├── data/
+│   │   └── dramas.json
+│   │
+│   ├── hooks/
+│   │   └── useScrollReveal.js
+│   │
+│   ├── layouts/
+│   │   └── MainLayout.jsx
+│   │
+│   ├── pages/
+│   │   ├── Home.jsx
+│   │   ├── Discover.jsx
+│   │   ├── Recommendations.jsx
+│   │   ├── Activity.jsx
+│   │   └── DramaDetails.jsx
+│   │
+│   ├── routes/
+│   │   └── index.jsx
+│   │
+│   ├── utils/
+│   │   └── dramaHelpers.js
+│   │
+│   ├── App.jsx
+│   ├── main.jsx
+│   └── index.css
 │
-├── database/
-│   ├── schema.sql
-│   └── seed.sql
-│
-├── docs/
-│
+├── index.html
+├── package.json
+├── .gitignore
+├── PROJECT.md
+├── vite.config.js
 └── README.md
 ```
 
