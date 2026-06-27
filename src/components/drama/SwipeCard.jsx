@@ -1,6 +1,6 @@
 /* src/components/SwipeCard.jsx */
 import { useState } from 'react';
-import GenreBadge from '../GenreBadge';
+import GenreBadge from '../ui/GenreBadge';
 
 const SwipeCard = ({ drama, onLike, onDislike, onWatched }) => {
   const [swipeDirection, setSwipeDirection] = useState(null);
