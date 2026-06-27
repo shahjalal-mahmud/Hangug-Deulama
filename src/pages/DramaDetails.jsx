@@ -1,8 +1,8 @@
 /* src/pages/DramaDetails.jsx */
 import { useParams, Link } from 'react-router-dom';
 import { useDrama } from '../context/DramaContext';
-import GenreBadge from '../components/GenreBadge';
-import EmptyState from '../components/EmptyState';
+import GenreBadge from '../components/ui/GenreBadge';
+import EmptyState from '../components/ui/EmptyState';
 
 const DramaDetails = () => {
   const { id } = useParams();

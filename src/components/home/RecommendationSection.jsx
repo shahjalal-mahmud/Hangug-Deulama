@@ -1,8 +1,8 @@
 import { Link } from 'react-router-dom';
 import SectionHeader from '../ui/SectionHeader';
-import GenreBadge from '../GenreBadge';
-import ImageWithSkeleton from '../ImageWithSkeleton';
-import EmptyState from '../EmptyState';
+import GenreBadge from '../ui/GenreBadge';
+import ImageWithSkeleton from '../ui/ImageWithSkeleton';
+import EmptyState from '../ui/EmptyState';
 import { parseGenres } from '../../utils/dramaHelpers';
 
 const PickCard = ({ drama }) => {
