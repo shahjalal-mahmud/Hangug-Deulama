@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import SectionHeader from '../SectionHeader';
+import SectionHeader from '../ui/SectionHeader';
 import GenreBadge from '../GenreBadge';
 import ImageWithSkeleton from '../ImageWithSkeleton';
 import EmptyState from '../EmptyState';
