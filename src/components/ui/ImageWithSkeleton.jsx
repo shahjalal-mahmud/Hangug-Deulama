@@ -1,7 +1,5 @@
 import { useState } from 'react';
 
-/* Centralizes lazy-loading + fade-in + skeleton placeholder so every
-   card doesn't reimplement the same onLoad/loading-state dance. */
 const ImageWithSkeleton = ({ src, alt, className = '', imgClassName = '' }) => {
   const [loaded, setLoaded] = useState(false);
 
@@ -10,7 +8,7 @@ const ImageWithSkeleton = ({ src, alt, className = '', imgClassName = '' }) => {
       {!loaded && (
         <div
           aria-hidden="true"
-          className="absolute inset-0 animate-pulse bg-gradient-to-br from-surface-elevated to-surface"
+          className="absolute inset-0 animate-pulse bg-linear-to-br from-surface-elevated to-surface"
         />
       )}
       <img
