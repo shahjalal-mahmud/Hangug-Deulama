@@ -1,84 +1,99 @@
-/* src/pages/Discover.jsx */
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useDrama } from '../context/DramaContext';
-import SwipeCard from '../components/drama/SwipeCard';
-import EmptyState from '../components/ui/EmptyState';
+import {
+  getUniqueGenres,
+  filterByGenre,
+  filterBySearch,
+  sortDramas,
+  getLikedGenres,
+} from '../utils/dramaHelpers';
+import DiscoverHero from '../components/discover/DiscoverHero';
+import DiscoverSearchBar from '../components/discover/DiscoverSearchBar';
+import CategoryTabs from '../components/discover/CategoryTabs';
+import GenreFilter from '../components/discover/GenreFilter';
+import SortDropdown from '../components/discover/SortDropdown';
+import SwipeDeck from '../components/discover/SwipeDeck';
+import LoadingState from '../components/ui/LoadingState';
+
+const CATEGORIES = [
+  { id: 'all', label: 'All' },
+  { id: 'trending', label: 'Trending' },
+  { id: 'new', label: 'New Releases' },
+  { id: 'top', label: 'Top Rated' },
+];
 
 const Discover = () => {
-  const { dramas, likedDramas, dislikedDramas, watchedDramas, likeDrama, dislikeDrama, watchDrama } = useDrama();
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const {
+    dramas,
+    loading,
+    likedDramas,
+    dislikedDramas,
+    watchedDramas,
+    bookmarkedDramas,
+    likeDrama,
+    dislikeDrama,
+    watchDrama,
+    toggleBookmark,
+  } = useDrama();
 
-  // Get undecided dramas (not liked, disliked, or watched)
-  const getUndecidedDramas = () => {
-    return dramas.filter(drama => 
-      !likedDramas.includes(drama.id) && 
-      !dislikedDramas.includes(drama.id) && 
-      !watchedDramas.includes(drama.id)
+  const [search, setSearch] = useState('');
+  const [genre, setGenre] = useState('All');
+  const [category, setCategory] = useState('all');
+  const [sortBy, setSortBy] = useState('match');
+
+  const genres = useMemo(() => getUniqueGenres(dramas), [dramas]);
+  const likedGenres = useMemo(() => getLikedGenres(dramas, likedDramas), [dramas, likedDramas]);
+
+  const queue = useMemo(() => {
+    let list = dramas.filter(
+      (d) =>
+        !likedDramas.includes(d.drama_id) &&
+        !dislikedDramas.includes(d.drama_id) &&
+        !watchedDramas.includes(d.drama_id)
     );
-  };
 
-  const undecidedDramas = getUndecidedDramas();
+    list = filterByGenre(list, genre);
+    list = filterBySearch(list, search);
+
+    if (category === 'new') list = list.filter((d) => Number(d.release_year) >= 2024);
+    if (category === 'top') list = list.filter((d) => (d.imdb_rating || 0) >= 8);
+    if (category === 'trending') {
+      list = [...list].sort((a, b) => (b.imdb_rating || 0) - (a.imdb_rating || 0));
+    }
+
+    return sortDramas(list, sortBy, likedGenres);
+  }, [dramas, likedDramas, dislikedDramas, watchedDramas, genre, search, category, sortBy, likedGenres]);
+
   const totalDecided = likedDramas.length + dislikedDramas.length + watchedDramas.length;
-  const totalDramas = dramas.length;
 
-  const handleLike = (dramaId) => {
-    likeDrama(dramaId);
-    nextDrama();
-  };
-
-  const handleDislike = (dramaId) => {
-    dislikeDrama(dramaId);
-    nextDrama();
-  };
-
-  const handleWatched = (dramaId) => {
-    watchDrama(dramaId);
-    nextDrama();
-  };
-
-  const nextDrama = () => {
-    setCurrentIndex(prev => prev + 1);
-  };
-
-  if (undecidedDramas.length === 0) {
-    return (
-      <div className="min-h-[60vh] flex items-center justify-center">
-        <EmptyState 
-          title="All Done!"
-          message="You've reviewed all dramas. Check your recommendations or activity page."
-          icon="🎉"
-        />
-      </div>
-    );
+  if (loading) {
+    return <LoadingState label="Curating dramas for you" />;
   }
 
-  const currentDrama = undecidedDramas[currentIndex] || undecidedDramas[0];
-
   return (
-    <div className="max-w-md mx-auto py-4">
-      <div className="text-center mb-6">
-        <h1 className="text-3xl font-bold">Discover Dramas</h1>
-        <div className="flex justify-center items-center gap-2 mt-2">
-          <div className="text-sm opacity-70">
-            {totalDecided} / {totalDramas} Dramas Viewed
-          </div>
-          <div className="w-32 h-2 bg-base-300 rounded-full overflow-hidden">
-            <div 
-              className="h-full bg-primary transition-all duration-300"
-              style={{ width: `${(totalDecided / totalDramas) * 100}%` }}
-            />
-          </div>
+    <div className="px-5 md:px-16 max-w-6xl mx-auto">
+      <DiscoverHero />
+
+      <div className="flex flex-col gap-4 mb-10">
+        <DiscoverSearchBar value={search} onChange={setSearch} />
+        <CategoryTabs categories={CATEGORIES} active={category} onSelect={setCategory} />
+        <div className="flex items-center justify-between gap-4 flex-wrap">
+          <GenreFilter genres={genres} selected={genre} onSelect={setGenre} />
+          <SortDropdown value={sortBy} onChange={setSortBy} />
         </div>
       </div>
 
-      <div className="flex justify-center">
-        <SwipeCard 
-          drama={currentDrama}
-          onLike={handleLike}
-          onDislike={handleDislike}
-          onWatched={handleWatched}
-        />
-      </div>
+      <SwipeDeck
+        queue={queue}
+        likedGenres={likedGenres}
+        totalDecided={totalDecided}
+        totalDramas={dramas.length}
+        onLike={likeDrama}
+        onDislike={dislikeDrama}
+        onWatched={watchDrama}
+        onBookmark={toggleBookmark}
+        bookmarkedDramas={bookmarkedDramas}
+      />
     </div>
   );
 };
