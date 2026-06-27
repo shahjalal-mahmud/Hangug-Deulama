@@ -4,45 +4,29 @@
   themes: cinema --default;
 }
 
-/* ---------------------------------------------------------------
-   DESIGN TOKENS
-   Single source of truth for color, type, spacing. Everything else
-   in the app should reference these, never hardcode hex values.
-   ----------------------------------------------------------------*/
 @theme {
-  /* Surfaces — layered depth, darkest to lightest */
   --color-background: #121414;
   --color-surface: #1a1c1c;
   --color-surface-elevated: #242626;
   --color-surface-overlay: #2a2c2c;
 
-  /* Accent — restrained, used only to direct attention */
   --color-accent: #b3373f;
   --color-accent-hover: #c44a52;
   --color-accent-muted: #5a2226;
 
-  /* Text */
   --color-text-primary: #f2efea;
   --color-text-secondary: #b8b3ac;
   --color-text-tertiary: #7a7570;
 
-  /* Borders / dividers — kept hairline-thin and low-contrast */
   --color-border: rgba(255, 255, 255, 0.06);
   --color-border-strong: rgba(255, 255, 255, 0.12);
 
-  /* Typography */
   --font-display: "Sora", system-ui, sans-serif;
   --font-body: "Inter", system-ui, sans-serif;
 
-  /* Motion */
   --ease-cinematic: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* ---------------------------------------------------------------
-   DaisyUI theme mapping — bind DaisyUI's semantic colors to our
-   tokens so component classes (btn, card, etc.) inherit the look
-   automatically, instead of overriding DaisyUI defaults everywhere.
-   ----------------------------------------------------------------*/
 @plugin "daisyui/theme" {
   name: "cinema";
   default: true;
@@ -103,7 +87,6 @@
 }
 
 @layer components {
-  /* Reusable surface elevation — replaces ad-hoc glassmorphism */
   .surface-card {
     background-color: var(--color-surface);
     border: 1px solid var(--color-border);
@@ -112,5 +95,28 @@
   .surface-card-elevated {
     background-color: var(--color-surface-elevated);
     border: 1px solid var(--color-border-strong);
+  }
+}
+
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
+
+/* Performance/accessibility: honor reduced-motion globally, not just
+   in useScrollReveal — covers hover scale/translate transitions too. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }
