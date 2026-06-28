@@ -1,3 +1,4 @@
+/* src/pages/Home.jsx */
 import { useMemo, useState } from 'react';
 import { useDrama } from '../context/DramaContext';
 import HeroSection from '../components/home/HeroSection';
@@ -12,6 +13,8 @@ import {
   getTrending,
   getContinueWatching,
   getRecommendations,
+  getLikedGenres,
+  getReasonText,
 } from '../utils/dramaHelpers';
 
 const Home = () => {
@@ -19,6 +22,10 @@ const Home = () => {
   const [selectedGenre, setSelectedGenre] = useState(null);
 
   const genres = useMemo(() => getUniqueGenres(dramas), [dramas]);
+
+  // Spotlight always pulls from the unfiltered top-rated pool, independent
+  // of the genre filter below it — the hero stays stable while browsing.
+  const spotlightItems = useMemo(() => getTrending(dramas, 5), [dramas]);
 
   const continueWatchingItems = useMemo(
     () => getContinueWatching(dramas, dislikedDramas, watchedDramas),
@@ -30,10 +37,22 @@ const Home = () => {
     return getTrending(filtered, 10);
   }, [dramas, selectedGenre]);
 
-  const recommendationItems = useMemo(
-    () => getRecommendations(dramas, likedDramas, dislikedDramas, watchedDramas, 4),
-    [dramas, likedDramas, dislikedDramas, watchedDramas]
+  const likedGenres = useMemo(() => getLikedGenres(dramas, likedDramas), [dramas, likedDramas]);
+
+  const likedDramaTitles = useMemo(
+    () => dramas.filter((d) => likedDramas.includes(d.drama_id)).map((d) => d.title),
+    [dramas, likedDramas]
   );
+
+  // Attach the human-readable "why we picked this" line to each card so
+  // the recommendation section can show real personalization, not just a score.
+  const recommendationItems = useMemo(() => {
+    const recs = getRecommendations(dramas, likedDramas, dislikedDramas, watchedDramas, 4);
+    return recs.map((d) => ({
+      ...d,
+      reason: getReasonText(d, likedGenres, likedDramaTitles),
+    }));
+  }, [dramas, likedDramas, dislikedDramas, watchedDramas, likedGenres, likedDramaTitles]);
 
   const recommendationSubtitle = likedDramas.length
     ? "Based on what you've liked"
@@ -41,7 +60,7 @@ const Home = () => {
 
   return (
     <div>
-      <HeroSection />
+      <HeroSection items={spotlightItems} loading={loading} />
 
       <div className="mb-12">
         <GenrePills genres={genres} selected={selectedGenre} onSelect={setSelectedGenre} />
