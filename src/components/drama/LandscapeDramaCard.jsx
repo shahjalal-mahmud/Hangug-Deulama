@@ -1,3 +1,4 @@
+/* src/components/drama/LandscapeDramaCard.jsx */
 import { memo } from 'react';
 import { Link } from 'react-router-dom';
 import ImageWithSkeleton from '../ui/ImageWithSkeleton';
@@ -17,6 +18,17 @@ const LandscapeDramaCard = ({ drama }) => {
         imgClassName="transition-transform duration-700 ease-cinematic group-hover:scale-105"
       />
       <div className="absolute inset-0 bg-linear-to-t from-surface via-surface/20 to-transparent" />
+
+      <div
+        className="absolute inset-0 flex items-center justify-center opacity-0
+                   group-hover:opacity-100 transition-opacity duration-300 ease-cinematic"
+      >
+        <span className="w-12 h-12 rounded-full bg-black/35 backdrop-blur-sm flex items-center justify-center">
+          <span className="material-symbols-outlined text-white text-3xl leading-none">
+            play_arrow
+          </span>
+        </span>
+      </div>
 
       <div className="absolute bottom-0 left-0 w-full p-4">
         <h3 className="font-display text-base font-semibold text-text-primary leading-tight">
