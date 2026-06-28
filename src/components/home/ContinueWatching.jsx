@@ -1,15 +1,16 @@
+/* src/components/home/ContinueWatching.jsx */
 import SectionHeader from '../ui/SectionHeader';
 import LandscapeDramaCard from '../drama/LandscapeDramaCard';
 import SkeletonCard from '../ui/SkeletonCard';
 
 const ContinueWatching = ({ items, loading }) => {
-  // Nothing in progress and we're not loading — just don't show the section.
   if (!loading && items.length === 0) return null;
 
   return (
     <section className="px-5 md:px-16 mb-14" aria-labelledby="continue-watching-heading">
       <SectionHeader
         id="continue-watching-heading"
+        eyebrow="이어보기 · RESUME"
         title="Continue Watching"
         actionLabel="View All"
         actionTo="/activity"
