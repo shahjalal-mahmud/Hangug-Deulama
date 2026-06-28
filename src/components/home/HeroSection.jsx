@@ -37,7 +37,7 @@ const HeroSection = ({ items = [], loading }) => {
     return (
       <section className="px-5 md:px-16 mb-14">
         <div
-          className="h-[440px] sm:h-[520px] md:h-[600px] rounded-2xl bg-surface-elevated animate-pulse"
+          className="h-110 sm:h-130 md:h-150 rounded-2xl bg-surface-elevated animate-pulse"
           aria-hidden="true"
         />
       </section>
@@ -55,7 +55,7 @@ const HeroSection = ({ items = [], loading }) => {
       </p>
 
       <div
-        className="relative h-[440px] sm:h-[520px] md:h-[600px] rounded-2xl overflow-hidden surface-card film-grain"
+        className="relative h-110 sm:h-130 md:h-150 rounded-2xl overflow-hidden surface-card film-grain"
         onMouseEnter={() => setPaused(true)}
         onMouseLeave={() => setPaused(false)}
       >
