@@ -1,18 +1,36 @@
+/* src/components/drama/DramaPosterCard.jsx */
 import { memo } from 'react';
 import { Link } from 'react-router-dom';
 import ImageWithSkeleton from '../ui/ImageWithSkeleton';
 import { parseGenres } from '../../utils/dramaHelpers';
 
-const DramaPosterCard = ({ drama }) => {
+const DramaPosterCard = ({ drama, rank }) => {
   const genres = parseGenres(drama.genre);
 
   return (
     <Link
       to={`/drama/${drama.drama_id}`}
-      className="group flex-none w-40 sm:w-48 md:w-56 block focus-visible:outline-none"
-      aria-label={`View details for ${drama.title}`}
+      className="group relative flex-none w-40 sm:w-48 md:w-56 block focus-visible:outline-none"
+      aria-label={`View details for ${drama.title}${rank ? `, ranked number ${rank}` : ''}`}
     >
-      <div className="relative aspect-2/3 rounded-xl overflow-hidden surface-card">
+      {rank && (
+        <span
+          aria-hidden="true"
+          className="absolute -top-2 -left-3 z-0 font-display font-bold text-[64px] md:text-[72px]
+                     leading-none select-none pointer-events-none"
+          style={{
+            color: 'transparent',
+            WebkitTextStroke: rank <= 3 ? '1.5px var(--color-accent)' : '1.5px rgba(255,255,255,0.14)',
+          }}
+        >
+          {String(rank).padStart(2, '0')}
+        </span>
+      )}
+
+      <div
+        className="relative z-10 aspect-2/3 rounded-xl overflow-hidden surface-card
+                   transition-transform duration-300 ease-cinematic group-hover:-translate-y-1"
+      >
         <ImageWithSkeleton
           src={drama.poster || drama.banner_url}
           alt={drama.title}
@@ -37,7 +55,7 @@ const DramaPosterCard = ({ drama }) => {
         </div>
 
         {drama.imdb_rating && (
-          <span className="absolute top-2 right-2 bg-background/70 backdrop-blur-sm text-text-primary text-[10px] font-medium px-2 py-1 rounded-md">
+          <span className="absolute top-2 right-2 bg-background/70 backdrop-blur-sm text-gold text-[10px] font-medium px-2 py-1 rounded-md">
             ★ {drama.imdb_rating}
           </span>
         )}
