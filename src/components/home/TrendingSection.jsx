@@ -1,3 +1,4 @@
+/* src/components/home/TrendingSection.jsx */
 import SectionHeader from '../ui/SectionHeader';
 import DramaPosterCard from '../drama/DramaPosterCard';
 import SkeletonCard from '../ui/SkeletonCard';
@@ -7,7 +8,7 @@ const TrendingSection = ({ items, loading }) => {
   return (
     <section className="mb-14" aria-labelledby="trending-heading">
       <div className="px-5 md:px-16">
-        <SectionHeader id="trending-heading" title="Trending Now" />
+        <SectionHeader id="trending-heading" eyebrow="지금 인기 · TRENDING NOW" title="Trending Now" />
       </div>
 
       {!loading && items.length === 0 ? (
@@ -26,9 +27,11 @@ const TrendingSection = ({ items, loading }) => {
         >
           {loading
             ? Array.from({ length: 6 }).map((_, i) => <SkeletonCard key={i} />)
-            : items.map((drama) => (
+            : items.map((drama, i) => (
                 <div role="listitem" key={drama.drama_id} className="snap-start">
-                  <DramaPosterCard drama={drama} />
+                  {/* Rank numerals are honest here — this list really is
+                      ordered by rating, so the marker carries information. */}
+                  <DramaPosterCard drama={drama} rank={i + 1} />
                 </div>
               ))}
         </div>
