@@ -14,6 +14,11 @@
   --color-accent-hover: #c44a52;
   --color-accent-muted: #5a2226;
 
+  /* Secondary accent: reserved for quality/rating signals (stars, match
+     scores) so it never competes with the crimson "action" accent. */
+  --color-gold: #d6a85c;
+  --color-gold-soft: rgba(214, 168, 92, 0.14);
+
   --color-text-primary: #f2efea;
   --color-text-secondary: #b8b3ac;
   --color-text-tertiary: #7a7570;
@@ -96,6 +101,30 @@
     background-color: var(--color-surface-elevated);
     border: 1px solid var(--color-border-strong);
   }
+
+  /* Recurring typographic device: Hangul + English eyebrow label used
+     above every section heading and the hero, e.g. "지금 인기 · TRENDING NOW". */
+  .eyebrow {
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  /* Subtle film-grain texture for the hero backdrop — keeps the photo
+     from feeling like a flat stock image. Very low opacity by design. */
+  .film-grain {
+    position: relative;
+  }
+  .film-grain::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E");
+    opacity: 0.05;
+    mix-blend-mode: overlay;
+    pointer-events: none;
+  }
 }
 
 @layer utilities {
@@ -106,6 +135,21 @@
     -ms-overflow-style: none;
     scrollbar-width: none;
   }
+}
+
+@keyframes heroFade {
+  from {
+    opacity: 0;
+    transform: scale(1.02);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-hero-fade {
+  animation: heroFade 1100ms var(--ease-cinematic) both;
 }
 
 /* Performance/accessibility: honor reduced-motion globally, not just
