@@ -1,17 +1,15 @@
+/* src/components/ui/SectionHeader.jsx */
 import { Link } from 'react-router-dom';
 
-const SectionHeader = ({ id, title, subtitle, actionLabel, actionTo }) => {
+const SectionHeader = ({ id, eyebrow, title, subtitle, actionLabel, actionTo }) => {
   return (
-    <div className="flex items-end justify-between mb-5 md:mb-6">
+    <div className="flex items-end justify-between gap-4 mb-5 md:mb-7">
       <div>
-        {subtitle && (
-          <p className="text-text-tertiary text-xs font-medium uppercase tracking-widest mb-1">
-            {subtitle}
-          </p>
-        )}
+        {eyebrow && <p className="eyebrow text-text-tertiary mb-2">{eyebrow}</p>}
         <h2 id={id} className="font-display text-2xl md:text-3xl font-semibold text-text-primary">
           {title}
         </h2>
+        {subtitle && <p className="text-text-secondary text-sm mt-1.5">{subtitle}</p>}
       </div>
 
       {actionLabel && actionTo && (
