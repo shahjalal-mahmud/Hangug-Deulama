@@ -1,15 +1,26 @@
-/* src/components/BottomNav.jsx */
-import { NavLink } from 'react-router-dom';
+/* src/components/layout/BottomNav.jsx */
+import { NavLink, useNavigate } from 'react-router-dom';
 import clsx from 'clsx';
+import { useAuth } from '../../context/AuthContext';
 
 const tabs = [
   { label: 'Home', to: '/', icon: 'home' },
   { label: 'Discover', to: '/discover', icon: 'explore' },
   { label: 'For You', to: '/recommendations', icon: 'auto_awesome' },
-  { label: 'Activity', to: '/activity', icon: 'person' },
+  { label: 'Activity', to: '/activity', icon: 'person', requireAuth: true },
 ];
 
 const BottomNav = () => {
+  const { isAuthenticated } = useAuth();
+  const navigate = useNavigate();
+
+  const handleTabClick = (e, tab) => {
+    if (tab.requireAuth && !isAuthenticated) {
+      e.preventDefault();
+      navigate('/login', { state: { from: { pathname: tab.to } } });
+    }
+  };
+
   return (
     <nav
       aria-label="Primary mobile"
@@ -22,6 +33,7 @@ const BottomNav = () => {
           key={tab.to}
           to={tab.to}
           end={tab.to === '/'}
+          onClick={(e) => handleTabClick(e, tab)}
           className={({ isActive }) =>
             clsx(
               'flex flex-col items-center justify-center gap-0.5 px-3 py-1 rounded-lg transition-colors duration-300',
