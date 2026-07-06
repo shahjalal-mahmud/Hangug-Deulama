@@ -260,6 +260,12 @@ npm run preview      # smoke-test the production build locally
 
 ---
 
+## 🚢 Deployment
+
+A full shared-hosting deploy checklist — `VITE_API_BASE_URL`, CORS, `mod_rewrite`, DB imports, file permissions, and post-deploy smoke tests — lives in **[`docs/DEPLOY.md`](docs/DEPLOY.md)**. Walk through it before you upload.
+
+---
+
 ## 🔐 Environment Variables
 
 | Variable            | Description                                                                          | Example                                       |

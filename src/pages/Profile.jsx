@@ -12,6 +12,7 @@ import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import * as profileApi from '../api/profile';
+import * as favoritesApi from '../api/favorites';
 import LoadingState from '../components/ui/LoadingState';
 import ErrorState from '../components/ui/ErrorState';
 import SectionHeader from '../components/ui/SectionHeader';
@@ -19,9 +20,9 @@ import ProfileEditModal from '../components/profile/ProfileEditModal';
 import { API_BASE_URL } from '../api';
 
 const STAT_CARDS = [
-  { key: 'liked_count', label: 'Liked', icon: 'favorite' },
-  { key: 'watched_count', label: 'Watched', icon: 'visibility' },
-  { key: 'favorite_count', label: 'Favorites', icon: 'bookmark' },
+  { key: 'liked_count', label: 'Liked', icon: 'favorite', source: 'profile' },
+  { key: 'watched_count', label: 'Watched', icon: 'visibility', source: 'profile' },
+  { key: 'favorite_count', label: 'Favorites', icon: 'bookmark', source: 'favorites' },
 ];
 
 const Profile = () => {
@@ -30,6 +31,7 @@ const Profile = () => {
 
   const [profile, setProfile] = useState(null);
   const [stats, setStats] = useState(null);
+  const [favoritesCount, setFavoritesCount] = useState(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [editOpen, setEditOpen] = useState(false);
@@ -38,12 +40,16 @@ const Profile = () => {
     setLoading(true);
     setError(null);
     try {
-      const [profileRes, statsRes] = await Promise.all([
+      const [profileRes, statsRes, favsRes] = await Promise.all([
         profileApi.getProfile(),
         profileApi.getGenreStatistics(),
+        favoritesApi.listFavorites(),
       ]);
       setProfile(profileRes.data);
       setStats(statsRes.data);
+      /* The /api/profile response doesn't include favorite_count; pull it
+         from the dedicated /api/favorites endpoint which returns `count`. */
+      setFavoritesCount(favsRes.data?.count ?? favsRes.data?.favorites?.length ?? 0);
     } catch (err) {
       setError(err);
     } finally {
@@ -138,21 +144,27 @@ const Profile = () => {
       </div>
 
       <section className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-12">
-        {STAT_CARDS.map((card) => (
-          <div key={card.key} className="surface-card rounded-2xl p-5 flex items-center gap-4">
-            <div className="w-11 h-11 rounded-full bg-accent/10 text-accent flex items-center justify-center flex-none">
-              <span className="material-symbols-outlined">{card.icon}</span>
+        {STAT_CARDS.map((card) => {
+          const value =
+            card.source === 'favorites'
+              ? favoritesCount
+              : profile?.[card.key] ?? 0;
+          return (
+            <div key={card.key} className="surface-card rounded-2xl p-5 flex items-center gap-4">
+              <div className="w-11 h-11 rounded-full bg-accent/10 text-accent flex items-center justify-center flex-none">
+                <span className="material-symbols-outlined">{card.icon}</span>
+              </div>
+              <div className="min-w-0">
+                <p className="text-text-tertiary text-[11px] uppercase tracking-widest">
+                  {card.label}
+                </p>
+                <p className="font-display text-2xl font-semibold text-text-primary leading-tight">
+                  {value}
+                </p>
+              </div>
             </div>
-            <div className="min-w-0">
-              <p className="text-text-tertiary text-[11px] uppercase tracking-widest">
-                {card.label}
-              </p>
-              <p className="font-display text-2xl font-semibold text-text-primary leading-tight">
-                {profile?.[card.key] ?? 0}
-              </p>
-            </div>
-          </div>
-        ))}
+          );
+        })}
       </section>
 
       {profile?.favorite_genres?.length > 0 && (

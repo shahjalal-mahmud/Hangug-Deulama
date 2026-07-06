@@ -2,8 +2,16 @@
 import SectionHeader from '../ui/SectionHeader';
 import LandscapeDramaCard from '../drama/LandscapeDramaCard';
 import SkeletonCard from '../ui/SkeletonCard';
+import { useAuth } from '../../context/AuthContext';
 
 const ContinueWatching = ({ items, loading }) => {
+  const { isAuthenticated } = useAuth();
+
+  /* This rail is meaningful only for signed-in users — it surfaces
+     dramas the user hasn't yet decided on, framed as "stuff you started".
+     Guests get nothing here so we don't mislead them with a fake progress
+     bar on shows they've never opened. */
+  if (!isAuthenticated) return null;
   if (!loading && items.length === 0) return null;
 
   return (

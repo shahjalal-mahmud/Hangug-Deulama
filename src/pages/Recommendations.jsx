@@ -20,6 +20,14 @@ const Recommendations = () => {
   const [error, setError] = useState(null);
 
   const load = async () => {
+    /* /api/recommendations is JWT-protected. Don't hit it for guests —
+       the global 401 listener would sign them out for "no reason". */
+    if (!isAuthenticated) {
+      setLoading(false);
+      setItems([]);
+      setMeta({ count: 0, is_personalized: false, fallback: false });
+      return;
+    }
     setLoading(true);
     setError(null);
     try {
@@ -45,6 +53,32 @@ const Recommendations = () => {
 
   if (loading) {
     return <LoadingState label="Building your picks" />;
+  }
+
+  if (!isAuthenticated) {
+    return (
+      <div className="space-y-6 px-5 md:px-16 max-w-6xl mx-auto">
+        <div>
+          <p className="eyebrow text-accent mb-2">맞춤 추천 · FOR YOU</p>
+          <h1 className="text-3xl font-bold text-text-primary">Your Recommendations</h1>
+          <p className="text-text-secondary mt-2">
+            Sign in to get drama recommendations tailored to your taste.
+          </p>
+        </div>
+        <div className="min-h-[40vh] flex items-center justify-center">
+          <EmptyState
+            title="Sign in to see your picks"
+            message={
+              <span>
+                <Link to="/login" className="text-accent hover:underline">Sign in</Link>{' '}
+                to get drama recommendations tailored to your taste.
+              </span>
+            }
+            icon="🔍"
+          />
+        </div>
+      </div>
+    );
   }
 
   if (error) {
@@ -82,24 +116,11 @@ const Recommendations = () => {
 
       {items.length === 0 ? (
         <div className="min-h-[40vh] flex items-center justify-center">
-          {isAuthenticated ? (
-            <EmptyState
-              title="No Recommendations Yet"
-              message="Like or watch a few dramas and your picks will appear here."
-              icon="🔍"
-            />
-          ) : (
-            <EmptyState
-              title="Sign in to see your picks"
-              message={
-                <span>
-                  <Link to="/login" className="text-accent hover:underline">Sign in</Link>{' '}
-                  to get drama recommendations tailored to your taste.
-                </span>
-              }
-              icon="🔍"
-            />
-          )}
+          <EmptyState
+            title="No Recommendations Yet"
+            message="Like or watch a few dramas and your picks will appear here."
+            icon="🔍"
+          />
         </div>
       ) : (
         <>
