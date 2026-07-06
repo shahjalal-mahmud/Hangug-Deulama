@@ -7,6 +7,7 @@ import ContinueWatching from '../components/home/ContinueWatching';
 import TrendingSection from '../components/home/TrendingSection';
 import RecommendationSection from '../components/home/RecommendationSection';
 import RevealSection from '../components/ui/RevealSection';
+import ErrorState from '../components/ui/ErrorState';
 import {
   getUniqueGenres,
   filterByGenre,
@@ -18,7 +19,14 @@ import {
 } from '../utils/dramaHelpers';
 
 const Home = () => {
-  const { dramas, loading, likedDramas, dislikedDramas, watchedDramas } = useDrama();
+  const {
+    dramas,
+    loading,
+    error,
+    likedDramas,
+    dislikedDramas,
+    watchedDramas,
+  } = useDrama();
   const [selectedGenre, setSelectedGenre] = useState(null);
 
   const genres = useMemo(() => getUniqueGenres(dramas), [dramas]);
@@ -57,6 +65,18 @@ const Home = () => {
   const recommendationSubtitle = likedDramas.length
     ? "Based on what you've liked"
     : 'Top picks to get you started';
+
+  if (error && !dramas.length) {
+    return (
+      <div className="px-5 md:px-16 max-w-3xl mx-auto py-20">
+        <ErrorState
+          title="The catalog is unreachable"
+          description={error.message || 'We could not load dramas. Please check your connection.'}
+          onRetry={() => window.location.reload()}
+        />
+      </div>
+    );
+  }
 
   return (
     <div>
