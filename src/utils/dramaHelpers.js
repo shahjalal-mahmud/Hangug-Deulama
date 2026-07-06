@@ -1,23 +1,38 @@
 /* src/utils/dramaHelpers.js
    Pure functions that derive home/discover/details-page data from the raw
    dramas array. Kept outside DramaContext so they're easy to unit test
-   in isolation. */
+   in isolation.
 
-export const parseGenres = (genreString = '') =>
-  genreString.split(',').map((g) => g.trim()).filter(Boolean);
+   The backend returns both `genre` (comma-separated string) and
+   `genres` (array), so `parseGenres` accepts either shape. */
+
+export const parseGenres = (drama) => {
+  if (!drama) return [];
+  if (Array.isArray(drama.genres) && drama.genres.length) {
+    return drama.genres.map((g) => String(g).trim()).filter(Boolean);
+  }
+  if (typeof drama.genre === 'string') {
+    return drama.genre.split(',').map((g) => g.trim()).filter(Boolean);
+  }
+  return [];
+};
 
 export const parseStars = (starsString = '') =>
   starsString.split(',').map((s) => s.trim()).filter(Boolean);
 
+/** Return the first non-empty image URL we can use as a poster. */
+export const pickImage = (drama) =>
+  drama?.poster_url || drama?.poster || drama?.banner_url || '';
+
 export const getUniqueGenres = (dramas) => {
   const set = new Set();
-  dramas.forEach((d) => parseGenres(d.genre).forEach((g) => set.add(g)));
+  dramas.forEach((d) => parseGenres(d).forEach((g) => set.add(g)));
   return Array.from(set).sort();
 };
 
 export const filterByGenre = (dramas, genre) => {
   if (!genre || genre === 'All') return dramas;
-  return dramas.filter((d) => parseGenres(d.genre).includes(genre));
+  return dramas.filter((d) => parseGenres(d).includes(genre));
 };
 
 export const filterBySearch = (dramas, query) => {
@@ -27,7 +42,7 @@ export const filterBySearch = (dramas, query) => {
     (d) =>
       d.title.toLowerCase().includes(q) ||
       (d.stars || '').toLowerCase().includes(q) ||
-      parseGenres(d.genre).some((g) => g.toLowerCase().includes(q))
+      parseGenres(d).some((g) => g.toLowerCase().includes(q))
   );
 };
 
@@ -40,12 +55,12 @@ export const getLikedGenres = (dramas, likedIds) => {
   const set = new Set();
   dramas
     .filter((d) => likedIds.includes(d.drama_id))
-    .forEach((d) => parseGenres(d.genre).forEach((g) => set.add(g)));
+    .forEach((d) => parseGenres(d).forEach((g) => set.add(g)));
   return Array.from(set);
 };
 
 export const getMatchScore = (drama, likedGenres = []) => {
-  const dramaGenres = parseGenres(drama.genre);
+  const dramaGenres = parseGenres(drama);
   if (!likedGenres.length) {
     // No taste signal yet — fall back to rating as a proxy, never below 60.
     return Math.max(60, Math.round((drama.imdb_rating || 7) * 10));
@@ -58,7 +73,7 @@ export const getMatchScore = (drama, likedGenres = []) => {
 /* Builds the human-readable line shown in the "Why Recommend" card.
    Falls back gracefully when there's no taste signal yet. */
 export const getReasonText = (drama, likedGenres = [], likedDramaTitles = []) => {
-  const dramaGenres = parseGenres(drama.genre);
+  const dramaGenres = parseGenres(drama);
   const sharedGenres = dramaGenres.filter((g) => likedGenres.includes(g));
 
   if (!sharedGenres.length) {
@@ -107,9 +122,9 @@ export const getRecommendations = (
 };
 
 /* Deterministic placeholder progress — there's no episode/watch-position
-   field in dramas.json yet. Swap this for real progress data once a
-   watch-history API/field exists; the rest of the component tree won't
-   need to change since it just reads `drama.progress`. */
+   field on the drama record yet. Swap this for real progress data once
+   a watch-history API/field exists; the rest of the component tree
+   won't need to change since it just reads `drama.progress`. */
 const hashToPercent = (str) => {
   let hash = 0;
   for (let i = 0; i < str.length; i++) {
@@ -132,7 +147,7 @@ export const getContinueWatching = (
       progress: hashToPercent(String(d.drama_id ?? d.title)),
     }));
 
-/* Deterministic hue for cast-initial avatars, since dramas.json has no
+/* Deterministic hue for cast-initial avatars, since the catalog has no
    actor photos. Keeps each name's color stable across renders. */
 export const hashToHue = (str = '') => {
   let hash = 0;
