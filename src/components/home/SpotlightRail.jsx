@@ -1,6 +1,8 @@
 /* src/components/home/SpotlightRail.jsx */
 /* Thumbnail selector beneath the hero — makes the rotation transparent
    and user-controllable instead of a black-box auto-carousel. */
+import { pickImage } from '../../utils/dramaHelpers';
+
 const SpotlightRail = ({ items, activeIndex, onSelect }) => {
   if (!items || items.length <= 1) return null;
 
@@ -26,7 +28,7 @@ const SpotlightRail = ({ items, activeIndex, onSelect }) => {
                        ${active ? 'ring-2 ring-accent opacity-100' : 'opacity-45 hover:opacity-75 scale-[0.94]'}`}
           >
             <img
-              src={drama.poster || drama.banner_url}
+              src={pickImage(drama)}
               alt=""
               className="w-full h-full object-cover"
             />
