@@ -5,10 +5,10 @@ import GenreBadge from '../ui/GenreBadge';
 import ImageWithSkeleton from '../ui/ImageWithSkeleton';
 import EmptyState from '../ui/EmptyState';
 import MatchRing from '../ui/MatchRing';
-import { parseGenres } from '../../utils/dramaHelpers';
+import { parseGenres, pickImage } from '../../utils/dramaHelpers';
 
 const PickCard = ({ drama }) => {
-  const genres = parseGenres(drama.genre);
+  const genres = parseGenres(drama);
 
   return (
     <Link
@@ -18,7 +18,7 @@ const PickCard = ({ drama }) => {
                  focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/60"
     >
       <ImageWithSkeleton
-        src={drama.poster || drama.banner_url}
+        src={pickImage(drama)}
         alt={drama.title}
         className="w-24 sm:w-28 md:w-32 aspect-2/3 flex-none rounded-xl"
         imgClassName="transition-transform duration-500 ease-cinematic group-hover:scale-105"
