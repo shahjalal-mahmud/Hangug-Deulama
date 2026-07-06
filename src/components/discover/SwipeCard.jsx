@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import ImageWithSkeleton from '../ui/ImageWithSkeleton';
 import GenreBadge from '../ui/GenreBadge';
 import RecommendationBadge from './RecommendationBadge';
-import { parseGenres } from '../../utils/dramaHelpers';
+import { parseGenres, pickImage } from '../../utils/dramaHelpers';
 
 const SWIPE_THRESHOLD = 110;
 const ROTATION_FACTOR = 0.05;
@@ -15,7 +15,7 @@ const SwipeCard = forwardRef(
     const [offset, setOffset] = useState({ x: 0, y: 0 });
     const [exiting, setExiting] = useState(null);
 
-    const genres = parseGenres(drama.genre);
+    const genres = parseGenres(drama);
     const isUpcoming = !drama.imdb_rating || drama.imdb_rating === 0;
 
     const commitExit = (direction) => {
@@ -45,7 +45,7 @@ const SwipeCard = forwardRef(
           }}
           aria-hidden="true"
         >
-          <ImageWithSkeleton src={drama.banner_url || drama.poster} alt="" className="w-full h-full" />
+          <ImageWithSkeleton src={pickImage(drama)} alt="" className="w-full h-full" />
           <div className="absolute inset-0 bg-background/40" />
         </div>
       );
@@ -96,7 +96,7 @@ const SwipeCard = forwardRef(
         onPointerCancel={handlePointerUp}
       >
         <div className="relative w-full h-full">
-          <ImageWithSkeleton src={drama.banner_url || drama.poster} alt={drama.title} className="w-full h-full" />
+          <ImageWithSkeleton src={pickImage(drama)} alt={drama.title} className="w-full h-full" />
           <div className="absolute inset-0 bg-linear-to-t from-surface via-surface/30 to-transparent" />
 
           {/* Swipe feedback overlays */}
