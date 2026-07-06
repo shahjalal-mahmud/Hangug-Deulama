@@ -1,5 +1,5 @@
 /* src/pages/DramaDetails.jsx */
-import { useMemo, useState, useEffect } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useDrama } from '../context/DramaContext';
 import {
@@ -8,7 +8,9 @@ import {
   getLikedGenres,
   getMatchScore,
   getReasonText,
+  pickImage,
 } from '../utils/dramaHelpers';
+import * as dramasApi from '../api/dramas';
 
 import BackdropHero from '../components/details/BackdropHero';
 import SynopsisSection from '../components/details/SynopsisSection';
@@ -25,9 +27,7 @@ const DramaDetails = () => {
   const { id } = useParams();
   const {
     dramas,
-    loading,
     likedDramas,
-    getDramaById,
     getDramaStatus,
     likeDrama,
     dislikeDrama,
@@ -35,40 +35,75 @@ const DramaDetails = () => {
     toggleBookmark,
   } = useDrama();
 
-  const [loadError, setLoadError] = useState(null);
-  
-  // Convert id to number safely
+  const [drama, setDrama] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [shareError, setShareError] = useState(null);
+
   const dramaId = useMemo(() => {
     if (!id) return null;
     const parsed = Number.parseInt(id, 10);
-    return isNaN(parsed) ? null : parsed;
+    return Number.isNaN(parsed) ? null : parsed;
   }, [id]);
-  
-  // Get drama only when dramaId is valid and dramas are loaded
-  const drama = useMemo(() => {
-    if (!dramaId || !dramas || dramas.length === 0) return null;
-    return getDramaById(dramaId);
-  }, [dramaId, dramas, getDramaById]);
+
+  /* Try the catalog cache first for a snappy first paint, then fetch
+     /api/dramas/{id} for fresh authoritative data. */
+  useEffect(() => {
+    let cancelled = false;
+
+    if (dramaId && dramas.length) {
+      const cached = dramas.find((d) => d.drama_id === dramaId);
+      if (cached) setDrama(cached);
+    }
+
+    if (!dramaId) {
+      setDrama(null);
+      setLoading(false);
+      return () => {};
+    }
+
+    setLoading(true);
+    setError(null);
+    (async () => {
+      try {
+        const res = await dramasApi.getDrama(dramaId);
+        if (cancelled) return;
+        setDrama(res.data || null);
+      } catch (err) {
+        if (cancelled) return;
+        if (err.status === 404) {
+          setDrama(null);
+          setError(null);
+        } else {
+          setError(err);
+        }
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [dramaId, dramas]);
 
   useEffect(() => {
     document.title = drama ? `${drama.title} — HANGUG DEULAMA` : 'HANGUG DEULAMA';
   }, [drama]);
 
   const likedGenres = useMemo(() => getLikedGenres(dramas, likedDramas), [dramas, likedDramas]);
-
   const likedDramaTitles = useMemo(
     () => dramas.filter((d) => likedDramas.includes(d.drama_id)).map((d) => d.title),
     [dramas, likedDramas]
   );
 
   const similarDramas = useMemo(() => {
-    if (!drama) return [];
-    const dramaGenres = parseGenres(drama.genre);
+    if (!drama || !dramas.length) return [];
+    const dramaGenres = parseGenres(drama);
     return dramas
       .filter(
         (d) =>
           d.drama_id !== drama.drama_id &&
-          parseGenres(d.genre).some((g) => dramaGenres.includes(g))
+          parseGenres(d).some((g) => dramaGenres.includes(g))
       )
       .sort((a, b) => getMatchScore(b, likedGenres) - getMatchScore(a, likedGenres))
       .slice(0, 6);
@@ -84,7 +119,7 @@ const DramaDetails = () => {
       await navigator.clipboard.writeText(url);
       return 'copied';
     } catch {
-      setLoadError(null); // share cancellation isn't an error state
+      setShareError(null);
       return null;
     }
   };
@@ -101,6 +136,25 @@ const DramaDetails = () => {
     );
   }
 
+  if (error) {
+    return (
+      <div className="min-h-[60vh] flex items-center justify-center px-5">
+        <ErrorState
+          title="Couldn't load this drama"
+          description={error.message || 'Something went wrong while fetching this drama.'}
+          onRetry={() => {
+            setError(null);
+            setLoading(true);
+            // Re-running the effect: toggle dramaId to force a refetch.
+            // The simplest way to do that here is to bump state — we
+            // simply trigger a remount via location reload fallback.
+            window.location.reload();
+          }}
+        />
+      </div>
+    );
+  }
+
   if (!drama) {
     return (
       <div className="min-h-[60vh] flex items-center justify-center px-5">
@@ -113,7 +167,7 @@ const DramaDetails = () => {
     );
   }
 
-  const genres = parseGenres(drama.genre);
+  const genres = parseGenres(drama);
   const stars = parseStars(drama.stars);
   const status = getDramaStatus(drama.drama_id);
   const matchScore = getMatchScore(drama, likedGenres);
@@ -127,10 +181,13 @@ const DramaDetails = () => {
     { label: 'Country', value: 'South Korea' },
   ];
 
+  // Use the API-provided image when available, otherwise banner fallback.
+  const heroDrama = pickImage(drama) ? { ...drama, banner_url: pickImage(drama) } : drama;
+
   return (
     <div>
       <BackdropHero
-        drama={drama}
+        drama={heroDrama}
         status={status}
         onLike={() => likeDrama(drama.drama_id)}
         onDislike={() => dislikeDrama(drama.drama_id)}
@@ -139,9 +196,9 @@ const DramaDetails = () => {
         onShare={handleShare}
       />
 
-      {loadError && (
+      {shareError && (
         <div className="px-5 md:px-16 max-w-6xl mx-auto pt-6">
-          <ErrorState title="Couldn't share" description={loadError} onRetry={() => setLoadError(null)} />
+          <ErrorState title="Couldn't share" description={shareError} onRetry={() => setShareError(null)} />
         </div>
       )}
 
