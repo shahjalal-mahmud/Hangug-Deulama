@@ -1,7 +1,7 @@
 /* src/components/home/HeroSection.jsx */
 import { useEffect, useState } from 'react';
 import { useDrama } from '../../context/DramaContext';
-import { parseGenres } from '../../utils/dramaHelpers';
+import { parseGenres, pickImage } from '../../utils/dramaHelpers';
 import Button from '../ui/Button';
 import GenreBadge from '../ui/GenreBadge';
 import SpotlightRail from './SpotlightRail';
@@ -44,7 +44,7 @@ const HeroSection = ({ items = [], loading }) => {
     );
   }
 
-  const genres = parseGenres(active.genre);
+  const genres = parseGenres(active);
   const status = getDramaStatus(active.drama_id);
 
   return (
@@ -61,7 +61,7 @@ const HeroSection = ({ items = [], loading }) => {
       >
         <img
           key={active.drama_id}
-          src={active.banner_url || active.poster}
+          src={pickImage(active)}
           alt=""
           className="absolute inset-0 w-full h-full object-cover animate-hero-fade"
         />
