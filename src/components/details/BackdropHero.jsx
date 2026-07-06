@@ -2,17 +2,17 @@ import { useNavigate } from 'react-router-dom';
 import ImageWithSkeleton from '../ui/ImageWithSkeleton';
 import GenreBadge from '../ui/GenreBadge';
 import ActionBar from './ActionBar';
-import { parseGenres } from '../../utils/dramaHelpers';
+import { parseGenres, pickImage } from '../../utils/dramaHelpers';
 
 const BackdropHero = ({ drama, status, onLike, onDislike, onWatched, onBookmark, onShare }) => {
   const navigate = useNavigate();
-  const genres = parseGenres(drama.genre);
+  const genres = parseGenres(drama);
   const isUpcoming = !drama.imdb_rating || drama.imdb_rating === 0;
 
   return (
     <section className="relative h-[55vh] md:h-[68vh] min-h-105 w-full overflow-hidden">
       <div className="absolute inset-0">
-        <ImageWithSkeleton src={drama.banner_url} alt="" className="w-full h-full" />
+        <ImageWithSkeleton src={pickImage(drama)} alt="" className="w-full h-full" />
         <div className="absolute inset-0 bg-linear-to-t from-background via-background/60 to-background/10" />
         <div className="absolute inset-0 bg-linear-to-r from-background/80 via-transparent to-transparent" />
       </div>
