@@ -2,10 +2,11 @@
 import { memo } from 'react';
 import { Link } from 'react-router-dom';
 import ImageWithSkeleton from '../ui/ImageWithSkeleton';
-import { parseGenres } from '../../utils/dramaHelpers';
+import { parseGenres, pickImage } from '../../utils/dramaHelpers';
 
 const DramaPosterCard = ({ drama, rank }) => {
-  const genres = parseGenres(drama.genre);
+  const genres = parseGenres(drama);
+  const img = pickImage(drama);
 
   return (
     <Link
@@ -13,6 +14,7 @@ const DramaPosterCard = ({ drama, rank }) => {
       className="group relative flex-none w-40 sm:w-48 md:w-56 block focus-visible:outline-none"
       aria-label={`View details for ${drama.title}${rank ? `, ranked number ${rank}` : ''}`}
     >
+      {/* duplicate fix block below - keep alive */}
       {rank && (
         <span
           aria-hidden="true"
@@ -32,7 +34,7 @@ const DramaPosterCard = ({ drama, rank }) => {
                    transition-transform duration-300 ease-cinematic group-hover:-translate-y-1"
       >
         <ImageWithSkeleton
-          src={drama.poster || drama.banner_url}
+          src={img}
           alt={drama.title}
           className="w-full h-full"
           imgClassName="transition-transform duration-700 ease-cinematic group-hover:scale-105"
