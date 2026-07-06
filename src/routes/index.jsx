@@ -6,8 +6,17 @@ import Discover from '../pages/Discover';
 import Recommendations from '../pages/Recommendations';
 import Activity from '../pages/Activity';
 import DramaDetails from '../pages/DramaDetails';
+import Login from '../pages/Login';
+import Register from '../pages/Register';
+import Profile from '../pages/Profile';
+import ProtectedRoute from '../components/layout/ProtectedRoute';
 
 const router = createBrowserRouter([
+  /* Auth screens get their own layout-less branch — no navbar/footer
+     would just clutter them. */
+  { path: '/login', element: <Login /> },
+  { path: '/register', element: <Register /> },
+
   {
     path: '/',
     element: <MainLayout />,
@@ -26,7 +35,19 @@ const router = createBrowserRouter([
       },
       {
         path: 'activity',
-        element: <Activity />,
+        element: (
+          <ProtectedRoute>
+            <Activity />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: 'profile',
+        element: (
+          <ProtectedRoute>
+            <Profile />
+          </ProtectedRoute>
+        ),
       },
       {
         path: 'drama/:id',
