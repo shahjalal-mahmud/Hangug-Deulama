@@ -1,3 +1,4 @@
+/* src/pages/Discover.jsx */
 import { useMemo, useState } from 'react';
 import { useDrama } from '../context/DramaContext';
 import {
