@@ -2,6 +2,7 @@
 import { memo } from 'react';
 import { Link } from 'react-router-dom';
 import ImageWithSkeleton from '../ui/ImageWithSkeleton';
+import { pickImage } from '../../utils/dramaHelpers';
 
 const LandscapeDramaCard = ({ drama }) => {
   return (
@@ -12,7 +13,7 @@ const LandscapeDramaCard = ({ drama }) => {
       aria-label={`Continue watching ${drama.title}, ${drama.progress}% complete`}
     >
       <ImageWithSkeleton
-        src={drama.banner_url || drama.poster}
+        src={pickImage(drama)}
         alt={drama.title}
         className="w-full h-full"
         imgClassName="transition-transform duration-700 ease-cinematic group-hover:scale-105"
