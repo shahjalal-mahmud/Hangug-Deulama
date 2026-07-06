@@ -1,91 +1,121 @@
-/* src/pages/Recommendations.jsx */
-import { useDrama } from '../context/DramaContext';
+/* src/pages/Recommendations.jsx
+   Reads /api/recommendations and renders the result. The endpoint
+   returns at most 10 dramas and a `is_personalized` / `fallback` flag
+   that we surface to the user. */
+
+import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import * as recommendationsApi from '../api/recommendations';
+import { useAuth } from '../context/AuthContext';
 import DramaCard from '../components/drama/DramaCard';
+import LoadingState from '../components/ui/LoadingState';
+import ErrorState from '../components/ui/ErrorState';
 import EmptyState from '../components/ui/EmptyState';
 
 const Recommendations = () => {
-  const { dramas, likedDramas, watchedDramas } = useDrama();
+  const { isAuthenticated } = useAuth();
+  const [items, setItems] = useState([]);
+  const [meta, setMeta] = useState({ count: 0, is_personalized: false, fallback: false });
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  // Generate recommendations based on liked dramas
-  const getRecommendations = () => {
-    if (likedDramas.length === 0) {
-      // If no liked dramas, show top rated dramas
-      return dramas
-        .sort((a, b) => b.rating - a.rating)
-        .slice(0, 6);
+  const load = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const res = await recommendationsApi.getRecommendations();
+      setItems(res.data?.recommendations || []);
+      setMeta({
+        count: res.data?.count ?? (res.data?.recommendations?.length || 0),
+        is_personalized: !!res.data?.is_personalized,
+        fallback: !!res.data?.fallback,
+      });
+    } catch (err) {
+      setError(err);
+    } finally {
+      setLoading(false);
     }
-
-    // Get liked dramas details
-    const likedDramasList = dramas.filter(d => likedDramas.includes(d.id));
-    
-    // Get genres from liked dramas
-    const likedGenres = likedDramasList.flatMap(d => d.genre);
-    const genreFrequency = {};
-    likedGenres.forEach(genre => {
-      genreFrequency[genre] = (genreFrequency[genre] || 0) + 1;
-    });
-
-    // Sort genres by frequency
-    const sortedGenres = Object.keys(genreFrequency).sort(
-      (a, b) => genreFrequency[b] - genreFrequency[a]
-    );
-    const topGenres = sortedGenres.slice(0, 3);
-
-    // Find dramas with matching genres, excluding already liked/watched
-    const recommended = dramas
-      .filter(d => 
-        !likedDramas.includes(d.id) && 
-        !watchedDramas.includes(d.id)
-      )
-      .map(d => ({
-        ...d,
-        matchScore: d.genre.filter(g => topGenres.includes(g)).length
-      }))
-      .sort((a, b) => b.matchScore - a.matchScore)
-      .slice(0, 8);
-
-    return recommended;
   };
 
-  const recommendations = getRecommendations();
+  useEffect(() => {
+    load();
+    // We deliberately depend on auth state — when the user signs in the
+    // personalized feed should re-fetch.
+  }, [isAuthenticated]);
+
+  if (loading) {
+    return <LoadingState label="Building your picks" />;
+  }
+
+  if (error) {
+    return (
+      <div className="px-5 md:px-16 max-w-3xl mx-auto py-10">
+        <ErrorState
+          title="Couldn't load recommendations"
+          description={error.message || 'Something went wrong fetching your picks.'}
+          onRetry={load}
+        />
+      </div>
+    );
+  }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 px-5 md:px-16 max-w-6xl mx-auto">
       <div>
-        <h1 className="text-3xl font-bold">Your Recommendations</h1>
-        <p className="text-base-content/70 mt-2">
-          Based on your preferences and viewing history
+        <p className="eyebrow text-accent mb-2">맞춤 추천 · FOR YOU</p>
+        <h1 className="text-3xl font-bold text-text-primary">Your Recommendations</h1>
+        <p className="text-text-secondary mt-2">
+          {meta.is_personalized
+            ? 'Personalized picks based on your activity.'
+            : 'Top-rated picks to get you started — like a few dramas for sharper recs.'}
         </p>
       </div>
 
-      {recommendations.length === 0 ? (
+      {meta.fallback && (
+        <div className="surface-card rounded-xl px-4 py-3 text-text-secondary text-sm flex items-center gap-3">
+          <span className="material-symbols-outlined text-accent">auto_awesome</span>
+          <span>
+            Showing the highest-rated library &mdash; once we know your taste your feed becomes personalized.
+          </span>
+        </div>
+      )}
+
+      {items.length === 0 ? (
         <div className="min-h-[40vh] flex items-center justify-center">
-          <EmptyState 
-            title="No Recommendations Yet"
-            message="Like some dramas to get personalized recommendations!"
-            icon="🔍"
-          />
+          {isAuthenticated ? (
+            <EmptyState
+              title="No Recommendations Yet"
+              message="Like or watch a few dramas and your picks will appear here."
+              icon="🔍"
+            />
+          ) : (
+            <EmptyState
+              title="Sign in to see your picks"
+              message={
+                <span>
+                  <Link to="/login" className="text-accent hover:underline">Sign in</Link>{' '}
+                  to get drama recommendations tailored to your taste.
+                </span>
+              }
+              icon="🔍"
+            />
+          )}
         </div>
       ) : (
         <>
           <div className="stats shadow w-full">
             <div className="stat">
-              <div className="stat-title">Liked Dramas</div>
-              <div className="stat-value">{likedDramas.length}</div>
-            </div>
-            <div className="stat">
-              <div className="stat-title">Watched Dramas</div>
-              <div className="stat-value">{watchedDramas.length}</div>
-            </div>
-            <div className="stat">
-              <div className="stat-title">Recommendations</div>
-              <div className="stat-value">{recommendations.length}</div>
+              <div className="stat-title">Picks</div>
+              <div className="stat-value">{meta.count}</div>
+              <div className="stat-desc">
+                {meta.is_personalized ? 'Personalized' : 'Cold-start fallback'}
+              </div>
             </div>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {recommendations.map((drama) => (
-              <DramaCard key={drama.id} drama={drama} />
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 pb-10">
+            {items.map((drama) => (
+              <DramaCard key={drama.drama_id} drama={drama} />
             ))}
           </div>
         </>
