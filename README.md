@@ -266,6 +266,12 @@ A full shared-hosting deploy checklist — `VITE_API_BASE_URL`, CORS, `mod_rewri
 
 ---
 
+## 💻 Local Setup (XAMPP)
+
+Before deploying to shared hosting, run the full stack locally on XAMPP and walk through every screen. The step-by-step guide lives in **[`docs/LOCAL_SETUP.md`](docs/LOCAL_SETUP.md)** — it covers Apache + MySQL, schema import, `.env` configuration, JWT secret generation, a 10-step verification walkthrough (register → swipe → favorites → recommendations → profile edit + image upload → logout), and a troubleshooting section for the common pitfalls (mod_rewrite, CORS, port collisions).
+
+---
+
 ## 🔐 Environment Variables
 
 | Variable            | Description                                                                          | Example                                       |
