@@ -1,18 +1,22 @@
-/* src/components/Navbar.jsx */
-import { NavLink } from 'react-router-dom';
+/* src/components/layout/Navbar.jsx */
+import { NavLink, useNavigate } from 'react-router-dom';
 import clsx from 'clsx';
 import SearchBar from './SearchBar';
 import NotificationButton from './NotificationButton';
 import ProfileMenu from './ProfileMenu';
-
-const navLinks = [
-  { label: 'Home', to: '/' },
-  { label: 'Discover', to: '/discover' },
-  { label: 'For You', to: '/recommendations' },
-  { label: 'My List', to: '/activity' },
-];
+import { useAuth } from '../../context/AuthContext';
 
 const Navbar = () => {
+  const { isAuthenticated } = useAuth();
+  const navigate = useNavigate();
+
+  const handleNavClick = (e, link) => {
+    if (link.requireAuth && !isAuthenticated) {
+      e.preventDefault();
+      navigate('/login', { state: { from: { pathname: link.to } } });
+    }
+  };
+
   return (
     <header
       className="fixed top-0 inset-x-0 z-50 bg-background/70 backdrop-blur-xl
@@ -31,11 +35,12 @@ const Navbar = () => {
         </NavLink>
 
         <nav className="hidden md:flex items-center gap-8" aria-label="Primary">
-          {navLinks.map((link) => (
+          {NAVBAR_LINKS.map((link) => (
             <NavLink
               key={link.to}
               to={link.to}
               end={link.to === '/'}
+              onClick={(e) => handleNavClick(e, link)}
               className={({ isActive }) =>
                 clsx(
                   'text-sm font-medium uppercase tracking-wide pb-1 border-b-2 transition-colors duration-300',
@@ -59,5 +64,12 @@ const Navbar = () => {
     </header>
   );
 };
+
+const NAVBAR_LINKS = [
+  { label: 'Home', to: '/' },
+  { label: 'Discover', to: '/discover' },
+  { label: 'For You', to: '/recommendations' },
+  { label: 'My List', to: '/activity', requireAuth: true },
+];
 
 export default Navbar;
