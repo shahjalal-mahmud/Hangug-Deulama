@@ -2,10 +2,11 @@ import { memo } from 'react';
 import { Link } from 'react-router-dom';
 import ImageWithSkeleton from '../ui/ImageWithSkeleton';
 import GenreBadge from '../ui/GenreBadge';
-import { parseGenres } from '../../utils/dramaHelpers';
+import { parseGenres, pickImage } from '../../utils/dramaHelpers';
 
 const DramaCard = ({ drama }) => {
-  const genres = parseGenres(drama.genre);
+  const genres = parseGenres(drama);
+  const img = pickImage(drama);
 
   return (
     <Link
@@ -17,7 +18,7 @@ const DramaCard = ({ drama }) => {
     >
       <div className="relative aspect-2/3 overflow-hidden">
         <ImageWithSkeleton
-          src={drama.poster || drama.banner_url}
+          src={img}
           alt={drama.title}
           className="w-full h-full"
           imgClassName="transition-transform duration-700 ease-cinematic group-hover:scale-105"
