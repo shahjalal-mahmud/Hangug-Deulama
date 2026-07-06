@@ -1,84 +1,89 @@
 # 🎬 Hangug Deulama
 
-> A swipe-based K-Drama recommendation web application built with **React, Tailwind CSS, PHP, and MySQL**.
+> A swipe-based K-Drama discovery platform with personalized recommendations, built with **React, Tailwind CSS, PHP, and MySQL**.
 
-Hangug Deulama (한국 드라마) is a simple and user-friendly web application that helps users discover their next favorite K-Drama through an intuitive swipe experience. Inspired by the simplicity of swipe-based interfaces, users can quickly express their preferences and receive personalized recommendations based on their interactions.
+**Hangug Deulama** (한국 드라마 — _Korean Drama_) is a full-stack web application that helps users discover their next favorite Korean drama through an intuitive swipe experience, similar to modern recommendation apps. Every interaction is captured, persisted, and fed back into a rule-based recommendation engine that produces a personalized Top 10.
 
 > **Academic Project** — Developed for the **Software Development II** course.
 
 ---
 
+## 📑 Table of Contents
+
+- [Overview](#-overview)
+- [Features](#-features)
+- [Tech Stack](#-tech-stack)
+- [Project Structure](#-project-structure)
+- [Getting Started](#-getting-started)
+- [Environment Variables](#-environment-variables)
+- [API Surface](#-api-surface)
+- [Database Schema](#-database-schema)
+- [Recommendation Logic](#-recommendation-logic)
+- [State Management](#-state-management)
+- [Scripts](#-scripts)
+- [Roadmap](#-roadmap)
+- [Academic Context](#-academic-context)
+- [Developer](#-developer)
+- [License](#-license)
+
+---
+
+## 🧭 Overview
+
+With thousands of Korean dramas spread across multiple streaming platforms, viewers often spend more time searching than watching. **Hangug Deulama** flips that around — instead of asking the user to filter and search, the user simply swipes.
+
+- **👉 Swipe right** to like a drama
+- **👈 Swipe left** to skip it
+- **❤️ Favorite, 🔖 Watch Later, ✅ Watched** actions build a rich preference profile
+
+The application continuously records every interaction and uses the accumulated signal to generate **personalized recommendations** and a **Top 10 list** tailored to each user.
+
+The product name _Hangug Deulama_ (한국 드라마) literally translates to "Korean drama" in Korean — a nod to the catalog the platform is built around.
+
+---
+
 ## ✨ Features
 
-- 🎭 Browse K-Dramas with beautiful banner images
-- 👉 Swipe right to like a drama
-- 👈 Swipe left to skip a drama
-- ❤️ Save dramas to Favorites
-- 🔖 Save dramas to Watch Later
-- ✅ Mark dramas as Watched
-- 👤 Personalized user profile
-- 📊 Store complete user interaction history
-- 🎯 Personalized Top 10 recommendations
-- 📱 Responsive and modern UI
-- ⚡ Fast JSON-based PHP API
+### Discovery
 
----
+- 🎭 Browse a curated catalog of K-Dramas with banner art and posters
+- 👉 **Swipe deck** powered by gesture + keyboard controls
+- 🔎 Search and genre filtering on the Discover screen
+- 🔥 Trending rail, genre pills, and Continue Watching on Home
+- 📊 Match-score badge for recommended titles
 
-## 🖼️ Drama Information
+### Engagement
 
-Each drama card may contain:
+- ❤️ **Favorites** — pin dramas you love
+- 🔖 **Watch Later** — bookmark something for later
+- ✅ **Watched** — log what you've completed
+- 🎬 Detailed drama pages with cast, synopsis, info grid, and similar titles
+- ⚡ Activity timeline of every swipe, like, and list change
 
-- Banner Image
-- Title
-- Release Year
-- IMDb Rating
-- Genre(s)
-- Short Storyline
-- Main Cast
-- Status
-- Episodes
-- Runtime
+### Personalization
 
-Example:
+- 🧠 Rule-based recommendation engine combining likes, dislikes, favorites, and watch history
+- 🎯 Top 10 personalized recommendations screen
+- 📈 Genre statistics showing your taste profile
+- 🚪 Anonymous-mode support — swipe without an account and sync later
 
-```text
-Title: Guardian: The Lonely and Great God
+### Account & UX
 
-Banner:
-(Image)
+- 🔐 JWT-based registration and login with `localStorage` persistence
+- 👤 Editable profile (name + avatar upload) via modal
+- 🛡️ Protected routes for `Profile` and `Activity`
+- 🪪 Global 401 listener — any expired token automatically signs you out
+- 📱 Fully responsive layout with a custom bottom-nav for mobile
+- 🌗 Modern, cinema-inspired UI (Sora / Inter / Material Symbols)
 
-Year:
-2016–2017
+### Engineering
 
-IMDb Rating:
-8.5
-
-Storyline:
-In his quest for a bride to break his immortal curse, Dokkaebi, a 939-year-old guardian of souls, meets a grim reaper and a sprightly student with a tragic past.
-
-Stars:
-Gong Yoo
-Kim Go-eun
-Lee Dong-wook
-```
-
----
-
-## 🎯 How It Works
-
-1. User browses K-Dramas.
-2. User swipes:
-   - 👉 Right = Like
-   - 👈 Left = Skip
-
-3. User can:
-   - ❤️ Add to Favorites
-   - 🔖 Add to Watch Later
-   - ✅ Mark as Watched
-
-4. Every interaction is saved to the user's profile.
-5. The recommendation engine analyzes user preferences.
-6. The system generates personalized recommendations and a Top 10 list.
+- 🧱 Centralized Axios client with interceptors and a normalized error envelope
+- 🧩 Component-grouped architecture (`layout`, `home`, `discover`, `details`, `drama`, `profile`, `ui`)
+- 🎣 Custom hooks (`useScrollReveal`)
+- 🧠 Two React Contexts: `AuthContext` and `DramaContext`
+- ⚡ Vite 8 + Tailwind 4 (Vite plugin) for instant dev builds
+- ✅ ESLint with React Hooks + React Refresh rules
 
 ---
 
@@ -86,22 +91,29 @@ Lee Dong-wook
 
 ### Frontend
 
-- React.js
-- Tailwind CSS
-- React Router
-- Axios
+| Layer            | Library / Tool              | Version  |
+| ---------------- | --------------------------- | -------- |
+| UI Framework     | React                       | 19.x     |
+| Bundler          | Vite                        | 8.x      |
+| Styling          | Tailwind CSS (+ Vite plugin)| 4.x      |
+| Routing          | React Router DOM            | 7.x      |
+| HTTP             | Axios                       | 1.x      |
+| Utility          | clsx                        | 2.x      |
+| Component lib    | daisyUI                     | 5.x      |
+| Linting          | ESLint + react-hooks plugin | 10.x     |
 
 ### Backend
 
-- PHP
+- **PHP** (vanilla, JSON REST API — see [`docs/api.md`](docs/api.md))
+- **JWT** for stateless authentication
+- **MySQL** relational database
+- Documented in `docs/DATABASE_DESIGN.md`, `docs/SRS.md`, `docs/ER_Diagram.pdf`
 
-### Database
+### Tooling
 
-- MySQL
-
-### Data Format
-
-- JSON API
+- Visual Studio Code
+- XAMPP (local PHP / MySQL stack)
+- Git + GitHub
 
 ---
 
@@ -109,71 +121,53 @@ Lee Dong-wook
 
 ```text
 Hangug-Deulama/
+├── docs/
+│   ├── api.md
+│   ├── DATABASE_DESIGN.md
+│   ├── ER_Diagram.pdf
+│   └── SRS.md
 │
 ├── public/
 │   └── favicon.svg
 │
 ├── src/
+│   ├── api/                       # Axios client + per-resource modules
+│   │   ├── client.js              # Interceptors, error normalization, 401 bus
+│   │   ├── config.js              # baseURL, storage keys
+│   │   ├── auth.js
+│   │   ├── dramas.js
+│   │   ├── favorites.js
+│   │   ├── watchLater.js
+│   │   ├── watched.js
+│   │   ├── swipe.js
+│   │   ├── recommendations.js
+│   │   ├── profile.js
+│   │   ├── health.js
+│   │   └── index.js               # Barrel export
+│   │
 │   ├── assets/
 │   │
 │   ├── components/
-│   │   ├── layout/
-│   │   │   ├── Navbar.jsx
-│   │   │   ├── BottomNav.jsx
-│   │   │   ├── NotificationsButton.jsx
-│   │   │   ├── ProfileMenu.jsx
-│   │   │   ├── SearchBar.jsx
-│   │   │   └── Footer.jsx
-│   │   │
-│   │   ├── home/
-│   │   │   ├── HeroSection.jsx
-│   │   │   ├── GenrePills.jsx
-│   │   │   ├── ContinueWatching.jsx
-│   │   │   ├── TrendingSection.jsx
-│   │   │   └── RecommendationSection.jsx
-│   │   │
-│   │   ├── discover/
-│   │   │   ├── DiscoverHero.jsx
-│   │   │   ├── DiscoverSearchBar.jsx
-│   │   │   ├── CategoryTabs.jsx
-│   │   │   ├── GenreFilter.jsx
-│   │   │   ├── SortDropdown.jsx
-│   │   │   ├── SwipeDeck.jsx
-│   │   │   ├── SwipeCard.jsx
-│   │   │   ├── ActionButtons.jsx
-│   │   │   ├── RecommendationBadge.jsx
-│   │   │   ├── SwipeProgress.jsx
-│   │   │   └── KeyboardHints.jsx
-│   │   │
-│   │   ├── details/
-│   │   │   ├── BackdropHero.jsx
-│   │   │   ├── ActionBar.jsx
-│   │   │   ├── SynopsisSection.jsx
-│   │   │   ├── InfoGrid.jsx
-│   │   │   ├── CastCard.jsx
-│   │   │   ├── CastSection.jsx
-│   │   │   ├── RecommendationReason.jsx
-│   │   │   ├── SimilarDramas.jsx
-│   │   │   └── DetailsSkeleton.jsx
-│   │   │
-│   │   ├── drama/
-│   │   │   ├── DramaCard.jsx
-│   │   │   ├── DramaPosterCard.jsx
-│   │   │   └── LandscapeDramaCard.jsx
-│   │   │
-│   │   └── ui/
-│   │       ├── Button.jsx
-│   │       ├── EmptyState.jsx
-│   │       ├── ErrorState.jsx
-│   │       ├── LoadingState.jsx
-│   │       ├── GenreBadge.jsx
-│   │       ├── ImageWithSkeleton.jsx
-│   │       ├── RevealSection.jsx
-│   │       ├── SectionHeader.jsx
-│   │       └── SkeletonCard.jsx
+│   │   ├── layout/                # Navbar, BottomNav, Footer, ProfileMenu,
+│   │   │   │                       # NotificationButton, SearchBar, ProtectedRoute
+│   │   ├── home/                  # HeroSection, GenrePills, ContinueWatching,
+│   │   │   │                       # TrendingSection, SpotlightRail, RecommendationSection
+│   │   ├── discover/              # DiscoverHero, DiscoverSearchBar, CategoryTabs,
+│   │   │   │                       # GenreFilter, SortDropdown, SwipeDeck, SwipeCard,
+│   │   │   │                       # ActionButtons, RecommendationBadge,
+│   │   │   │                       # SwipeProgress, KeyboardHints
+│   │   ├── details/               # BackdropHero, ActionBar, SynopsisSection,
+│   │   │   │                       # InfoGrid, CastCard, CastSection,
+│   │   │   │                       # RecommendationReason, SimilarDramas, DetailsSkeleton
+│   │   ├── drama/                 # DramaCard, DramaPosterCard, LandscapeDramaCard
+│   │   ├── profile/               # ProfileEditModal
+│   │   └── ui/                    # Button, EmptyState, ErrorState, LoadingState,
+│   │                              # GenreBadge, ImageWithSkeleton, RevealSection,
+│   │                              # SectionHeader, SkeletonCard, MatchRing
 │   │
 │   ├── context/
-│   │   └── DramaContext.jsx
+│   │   ├── AuthContext.jsx        # JWT session state + auto-login
+│   │   └── DramaContext.jsx       # Catalog + favorites/watch-later/watched
 │   │
 │   ├── data/
 │   │   └── dramas.json
@@ -189,182 +183,210 @@ Hangug-Deulama/
 │   │   ├── Discover.jsx
 │   │   ├── Recommendations.jsx
 │   │   ├── Activity.jsx
-│   │   └── DramaDetails.jsx
+│   │   ├── DramaDetails.jsx
+│   │   ├── Login.jsx
+│   │   ├── Register.jsx
+│   │   └── Profile.jsx
 │   │
 │   ├── routes/
-│   │   └── index.jsx
+│   │   └── index.jsx              # createBrowserRouter + ProtectedRoute
 │   │
 │   ├── utils/
 │   │   └── dramaHelpers.js
 │   │
-│   ├── App.jsx
-│   ├── main.jsx
-│   └── index.css
+│   ├── App.jsx                    # Provider tree: Auth → Drama → Router
+│   ├── main.jsx                   # createRoot + StrictMode
+│   └── index.css                  # Tailwind + custom theme tokens
 │
+├── .env.example
+├── .gitignore
+├── eslint.config.js
 ├── index.html
 ├── package.json
-├── .gitignore
-├── PROJECT.md
+├── package-lock.json
 ├── vite.config.js
-└── README.md
+├── PROJECT.md                     # Full SRS / project documentation
+└── README.md                      # You are here
 ```
 
 ---
 
-## 🗄️ Planned Database Structure
+## 🚀 Getting Started
 
-### Users
+### Prerequisites
 
-```text
-id
-name
-email
-password
-created_at
+- **Node.js** 18+ and **npm**
+- A running PHP / MySQL backend (XAMPP, Laragon, MAMP, or similar)
+- The PHP API base URL exposed somewhere reachable
+
+### 1. Clone & install
+
+```bash
+git clone <your-repo-url>
+cd Hangug-Deulama
+npm install
 ```
 
-### Dramas
+### 2. Configure environment
 
-```text
-id
-title
-banner_url
-release_year
-imdb_rating
-genre
-storyline
-stars
-episodes
-runtime
-created_at
+```bash
+cp .env.example .env
 ```
 
-### User Swipes
+Set `VITE_API_BASE_URL` to wherever your PHP backend lives. Leave it blank to use a same-origin deployment where the API is mounted at `/api`.
 
-```text
-id
-user_id
-drama_id
-swipe_type
-created_at
+### 3. Start the backend
+
+Make sure MySQL is running and the database is migrated (see [`docs/DATABASE_DESIGN.md`](docs/DATABASE_DESIGN.md)). Start Apache / PHP and verify:
+
+```bash
+curl http://localhost/hangug-api/public/api/health
 ```
 
-`swipe_type`
+### 4. Run the frontend
 
-- like
-- dislike
-
-### Favorites
-
-```text
-id
-user_id
-drama_id
-created_at
+```bash
+npm run dev
 ```
 
-### Watch Later
+Vite will print a local URL (usually `http://localhost:5173`).
 
-```text
-id
-user_id
-drama_id
-created_at
-```
+### 5. Build for production
 
-### Watched
-
-```text
-id
-user_id
-drama_id
-watched_at
+```bash
+npm run build
+npm run preview      # smoke-test the production build locally
 ```
 
 ---
 
-## 🎯 Recommendation Logic
+## 🔐 Environment Variables
 
-Recommendations will be generated using:
+| Variable            | Description                                                                          | Example                                       |
+| ------------------- | ------------------------------------------------------------------------------------ | --------------------------------------------- |
+| `VITE_API_BASE_URL` | Base URL of the PHP backend. Leave blank for same-origin (API at `/api/...`).       | `http://localhost/hangug-api/public`          |
 
-- Liked dramas
-- Disliked dramas
-- Favorite dramas
-- Watch Later list
-- Watched history
-- Preferred genres
-- User interaction history
-
-The system will suggest the most relevant K-Dramas while avoiding dramas the user has already watched.
+The JWT token and user payload are persisted to `localStorage` under keys defined in [`src/api/config.js`](src/api/config.js).
 
 ---
 
-## 📡 Planned API Endpoints
+## 📡 API Surface
 
-```http
-GET    /api/dramas
+The frontend consumes a JSON REST API documented in detail in [`docs/api.md`](docs/api.md). Quick reference:
 
-GET    /api/dramas/{id}
+| Method | Endpoint                            | Purpose                          |
+| ------ | ----------------------------------- | -------------------------------- |
+| GET    | `/api/health`                       | Liveness check                   |
+| POST   | `/api/auth/register`                | Create an account                |
+| POST   | `/api/auth/login`                   | Obtain a JWT                     |
+| GET    | `/api/me`                           | Validate token / fetch self      |
+| GET    | `/api/dramas`                       | Browse the catalog (paged)       |
+| GET    | `/api/dramas/{id}`                  | Drama details                    |
+| POST   | `/api/swipe`                        | Record like / dislike            |
+| POST   | `/api/favorites`                    | Add favorite                     |
+| DELETE | `/api/favorites/{drama_id}`         | Remove favorite                  |
+| GET    | `/api/favorites`                    | List favorites                   |
+| POST   | `/api/watch-later`                  | Add to Watch Later               |
+| DELETE | `/api/watch-later/{drama_id}`       | Remove from Watch Later          |
+| GET    | `/api/watch-later`                  | List Watch Later                 |
+| POST   | `/api/watched`                      | Mark as watched                  |
+| GET    | `/api/watched`                      | List watched                     |
+| GET    | `/api/profile`                      | Get profile                      |
+| PUT    | `/api/profile`                      | Update profile (JSON or multipart) |
+| GET    | `/api/profile/genre-statistics`     | Taste profile                    |
+| GET    | `/api/recommendations`              | Personalized Top 10              |
 
-POST   /api/swipe
+The Axios client automatically attaches `Authorization: Bearer <token>` and centralizes error normalization — see [`src/api/client.js`](src/api/client.js).
 
-POST   /api/favorites
+---
 
-POST   /api/watch-later
+## 🗄️ Database Schema
 
-POST   /api/watched
+Full diagram and rationale live in [`docs/DATABASE_DESIGN.md`](docs/DATABASE_DESIGN.md). High-level tables:
 
-GET    /api/recommendations
+| Table            | Key columns                                                                  |
+| ---------------- | ---------------------------------------------------------------------------- |
+| `users`          | `user_id`, `full_name`, `email`, `password_hash`, `avatar_url`, `created_at`  |
+| `dramas`         | `drama_id`, `title`, `storyline`, `genre`, `rating`, `release_year`, `poster_url`, `banner_url` |
+| `swipes`         | `swipe_id`, `user_id`, `drama_id`, `swipe_type` (like / dislike), `created_at` |
+| `favorites`      | `favorite_id`, `user_id`, `drama_id`, `created_at`                            |
+| `watch_later`    | `watch_later_id`, `user_id`, `drama_id`, `created_at`                        |
+| `watched`        | `watched_id`, `user_id`, `drama_id`, `watched_at`                            |
+| `user_preferences` | `preference_id`, `user_id`, `genre`, `preference_score`                    |
 
-GET    /api/profile
+---
+
+## 🧠 Recommendation Logic
+
+The backend (`/api/recommendations`) blends the following signals into a single score per candidate drama:
+
+- **Liked dramas** — strong positive weight on shared genres
+- **Disliked dramas** — negative weight (excluded if dominant)
+- **Favorites** — boost for dramas similar to favorited ones
+- **Watch Later** — light boost; indicates intent
+- **Watched** — excluded from future suggestions
+- **Genre preference score** — derived from cumulative likes/swipes
+- **User interaction history** — recent activity weighted higher
+
+The result is a personalized Top 10 list that avoids content the user has already finished or consistently skipped.
+
+---
+
+## 🧠 State Management
+
+The app uses two React Contexts layered in [`src/App.jsx`](src/App.jsx):
+
+```
+<AuthProvider>     ← JWT session, login/register/logout, 401 listener
+  └─ <DramaProvider>  ← catalog, favorites, watch-later, watched, swipe mutations
+      └─ <RouterProvider>
+```
+
+- **AuthContext** — token + user + `bootstrapped` flag + global 401 listener that auto-signs-out on expired tokens.
+- **DramaContext** — fetches the catalog, hydrates user libraries on login, applies **optimistic updates** for swipes / favorites / watch-later, and gracefully falls back to `localStorage` for anonymous use.
+
+Liked and disliked drama IDs are mirrored in `localStorage` so anonymous users keep a consistent experience across reloads.
+
+---
+
+## 📜 Scripts
+
+```bash
+npm run dev        # Start Vite dev server
+npm run build      # Production build → dist/
+npm run preview    # Preview the production build
+npm run lint       # ESLint over the whole project
 ```
 
 ---
 
-## 📊 Dataset
+## 🗺️ Roadmap
 
-The project will use a custom-built K-Drama dataset created from publicly available information collected from well-known entertainment sources.
+The current build covers the full vertical slice: discovery → swipe → library → recommendations → account. Planned follow-ups:
 
-Each record may include:
-
-- Title
-- Banner Image
-- Release Year
-- IMDb Rating
-- Genres
-- Storyline
-- Main Cast
-- Episodes
-- Runtime
+- 🧠 ML-based recommendations (collaborative filtering on swipe data)
+- 🔍 Full-text search with fuzzy matching
+- 🎚️ Advanced filtering (year, rating, network, country)
+- ⭐ User ratings & reviews
+- 🔥 Trending / Popular this week feed
+- 🌑 Dark mode toggle
+- 🌐 Multi-language support (English / বাংলা)
+- 📺 Direct deep-links to streaming platforms
 
 ---
 
-## 🚀 Future Improvements
+## 🎓 Academic Context
 
-- Smart recommendation algorithm
-- Search functionality
-- Genre filtering
-- User ratings
-- Reviews and comments
-- Trending dramas
-- Popular this week
-- Dark mode
-- Multi-language support
-- AI-powered recommendations
+This project is being developed for the **Software Development II** course to demonstrate:
 
----
+- Full-stack web application architecture
+- RESTful API design & JSON contracts
+- Relational database modeling
+- User interaction tracking & personalization
+- Modern frontend engineering (hooks, context, optimistic UI)
+- Responsive UI/UX design principles
 
-## 🎓 Academic Purpose
-
-This project is being developed as part of the **Software Development II** course to demonstrate:
-
-- Full-stack web development
-- REST-style API development
-- Database design
-- User interaction tracking
-- Recommendation systems
-- Responsive frontend development
-- Modern UI/UX principles
+Full SRS lives in [`PROJECT.md`](PROJECT.md) and [`docs/SRS.md`](docs/SRS.md).
 
 ---
 
