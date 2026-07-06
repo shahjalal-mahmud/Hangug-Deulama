@@ -1,5 +1,3 @@
-import React from 'react';
-
 const footerColumns = [
   { title: 'Company', links: ['About Us', 'Press Room', 'Careers'] },
   { title: 'Legal', links: ['Privacy Policy', 'Cookie Preferences', 'Terms of Use'] },
