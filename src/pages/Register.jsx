@@ -1,13 +1,22 @@
 /* src/pages/Register.jsx
    Account creation. POSTs to /api/auth/register and on success the
    backend returns a JWT, so we immediately log the user in and
-   redirect to the home page. */
+   redirect to the home page.
+
+   UI redesign only — every interaction (validation, submit, redirect,
+   show/hide password) is identical to the previous version, and the
+   visual language is shared 1:1 with the redesigned Login page. */
 
 import { useState } from 'react';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { toFieldErrors } from '../utils/formErrors';
 import LoadingState from '../components/ui/LoadingState';
+import AuthHero from '../components/auth/AuthHero';
+import BrandSection from '../components/auth/BrandSection';
+import AuthCard from '../components/auth/AuthCard';
+import AuthInput from '../components/auth/AuthInput';
+import PasswordInput from '../components/auth/PasswordInput';
 
 const Register = () => {
   const { register, isAuthenticated, bootstrapped, status } = useAuth();
@@ -82,166 +91,119 @@ const Register = () => {
   };
 
   return (
-    <div className="min-h-[80vh] flex items-center justify-center px-5 py-10">
-      <div className="w-full max-w-md surface-card rounded-2xl p-8">
-        <div className="mb-8 text-center">
-          <p className="eyebrow text-accent mb-2">Join the cinema</p>
-          <h1 className="font-display text-2xl md:text-3xl font-semibold text-text-primary">
-            Create your account
-          </h1>
-          <p className="text-text-secondary text-sm mt-2">
-            Save favorites, build a watchlist, and get picks tailored to your taste.
-          </p>
-        </div>
+    <div className="relative min-h-screen w-full bg-background text-text-primary overflow-hidden">
+      {/* Soft radial wash behind the right panel — same as Login. */}
+      <div
+        className="pointer-events-none absolute inset-0
+                   bg-[radial-gradient(circle_at_top_right,rgba(179,55,63,0.08),transparent_55%),radial-gradient(circle_at_bottom_left,rgba(214,168,92,0.05),transparent_60%)]"
+        aria-hidden="true"
+      />
+      {/* Reuse the existing film-grain utility at very low opacity. */}
+      <div className="absolute inset-0 film-grain opacity-60 pointer-events-none" aria-hidden="true" />
 
-        {submitError && (
-          <div
-            role="alert"
-            className="mb-5 px-4 py-3 rounded-lg bg-accent/10 border border-accent/30
-                       text-accent text-sm"
-          >
-            {submitError}
+      <div className="relative grid min-h-screen lg:grid-cols-2">
+        {/* Left: cinematic collage (desktop only) — same AuthHero. */}
+        <AuthHero />
+
+        {/* Right: brand on mobile, auth card on every screen. */}
+        <section className="relative flex flex-col items-center justify-center px-5 sm:px-8 py-16 lg:py-24">
+          <div className="w-full max-w-md">
+            <BrandSection />
+
+            <AuthCard
+              eyebrow="Join Hangug Deulama"
+              title="Begin Your Cinematic Journey"
+              subtitle="Create your account to curate watchlists, track episodes, and receive picks tuned to your taste."
+              error={submitError}
+              footer={
+                <p className="text-text-secondary text-sm">
+                  Already have an account?{' '}
+                  <Link
+                    to="/login"
+                    className="text-accent font-semibold hover:text-accent-hover
+                               transition-colors duration-200
+                               focus-visible:outline-none focus-visible:underline"
+                  >
+                    Sign in
+                  </Link>
+                </p>
+              }
+            >
+              <form onSubmit={handleSubmit} noValidate className="space-y-5">
+                <AuthInput
+                  id="full_name"
+                  label="Full Name"
+                  type="text"
+                  value={form.full_name}
+                  onChange={handleChange('full_name')}
+                  placeholder="Jane Doe"
+                  autoComplete="name"
+                  required
+                  error={errors.full_name}
+                />
+
+                <AuthInput
+                  id="email"
+                  label="Email"
+                  type="email"
+                  value={form.email}
+                  onChange={handleChange('email')}
+                  placeholder="you@example.com"
+                  autoComplete="email"
+                  inputMode="email"
+                  required
+                  error={errors.email}
+                />
+
+                <PasswordInput
+                  id="password"
+                  value={form.password}
+                  onChange={handleChange('password')}
+                  error={errors.password}
+                  autoComplete="new-password"
+                  showPassword={showPassword}
+                  onToggleVisibility={() => setShowPassword((v) => !v)}
+                />
+
+                {/* Confirmation field mirrors the primary password styling
+                    exactly so both password boxes feel identical. */}
+                <AuthInput
+                  id="password_confirmation"
+                  label="Confirm Password"
+                  type={showPassword ? 'text' : 'password'}
+                  value={form.password_confirmation}
+                  onChange={handleChange('password_confirmation')}
+                  placeholder="Repeat your password"
+                  autoComplete="new-password"
+                  required
+                  error={errors.password_confirmation}
+                />
+
+                <button
+                  type="submit"
+                  disabled={submitting}
+                  className="mt-2 w-full inline-flex items-center justify-center gap-2
+                             rounded-xl bg-accent text-white text-sm font-semibold
+                             uppercase tracking-[0.08em] px-6 py-3.5
+                             shadow-[0_18px_40px_-18px_rgba(179,55,63,0.9)]
+                             hover:bg-accent-hover
+                             focus-visible:outline-none focus-visible:ring-2
+                             focus-visible:ring-accent/60 focus-visible:ring-offset-2
+                             focus-visible:ring-offset-background
+                             active:scale-[0.985]
+                             transition-all duration-300 ease-cinematic
+                             disabled:opacity-60 disabled:cursor-not-allowed
+                             disabled:hover:bg-accent"
+                >
+                  {submitting && (
+                    <span className="loading loading-spinner loading-xs" aria-hidden="true" />
+                  )}
+                  {submitting ? 'Creating account' : 'Create Account'}
+                </button>
+              </form>
+            </AuthCard>
           </div>
-        )}
-
-        <form onSubmit={handleSubmit} noValidate className="space-y-5">
-          <div>
-            <label htmlFor="full_name" className="block text-xs font-medium uppercase tracking-wider text-text-secondary mb-1.5">
-              Full name
-            </label>
-            <input
-              id="full_name"
-              type="text"
-              autoComplete="name"
-              value={form.full_name}
-              onChange={handleChange('full_name')}
-              aria-invalid={!!errors.full_name}
-              className={`w-full bg-surface border rounded-full px-4 py-3 text-sm
-                          text-text-primary placeholder:text-text-tertiary
-                          focus:outline-none focus:ring-2 transition-colors duration-300 ${
-                errors.full_name
-                  ? 'border-accent focus:ring-accent/30'
-                  : 'border-border-strong focus:border-accent/60 focus:ring-accent/20'
-              }`}
-              placeholder="Jane Doe"
-              required
-            />
-            {errors.full_name && (
-              <p className="text-accent text-xs mt-1.5 pl-1">{errors.full_name}</p>
-            )}
-          </div>
-
-          <div>
-            <label htmlFor="email" className="block text-xs font-medium uppercase tracking-wider text-text-secondary mb-1.5">
-              Email
-            </label>
-            <input
-              id="email"
-              type="email"
-              autoComplete="email"
-              value={form.email}
-              onChange={handleChange('email')}
-              aria-invalid={!!errors.email}
-              className={`w-full bg-surface border rounded-full px-4 py-3 text-sm
-                          text-text-primary placeholder:text-text-tertiary
-                          focus:outline-none focus:ring-2 transition-colors duration-300 ${
-                errors.email
-                  ? 'border-accent focus:ring-accent/30'
-                  : 'border-border-strong focus:border-accent/60 focus:ring-accent/20'
-              }`}
-              placeholder="you@example.com"
-              required
-            />
-            {errors.email && (
-              <p className="text-accent text-xs mt-1.5 pl-1">{errors.email}</p>
-            )}
-          </div>
-
-          <div>
-            <label htmlFor="password" className="block text-xs font-medium uppercase tracking-wider text-text-secondary mb-1.5">
-              Password
-            </label>
-            <div className="relative">
-              <input
-                id="password"
-                type={showPassword ? 'text' : 'password'}
-                autoComplete="new-password"
-                value={form.password}
-                onChange={handleChange('password')}
-                aria-invalid={!!errors.password}
-                className={`w-full bg-surface border rounded-full pl-4 pr-12 py-3 text-sm
-                            text-text-primary placeholder:text-text-tertiary
-                            focus:outline-none focus:ring-2 transition-colors duration-300 ${
-                  errors.password
-                    ? 'border-accent focus:ring-accent/30'
-                    : 'border-border-strong focus:border-accent/60 focus:ring-accent/20'
-                }`}
-                placeholder="At least 8 characters"
-                required
-              />
-              <button
-                type="button"
-                onClick={() => setShowPassword((v) => !v)}
-                aria-label={showPassword ? 'Hide password' : 'Show password'}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-text-tertiary
-                           hover:text-text-secondary p-1"
-              >
-                <span className="material-symbols-outlined text-[20px]">
-                  {showPassword ? 'visibility_off' : 'visibility'}
-                </span>
-              </button>
-            </div>
-            {errors.password && (
-              <p className="text-accent text-xs mt-1.5 pl-1">{errors.password}</p>
-            )}
-          </div>
-
-          <div>
-            <label htmlFor="password_confirmation" className="block text-xs font-medium uppercase tracking-wider text-text-secondary mb-1.5">
-              Confirm password
-            </label>
-            <input
-              id="password_confirmation"
-              type={showPassword ? 'text' : 'password'}
-              autoComplete="new-password"
-              value={form.password_confirmation}
-              onChange={handleChange('password_confirmation')}
-              aria-invalid={!!errors.password_confirmation}
-              className={`w-full bg-surface border rounded-full px-4 py-3 text-sm
-                          text-text-primary placeholder:text-text-tertiary
-                          focus:outline-none focus:ring-2 transition-colors duration-300 ${
-                errors.password_confirmation
-                  ? 'border-accent focus:ring-accent/30'
-                  : 'border-border-strong focus:border-accent/60 focus:ring-accent/20'
-              }`}
-              placeholder="Repeat your password"
-              required
-            />
-            {errors.password_confirmation && (
-              <p className="text-accent text-xs mt-1.5 pl-1">{errors.password_confirmation}</p>
-            )}
-          </div>
-
-          <button
-            type="submit"
-            disabled={submitting}
-            className="w-full inline-flex items-center justify-center gap-2 rounded-full bg-accent
-                       text-white text-sm font-medium uppercase tracking-wide px-6 py-3
-                       hover:bg-accent-hover transition-all duration-300
-                       focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/60
-                       active:scale-[0.98] disabled:opacity-60 disabled:cursor-not-allowed"
-          >
-            {submitting && <span className="loading loading-spinner loading-xs" />}
-            {submitting ? 'Creating account' : 'Create Account'}
-          </button>
-        </form>
-
-        <p className="text-text-secondary text-sm text-center mt-6">
-          Already have an account?{' '}
-          <Link to="/login" className="text-accent hover:underline font-medium">
-            Sign in
-          </Link>
-        </p>
+        </section>
       </div>
     </div>
   );
