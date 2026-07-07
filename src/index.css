@@ -152,6 +152,51 @@
   animation: heroFade 1100ms var(--ease-cinematic) both;
 }
 
+/* Slow, premium vertical drift for the auth hero brand block.
+   Disabled by the prefers-reduced-motion rule at the bottom of this file. */
+@keyframes floatBrand {
+  0%   { transform: translateY(0); }
+  50%  { transform: translateY(-8px); }
+  100% { transform: translateY(0); }
+}
+
+.animate-float {
+  animation: floatBrand 7s var(--ease-cinematic) infinite;
+  will-change: transform;
+}
+
+/* Soft fade + slide used by the auth card on first paint. */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-up {
+  animation: fadeUp 700ms var(--ease-cinematic) both;
+}
+
+/* Staggered fade-in for the hero collage tiles. */
+@keyframes collageIn {
+  from {
+    opacity: 0;
+    transform: translateY(18px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.animate-collage-in {
+  animation: collageIn 900ms var(--ease-cinematic) both;
+}
+
 /* Performance/accessibility: honor reduced-motion globally, not just
    in useScrollReveal — covers hover scale/translate transitions too. */
 @media (prefers-reduced-motion: reduce) {
