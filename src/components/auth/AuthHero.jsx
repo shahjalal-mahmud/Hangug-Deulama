@@ -15,32 +15,18 @@ import ImageWithSkeleton from '../ui/ImageWithSkeleton';
    on the specific URLs. */
 const cinematicImages = [
   {
-    src: 'https://images.unsplash.com/photo-1485846234645-a62644f84728?auto=format&fit=crop&w=900&q=80',
+    src: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTrLWRn1tQE75FJwAfvRtKoUiAnJOMBK9YKW9L02ich4g&s=10',
     alt: 'Neon-lit city street at night',
     height: 'h-[420px] md:h-[520px]',
     rotate: '-rotate-3',
     offset: 'mt-0',
   },
   {
-    src: 'https://images.unsplash.com/photo-1542204165-65bf26472b9b?auto=format&fit=crop&w=900&q=80',
+    src: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRQE8qpzTtIZBQkcp9wvi9U_HUH0EfyqFrgQ2dFS4Igbw&s=10',
     alt: 'Moody portrait under warm light',
     height: 'h-[340px] md:h-[420px]',
     rotate: 'rotate-2',
     offset: 'mt-16 md:mt-28',
-  },
-  {
-    src: 'https://images.unsplash.com/photo-1518929458119-e5bf444c30f4?auto=format&fit=crop&w=900&q=80',
-    alt: 'Cinema seats glowing in the dark',
-    height: 'h-[360px] md:h-[460px]',
-    rotate: 'rotate-2',
-    offset: 'mt-8 md:mt-16',
-  },
-  {
-    src: 'https://images.unsplash.com/photo-1574267432553-4b4628081c31?auto=format&fit=crop&w=900&q=80',
-    alt: 'Dramatic landscape in deep shadow',
-    height: 'h-[300px] md:h-[380px]',
-    rotate: '-rotate-2',
-    offset: 'mt-20 md:mt-36',
   },
 ];
 
@@ -57,7 +43,7 @@ const AuthHero = () => {
                    p-8 xl:p-12 opacity-90"
         aria-hidden="true"
       >
-        {/* Column 1 */}
+        {/* Column 1 - First image */}
         <div className="flex flex-col gap-4 md:gap-6">
           <div className={`${cinematicImages[0].offset} ${cinematicImages[0].rotate} transition-transform duration-700 ease-cinematic hover:scale-[1.02]`}>
             <ImageWithSkeleton
@@ -66,28 +52,14 @@ const AuthHero = () => {
               className={`${cinematicImages[0].height} w-full rounded-3xl shadow-[0_30px_60px_-20px_rgba(0,0,0,0.7)] border border-border`}
             />
           </div>
-          <div className={`${cinematicImages[2].offset} ${cinematicImages[2].rotate} transition-transform duration-700 ease-cinematic hover:scale-[1.02]`}>
-            <ImageWithSkeleton
-              src={cinematicImages[2].src}
-              alt={cinematicImages[2].alt}
-              className={`${cinematicImages[2].height} w-full rounded-3xl shadow-[0_30px_60px_-20px_rgba(0,0,0,0.7)] border border-border`}
-            />
-          </div>
         </div>
-        {/* Column 2 */}
+        {/* Column 2 - Second image */}
         <div className="flex flex-col gap-4 md:gap-6">
           <div className={`${cinematicImages[1].offset} ${cinematicImages[1].rotate} transition-transform duration-700 ease-cinematic hover:scale-[1.02]`}>
             <ImageWithSkeleton
               src={cinematicImages[1].src}
               alt={cinematicImages[1].alt}
               className={`${cinematicImages[1].height} w-full rounded-3xl shadow-[0_30px_60px_-20px_rgba(0,0,0,0.7)] border border-border`}
-            />
-          </div>
-          <div className={`${cinematicImages[3].offset} ${cinematicImages[3].rotate} transition-transform duration-700 ease-cinematic hover:scale-[1.02]`}>
-            <ImageWithSkeleton
-              src={cinematicImages[3].src}
-              alt={cinematicImages[3].alt}
-              className={`${cinematicImages[3].height} w-full rounded-3xl shadow-[0_30px_60px_-20px_rgba(0,0,0,0.7)] border border-border`}
             />
           </div>
         </div>
@@ -97,12 +69,12 @@ const AuthHero = () => {
           legible no matter what the posters contain. */}
       <div
         className="absolute inset-0 pointer-events-none
-                   bg-gradient-to-br from-background/85 via-background/60 to-accent-muted/70"
+                   bg-linear-to-br from-background/85 via-background/60 to-accent-muted/70"
         aria-hidden="true"
       />
       <div
         className="absolute inset-0 pointer-events-none
-                   bg-gradient-to-t from-background via-background/70 to-transparent"
+                   bg-linear-to-t from-background via-background/70 to-transparent"
         aria-hidden="true"
       />
 
@@ -119,7 +91,7 @@ const AuthHero = () => {
                        text-6xl xl:text-7xl tracking-tight">
           Hangug
           <br />
-          <span className="bg-gradient-to-r from-accent via-accent-hover to-gold bg-clip-text text-transparent">
+          <span className="bg-linear-to-r from-accent via-accent-hover to-gold bg-clip-text text-transparent">
             Deulama
           </span>
         </h1>
