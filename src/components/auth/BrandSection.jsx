@@ -13,7 +13,7 @@ const BrandSection = () => {
       <h1 className="font-display font-bold text-text-primary leading-[0.95] text-5xl tracking-tight">
         Hangug
         <br />
-        <span className="bg-gradient-to-r from-accent via-accent-hover to-gold bg-clip-text text-transparent">
+        <span className="bg-linear-to-r from-accent via-accent-hover to-gold bg-clip-text text-transparent">
           Deulama
         </span>
       </h1>
