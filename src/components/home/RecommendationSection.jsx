@@ -48,7 +48,7 @@ const RecommendationSection = ({ items, subtitle }) => {
   if (items.length === 0) {
     return (
       <section className="px-5 md:px-16 mb-14">
-        <SectionHeader eyebrow="맞춤 추천 · FOR YOU" title="Personalized Picks" subtitle={subtitle} />
+        <SectionHeader eyebrow="맞춤 추천 · FOR YOU" title="Top Picks For You" subtitle={subtitle} />
         <EmptyState
           icon="favorite"
           title="Like a few dramas to unlock picks"
@@ -63,7 +63,7 @@ const RecommendationSection = ({ items, subtitle }) => {
       <SectionHeader
         id="picks-heading"
         eyebrow="맞춤 추천 · FOR YOU"
-        title="Personalized Picks"
+        title="Top Picks For You"
         subtitle={subtitle}
       />
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
