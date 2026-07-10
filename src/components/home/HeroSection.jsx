@@ -112,7 +112,7 @@ const HeroSection = ({ items: fallbackItems = [], loading: catalogLoading }) => 
 
   if (showSkeleton) {
     return (
-      <section className="relative w-full h-[78vh] min-h-[520px] max-h-[880px] overflow-hidden">
+      <section className="relative w-full h-[78vh] min-h-[520px] md:h-screen md:min-h-0 overflow-hidden">
         <div className="absolute inset-0 bg-bg-elevated animate-pulse" aria-hidden="true" />
       </section>
     );
@@ -123,7 +123,7 @@ const HeroSection = ({ items: fallbackItems = [], loading: catalogLoading }) => 
   return (
     <section
       ref={sectionRef}
-      className="relative w-full h-[78vh] min-h-[520px] max-h-[880px] overflow-hidden select-none
+      className="relative w-full h-[78vh] min-h-[520px] md:h-screen md:min-h-0 overflow-hidden select-none
                  focus-visible:outline-none"
       aria-roledescription="carousel"
       aria-label="Top rated dramas spotlight"
@@ -162,9 +162,9 @@ const HeroSection = ({ items: fallbackItems = [], loading: catalogLoading }) => 
       ))}
 
       {/* Legibility gradients: darken the bottom for the text block, the
-          top for the translucent navbar, a soft left wash for balance. */}
+          top for the transparent navbar, a soft left wash for balance. */}
       <div className="absolute inset-0 z-20 bg-linear-to-t from-bg-base via-bg-base/45 to-transparent" />
-      <div className="absolute inset-0 z-20 bg-linear-to-b from-bg-base/80 via-transparent to-transparent h-40" />
+      <div className="absolute inset-0 z-20 bg-linear-to-b from-black/55 via-black/15 to-transparent h-48" />
       <div className="absolute inset-0 z-20 bg-linear-to-r from-bg-base/70 via-transparent to-transparent" />
 
       {/* Prev / Next controls */}
@@ -202,7 +202,7 @@ const HeroSection = ({ items: fallbackItems = [], loading: catalogLoading }) => 
       )}
 
       {/* Content overlay */}
-      <div className="absolute left-0 bottom-0 z-30 w-full md:max-w-3xl px-5 sm:px-8 md:px-14 lg:px-16 pb-8 sm:pb-10 md:pb-12">
+      <div className="absolute left-0 bottom-0 z-30 w-full md:max-w-3xl px-5 sm:px-8 md:px-14 lg:px-16 pb-8 sm:pb-10 md:pb-16 lg:pb-20">
         <div className="max-w-2xl">
           <p className="eyebrow text-text-tertiary mb-3">
             {greeting} <span className="text-text-tertiary/50 mx-1">·</span>

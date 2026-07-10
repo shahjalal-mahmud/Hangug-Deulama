@@ -1,5 +1,4 @@
 /* src/components/layout/Navbar.jsx */
-import { useEffect, useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import clsx from 'clsx';
 import SearchBar from './SearchBar';
@@ -10,19 +9,6 @@ const Navbar = () => {
   const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
 
-  /* Elevation only kicks in once the page has actually scrolled, so the
-     header reads as part of the hero at rest and lifts off it once
-     content starts passing underneath — a small cue that reads as
-     "considered" rather than a flat bar sitting on everything. */
-  const [scrolled, setScrolled] = useState(false);
-
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 8);
-    onScroll();
-    window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
-  }, []);
-
   const handleNavClick = (e, link) => {
     if (link.requireAuth && !isAuthenticated) {
       e.preventDefault();
@@ -32,12 +18,7 @@ const Navbar = () => {
 
   return (
     <header
-      className={clsx(
-        'fixed top-0 inset-x-0 z-50 backdrop-blur-xl transition-all duration-300',
-        scrolled
-          ? 'bg-bg-base/85 border-b border-border shadow-[0_12px_30px_-16px_rgba(0,0,0,0.7)]'
-          : 'bg-bg-base/40 border-b border-transparent'
-      )}
+      className="fixed top-0 inset-x-0 z-50 bg-transparent transition-all duration-300"
     >
       <div
         className="mx-auto max-w-container-max flex items-center justify-between gap-6

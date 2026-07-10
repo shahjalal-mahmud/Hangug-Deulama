@@ -1,5 +1,5 @@
 /* src/pages/Home.jsx */
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useDrama } from '../context/DramaContext';
 import HeroSection from '../components/home/HeroSection';
 import GenrePills from '../components/home/GenrePills';
@@ -28,6 +28,20 @@ const Home = () => {
     watchedDramas,
   } = useDrama();
   const [selectedGenre, setSelectedGenre] = useState(null);
+
+  // The hero banner is meant to bleed all the way to the top of the
+  // viewport so the navbar floats over it. The shared <main> reserves
+  // pt-24/pt-28 for every other route, so we zero it out only while this
+  // page is mounted and put it back on unmount.
+  useEffect(() => {
+    const main = document.querySelector('main');
+    if (!main) return undefined;
+    const previous = main.style.paddingTop;
+    main.style.paddingTop = '0px';
+    return () => {
+      main.style.paddingTop = previous;
+    };
+  }, []);
 
   const genres = useMemo(() => getUniqueGenres(dramas), [dramas]);
 
