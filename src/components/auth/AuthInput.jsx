@@ -34,12 +34,11 @@ const AuthInput = ({
         {labelExtra}
       </div>
       <div
-        className={`relative flex items-center rounded-xl bg-surface-elevated/80
+        className={`relative flex items-center rounded-xl bg-bg-elevated-2
                     border transition-all duration-300 ease-cinematic
-                    backdrop-blur-sm
                     ${hasError
-                      ? 'border-accent shadow-[0_0_0_3px_var(--color-accent-muted)]'
-                      : 'border-border-strong hover:border-text-tertiary/40 focus-within:border-accent/70 focus-within:shadow-[0_0_0_3px_var(--color-accent-muted)]'
+                      ? 'border-primary shadow-[0_0_0_3px_var(--color-primary-container)]'
+                      : 'border-outline-variant hover:border-text-tertiary/40 focus-within:border-primary/70 focus-within:shadow-[0_0_0_3px_var(--color-primary-container)]'
                     }`}
       >
         {leftIcon && (
@@ -61,7 +60,7 @@ const AuthInput = ({
           inputMode={inputMode}
           aria-invalid={hasError}
           aria-describedby={hasError ? `${id}-error` : undefined}
-          className={`w-full bg-transparent py-3.5 text-sm text-text-primary
+          className={`w-full bg-transparent py-3.5 text-sm text-on-surface
                      placeholder:text-text-tertiary/70
                      focus:outline-none rounded-xl
                      ${leftIcon ? 'pl-2.5 pr-4' : 'px-4'}`}
@@ -72,7 +71,7 @@ const AuthInput = ({
         <p
           id={`${id}-error`}
           role="alert"
-          className="text-accent text-xs mt-1.5 pl-1 font-medium"
+          className="text-primary text-xs mt-1.5 pl-1 font-medium"
         >
           {error}
         </p>
