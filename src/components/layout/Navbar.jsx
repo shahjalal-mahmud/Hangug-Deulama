@@ -18,7 +18,7 @@ const Navbar = () => {
 
   return (
     <header
-      className="fixed top-0 inset-x-0 z-50 bg-background/70 backdrop-blur-xl
+      className="fixed top-0 inset-x-0 z-50 bg-bg-base/70 backdrop-blur-xl
                  border-b border-border"
     >
       <div
@@ -44,8 +44,8 @@ const Navbar = () => {
                 clsx(
                   'text-sm font-medium uppercase tracking-wide pb-1 border-b-2 transition-colors duration-300',
                   isActive
-                    ? 'text-on-surface border-primary'
-                    : 'text-text-secondary border-transparent hover:text-on-surface'
+                    ? 'text-text-primary border-primary'
+                    : 'text-text-secondary border-transparent hover:text-text-primary'
                 )
               }
             >
@@ -66,7 +66,7 @@ const Navbar = () => {
 const NAVBAR_LINKS = [
   { label: 'Home', to: '/' },
   { label: 'Discover', to: '/discover' },
-  { label: 'For You', to: '/recommendations', requireAuth: true },
+  { label: 'For You', to: '/recommendations' },
   { label: 'My List', to: '/activity', requireAuth: true },
 ];
 
