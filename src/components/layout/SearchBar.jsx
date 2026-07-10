@@ -42,9 +42,9 @@ const SearchBar = () => {
           type="text"
           placeholder="Search dramas, genres..."
           aria-label="Search dramas"
-          className="w-full bg-surface-elevated border border-border-strong rounded-full
+          className="w-full bg-surface-container border border-border-strong rounded-full
                      px-4 py-2 text-sm text-text-primary placeholder:text-text-tertiary
-                     focus:outline-none focus:ring-1 focus:ring-accent/50
+                     focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary/50
                      transition-colors duration-300"
         />
       </div>
@@ -54,11 +54,12 @@ const SearchBar = () => {
         onClick={() => setIsOpen((prev) => !prev)}
         aria-label={isOpen ? 'Close search' : 'Open search'}
         aria-expanded={isOpen}
-        className="text-text-secondary hover:text-text-primary transition-colors duration-300
-                   focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/60
-                   rounded-full p-1"
+        className="flex items-center justify-center w-9 h-9 rounded-full
+                   text-text-secondary hover:text-text-primary hover:bg-surface-container
+                   transition-colors duration-300
+                   focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60"
       >
-        <span className="material-symbols-outlined text-[22px]">
+        <span className="material-symbols-outlined text-[20px]">
           {isOpen ? 'close' : 'search'}
         </span>
       </button>
