@@ -2,7 +2,6 @@
 import { NavLink, useNavigate } from 'react-router-dom';
 import clsx from 'clsx';
 import SearchBar from './SearchBar';
-import NotificationButton from './NotificationButton';
 import ProfileMenu from './ProfileMenu';
 import { useAuth } from '../../context/AuthContext';
 
@@ -29,7 +28,7 @@ const Navbar = () => {
         <NavLink
           to="/"
           className="font-display text-xl md:text-2xl font-bold tracking-tight
-                     text-accent uppercase shrink-0"
+                     text-primary uppercase shrink-0"
         >
           Hangug Deulama
         </NavLink>
@@ -45,8 +44,8 @@ const Navbar = () => {
                 clsx(
                   'text-sm font-medium uppercase tracking-wide pb-1 border-b-2 transition-colors duration-300',
                   isActive
-                    ? 'text-text-primary border-accent'
-                    : 'text-text-secondary border-transparent hover:text-text-primary'
+                    ? 'text-on-surface border-primary'
+                    : 'text-text-secondary border-transparent hover:text-on-surface'
                 )
               }
             >
@@ -57,7 +56,6 @@ const Navbar = () => {
 
         <div className="flex items-center gap-3 md:gap-4">
           <SearchBar />
-          <NotificationButton />
           <ProfileMenu />
         </div>
       </div>
@@ -68,7 +66,7 @@ const Navbar = () => {
 const NAVBAR_LINKS = [
   { label: 'Home', to: '/' },
   { label: 'Discover', to: '/discover' },
-  { label: 'For You', to: '/recommendations' },
+  { label: 'For You', to: '/recommendations', requireAuth: true },
   { label: 'My List', to: '/activity', requireAuth: true },
 ];
 
