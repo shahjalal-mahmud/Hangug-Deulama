@@ -70,7 +70,7 @@ const Login = () => {
   };
 
   return (
-    <div className="relative min-h-screen w-full bg-background text-text-primary overflow-hidden">
+    <div className="relative min-h-screen w-full bg-background text-on-background overflow-hidden">
       <div className="relative grid min-h-screen lg:grid-cols-2">
         {/* Left: cinematic collage (desktop only). */}
         <AuthHero />
@@ -100,7 +100,7 @@ const Login = () => {
             >
               <SocialLoginButtons />
 
-              <AuthDivider label="Or continue with email" />
+              <AuthDivider label="OR CONTINUE WITH EMAIL" />
 
               <form onSubmit={handleSubmit} noValidate className="space-y-5">
                 <AuthInput
@@ -109,7 +109,7 @@ const Login = () => {
                   type="email"
                   value={form.email}
                   onChange={handleChange('email')}
-                  placeholder="you@example.com"
+                  placeholder="name@example.com"
                   autoComplete="email"
                   inputMode="email"
                   required
@@ -131,22 +131,22 @@ const Login = () => {
                   type="submit"
                   disabled={submitting}
                   className="w-full mt-2 inline-flex items-center justify-center gap-2
-                             rounded-xl bg-accent text-white text-sm font-semibold
+                             rounded-xl bg-primary-container text-on-primary text-sm font-semibold
                              px-6 py-4
-                             shadow-lg shadow-accent/20
+                             shadow-lg shadow-primary-container/20
                              hover:bg-accent-hover
                              focus-visible:outline-none focus-visible:ring-2
-                             focus-visible:ring-accent/60 focus-visible:ring-offset-2
+                             focus-visible:ring-primary/60 focus-visible:ring-offset-2
                              focus-visible:ring-offset-background
                              active:scale-[0.98]
                              transition-all duration-200 ease-cinematic
                              disabled:opacity-60 disabled:cursor-not-allowed
-                             disabled:hover:bg-accent"
+                             disabled:hover:bg-primary-container"
                 >
                   {submitting && (
                     <span className="loading loading-spinner loading-xs" aria-hidden="true" />
                   )}
-                  <span>{submitting ? 'Signing in' : 'Sign In'}</span>
+                  <span>{submitting ? 'Signing in' : 'Get Started'}</span>
                   {!submitting && (
                     <span className="material-symbols-outlined text-[18px] leading-none">
                       arrow_forward
