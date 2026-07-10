@@ -1,104 +1,99 @@
-/* src/components/auth/AuthHero.jsx
-   Cinematic left half of the auth screens.
-
-   - 2-column staggered poster collage with rounded corners, shadows,
-     subtle rotations, and hover scale.
-   - Dark crimson gradient overlay so the branding always reads on top.
-   - Floating brand block (slow, premium, reduced-motion safe).
-   - Pure presentational; everything is data-driven from a local
-     `cinematicImages` array so swapping posters is a one-line change. */
+/* Full-bleed cinematic backdrop with a slow Ken Burns drift, layered
+   scrims for legibility, and a floating "preview card" that mirrors
+   the recommendation UI users will see once logged in — the one
+   signature flourish on this screen. */
 
 import ImageWithSkeleton from '../ui/ImageWithSkeleton';
 
-/* Staggered poster data — replace these URLs with the platform's own
-   CDN-hosted artwork whenever it's available. The layout never depends
-   on the specific URLs. */
-const cinematicImages = [
-  {
-    src: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTrLWRn1tQE75FJwAfvRtKoUiAnJOMBK9YKW9L02ich4g&s=10',
-    alt: 'Neon-lit city street at night',
-    height: 'h-[420px] md:h-[520px]',
-    rotate: '-rotate-3',
-    offset: 'mt-0',
-  },
-  {
-    src: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRQE8qpzTtIZBQkcp9wvi9U_HUH0EfyqFrgQ2dFS4Igbw&s=10',
-    alt: 'Moody portrait under warm light',
-    height: 'h-[340px] md:h-[420px]',
-    rotate: 'rotate-2',
-    offset: 'mt-16 md:mt-28',
-  },
-];
+const backdrop = {
+  src: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTrLWRn1tQE75FJwAfvRtKoUiAnJOMBK9YKW9L02ich4g&s=10',
+  alt: 'Neon-lit Seoul street at night, still from a Korean drama',
+};
+
+const previewCard = {
+  src: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRQE8qpzTtIZBQkcp9wvi9U_HUH0EfyqFrgQ2dFS4Igbw&s=10',
+  alt: 'Moody portrait still from a Korean drama',
+  title: 'Crash Course in Romance',
+  match: 97,
+};
 
 const AuthHero = () => {
   return (
     <aside
-      className="relative hidden lg:flex flex-col justify-end overflow-hidden
-                 bg-background"
+      className="relative hidden lg:block overflow-hidden bg-background"
       aria-label="Welcome to Hangug Deulama"
     >
-      {/* Staggered poster collage */}
-      <div
-        className="absolute inset-0 grid grid-cols-2 gap-4 md:gap-6
-                   p-8 xl:p-12 opacity-90"
-        aria-hidden="true"
-      >
-        {/* Column 1 - First image */}
-        <div className="flex flex-col gap-4 md:gap-6">
-          <div className={`${cinematicImages[0].offset} ${cinematicImages[0].rotate} transition-transform duration-700 ease-cinematic hover:scale-[1.02]`}>
-            <ImageWithSkeleton
-              src={cinematicImages[0].src}
-              alt={cinematicImages[0].alt}
-              className={`${cinematicImages[0].height} w-full rounded-3xl shadow-[0_30px_60px_-20px_rgba(0,0,0,0.7)] border border-border`}
-            />
-          </div>
-        </div>
-        {/* Column 2 - Second image */}
-        <div className="flex flex-col gap-4 md:gap-6">
-          <div className={`${cinematicImages[1].offset} ${cinematicImages[1].rotate} transition-transform duration-700 ease-cinematic hover:scale-[1.02]`}>
-            <ImageWithSkeleton
-              src={cinematicImages[1].src}
-              alt={cinematicImages[1].alt}
-              className={`${cinematicImages[1].height} w-full rounded-3xl shadow-[0_30px_60px_-20px_rgba(0,0,0,0.7)] border border-border`}
-            />
-          </div>
-        </div>
+      {/* Backdrop */}
+      <div className="absolute inset-0">
+        <ImageWithSkeleton
+          src={backdrop.src}
+          alt={backdrop.alt}
+          className="w-full h-full object-cover animate-ken-burns"
+        />
       </div>
 
-      {/* Dark crimson gradient — keeps the bottom-left brand block
-          legible no matter what the posters contain. */}
+      {/* Scrims — keep the bottom-left content legible regardless of
+          what the backdrop image contains */}
       <div
-        className="absolute inset-0 pointer-events-none
-                   bg-linear-to-br from-background/85 via-background/60 to-accent-muted/70"
+        className="absolute inset-0 bg-linear-to-t from-background via-background/55 to-background/10"
         aria-hidden="true"
       />
       <div
-        className="absolute inset-0 pointer-events-none
-                   bg-linear-to-t from-background via-background/70 to-transparent"
+        className="absolute inset-0 bg-linear-to-r from-background/92 via-background/25 to-transparent"
         aria-hidden="true"
       />
-
-      {/* Film-grain texture reused from the existing utility. */}
       <div className="absolute inset-0 film-grain pointer-events-none" aria-hidden="true" />
 
-      {/* Floating brand block */}
-      <div className="relative z-10 p-10 xl:p-14 pb-14 xl:pb-20 animate-float">
+      {/* Top brand mark — grounds the screen as part of the product,
+          not a marketing splash */}
+      <div className="relative z-10 flex items-center gap-2.5 p-10 xl:p-12">
+        <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-accent font-display text-sm font-bold text-white">
+          H
+        </span>
+        <span className="font-display text-sm font-semibold tracking-[0.14em] text-text-primary uppercase">
+          Hangug Deulama
+        </span>
+      </div>
+
+      {/* Headline + floating preview card */}
+      <div className="relative z-10 flex h-[calc(100%-6rem)] flex-col justify-end p-10 xl:p-12">
         <p className="eyebrow text-accent mb-3 flex items-center gap-2">
           <span aria-hidden="true" className="inline-block w-8 h-px bg-accent/70" />
           한국 드라마 · K-DRAMA
         </p>
-        <h1 className="font-display font-bold text-text-primary leading-[0.95]
-                       text-6xl xl:text-7xl tracking-tight">
-          Hangug
+        <h1 className="font-display font-bold text-text-primary leading-[0.95] text-5xl xl:text-6xl tracking-tight max-w-md">
+          Every story
           <br />
-          <span className="bg-linear-to-r from-accent via-accent-hover to-gold bg-clip-text text-transparent">
-            Deulama
-          </span>
+          worth staying up for.
         </h1>
-        <p className="mt-5 max-w-md text-text-secondary text-sm md:text-base leading-relaxed">
-          Step into a curated world of Korean cinema — intimate character studies,
-          sweeping historical sagas, and quiet late-night stories, picked for you.
+        <p className="mt-4 max-w-sm text-text-secondary text-sm xl:text-base leading-relaxed">
+          Swipe through curated K-dramas matched to your taste — from
+          slow-burn romances to late-night thrillers.
         </p>
+
+        <div
+          className="mt-10 flex w-fit items-center gap-3 rounded-2xl
+                     surface-card-elevated border border-border-strong
+                     p-3 pr-5 shadow-[0_30px_60px_-24px_rgba(0,0,0,0.8)]
+                     animate-float"
+        >
+          <ImageWithSkeleton
+            src={previewCard.src}
+            alt={previewCard.alt}
+            className="h-16 w-12 rounded-lg object-cover shrink-0"
+          />
+          <div>
+            <p className="text-[10px] uppercase tracking-[0.12em] text-text-tertiary mb-1">
+              Picked for you
+            </p>
+            <p className="font-display text-sm font-semibold text-text-primary">
+              {previewCard.title}
+            </p>
+            <p className="text-xs font-semibold mt-0.5 text-gold">
+              {previewCard.match}% Match
+            </p>
+          </div>
+        </div>
       </div>
     </aside>
   );
