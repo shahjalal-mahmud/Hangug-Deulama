@@ -1,4 +1,5 @@
 /* src/components/layout/Navbar.jsx */
+import { useEffect, useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import clsx from 'clsx';
 import SearchBar from './SearchBar';
@@ -9,6 +10,19 @@ const Navbar = () => {
   const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
 
+  /* Elevation only kicks in once the page has actually scrolled, so the
+     header reads as part of the hero at rest and lifts off it once
+     content starts passing underneath — a small cue that reads as
+     "considered" rather than a flat bar sitting on everything. */
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 8);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
   const handleNavClick = (e, link) => {
     if (link.requireAuth && !isAuthenticated) {
       e.preventDefault();
@@ -18,19 +32,47 @@ const Navbar = () => {
 
   return (
     <header
-      className="fixed top-0 inset-x-0 z-50 bg-bg-base/70 backdrop-blur-xl
-                 border-b border-border"
+      className={clsx(
+        'fixed top-0 inset-x-0 z-50 backdrop-blur-xl transition-all duration-300',
+        scrolled
+          ? 'bg-bg-base/85 border-b border-border shadow-[0_12px_30px_-16px_rgba(0,0,0,0.7)]'
+          : 'bg-bg-base/40 border-b border-transparent'
+      )}
     >
       <div
-        className="flex items-center justify-between gap-6
-                   px-5 md:px-16 py-4"
+        className="mx-auto max-w-container-max flex items-center justify-between gap-6
+                   px-5 md:px-10 lg:px-16 py-3.5"
       >
+        {/* Brand — small gradient hangul monogram + two-tone wordmark.
+            The Hangul mark is the one place this header spends its
+            personality; a Korean-drama product deserves more than a
+            generic wordmark, but the rest of the bar stays quiet. */}
         <NavLink
           to="/"
-          className="font-display text-xl md:text-2xl font-bold tracking-tight
-                     text-primary uppercase shrink-0"
+          className="flex items-center gap-2.5 shrink-0 group"
+          aria-label="Hangug Deulama — Home"
         >
-          Hangug Deulama
+          <span
+            className="flex items-center justify-center w-9 h-9 rounded-xl
+                       bg-linear-to-br from-primary via-primary-container to-secondary
+                       shadow-lg shadow-primary-container/25
+                       transition-transform duration-300 ease-cinematic
+                       group-hover:scale-105 group-hover:rotate-3"
+          >
+            <span className="font-display text-base font-bold text-on-primary">한</span>
+          </span>
+
+          <span className="flex flex-col leading-none">
+            <span className="font-display text-lg md:text-xl font-bold tracking-tight">
+              <span className="bg-linear-to-r from-primary to-secondary bg-clip-text text-transparent">
+                Hangug
+              </span>{' '}
+              <span className="text-text-primary">Deulama</span>
+            </span>
+            <span className="hidden sm:block eyebrow text-text-tertiary text-[10px] tracking-[0.2em] mt-0.5">
+              한국 드라마 · Discover
+            </span>
+          </span>
         </NavLink>
 
         <nav className="hidden md:flex items-center gap-8" aria-label="Primary">
@@ -42,20 +84,32 @@ const Navbar = () => {
               onClick={(e) => handleNavClick(e, link)}
               className={({ isActive }) =>
                 clsx(
-                  'text-sm font-medium uppercase tracking-wide pb-1 border-b-2 transition-colors duration-300',
-                  isActive
-                    ? 'text-text-primary border-primary'
-                    : 'text-text-secondary border-transparent hover:text-text-primary'
+                  'group relative py-2 text-sm font-semibold uppercase tracking-wide transition-colors duration-300',
+                  isActive ? 'text-text-primary' : 'text-text-secondary hover:text-text-primary'
                 )
               }
             >
-              {link.label}
+              {({ isActive }) => (
+                <>
+                  {link.label}
+                  <span
+                    className={clsx(
+                      'absolute left-0 -bottom-px h-0.5 rounded-full',
+                      'bg-linear-to-r from-primary via-primary-container to-secondary',
+                      'transition-all duration-300 ease-cinematic',
+                      isActive ? 'w-full' : 'w-0 group-hover:w-full'
+                    )}
+                    aria-hidden="true"
+                  />
+                </>
+              )}
             </NavLink>
           ))}
         </nav>
 
         <div className="flex items-center gap-3 md:gap-4">
           <SearchBar />
+          <span className="hidden md:block w-px h-6 bg-border-strong" aria-hidden="true" />
           <ProfileMenu />
         </div>
       </div>
