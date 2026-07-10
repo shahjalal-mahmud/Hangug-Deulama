@@ -1,8 +1,3 @@
-/* src/components/auth/PasswordInput.jsx
-   Password field built on top of AuthInput. Keeps the existing
-   show/hide logic (a single boolean toggle lifted to the parent) so
-   the Login/Register pages don't lose control of state. */
-
 import AuthInput from './AuthInput';
 
 const PasswordInput = ({
@@ -25,6 +20,7 @@ const PasswordInput = ({
       error={error}
       autoComplete={autoComplete}
       required
+      leftIcon="lock"
       rightSlot={
         <button
           type="button"
