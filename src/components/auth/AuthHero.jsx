@@ -71,20 +71,14 @@ const AuthHero = () => {
       </div>
 
       {/* Maroon glass overlay + branding */}
-      <div
-        className="absolute inset-0 z-10 flex flex-col justify-center p-10 xl:p-12"
-        style={{
-          background:
-            'linear-gradient(135deg, rgba(91,0,23,0.82) 0%, rgba(28,16,17,0.96) 100%)',
-        }}
-      >
+      <div className="absolute inset-0 z-10 flex flex-col justify-center p-10 xl:p-12 glass-overlay">
         <div className="max-w-md animate-float">
-          <h1 className="font-display font-bold text-accent text-6xl xl:text-7xl leading-[1.05] mb-4">
+          <h1 className="font-display font-bold text-primary text-6xl xl:text-7xl leading-[1.05] mb-4">
             Hangug
             <br />
             Deulama
           </h1>
-          <p className="text-text-secondary text-sm xl:text-base max-w-sm leading-relaxed opacity-90">
+          <p className="text-on-surface-variant text-sm xl:text-base max-w-sm leading-relaxed opacity-90">
             Experience the most compelling stories from Korea in stunning
             cinematic quality. Your journey into the heart of Seoul&apos;s
             finest dramas begins here.
