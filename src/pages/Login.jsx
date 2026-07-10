@@ -70,7 +70,7 @@ const Login = () => {
   };
 
   return (
-    <div className="relative min-h-screen w-full bg-background text-on-background overflow-hidden">
+    <div className="relative min-h-screen w-full bg-bg-base text-text-primary overflow-hidden">
       <div className="relative grid min-h-screen lg:grid-cols-2">
         {/* Left: cinematic collage (desktop only). */}
         <AuthHero />
@@ -89,7 +89,7 @@ const Login = () => {
                   Don&apos;t have an account?{' '}
                   <Link
                     to="/register"
-                    className="text-accent font-bold hover:underline
+                    className="text-primary font-bold hover:underline
                                transition-all duration-200
                                focus-visible:outline-none focus-visible:underline"
                   >
@@ -137,7 +137,7 @@ const Login = () => {
                              hover:bg-accent-hover
                              focus-visible:outline-none focus-visible:ring-2
                              focus-visible:ring-primary/60 focus-visible:ring-offset-2
-                             focus-visible:ring-offset-background
+                             focus-visible:ring-offset-bg-base
                              active:scale-[0.98]
                              transition-all duration-200 ease-cinematic
                              disabled:opacity-60 disabled:cursor-not-allowed
