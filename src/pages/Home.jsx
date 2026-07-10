@@ -3,7 +3,6 @@ import { useEffect, useMemo, useState } from 'react';
 import { useDrama } from '../context/DramaContext';
 import HeroSection from '../components/home/HeroSection';
 import GenrePills from '../components/home/GenrePills';
-import ContinueWatching from '../components/home/ContinueWatching';
 import TrendingSection from '../components/home/TrendingSection';
 import RecommendationSection from '../components/home/RecommendationSection';
 import GenreRow from '../components/home/GenreRow';
@@ -15,7 +14,6 @@ import {
   filterByGenre,
   filterByGenreAny,
   getTrending,
-  getContinueWatching,
   getRecommendations,
   getLikedGenres,
   getReasonText,
@@ -66,11 +64,6 @@ const Home = () => {
   // Spotlight always pulls from the unfiltered top-rated pool, independent
   // of the genre filter below it — the hero stays stable while browsing.
   const spotlightItems = useMemo(() => getTrending(dramas, 10), [dramas]);
-
-  const continueWatchingItems = useMemo(
-    () => getContinueWatching(dramas, dislikedDramas, watchedDramas),
-    [dramas, dislikedDramas, watchedDramas]
-  );
 
   const trendingItems = useMemo(() => {
     const filtered = filterByGenre(dramas, selectedGenre);
@@ -132,10 +125,6 @@ const Home = () => {
       <div className="mb-12">
         <GenrePills genres={genres} selected={selectedGenre} onSelect={setSelectedGenre} />
       </div>
-
-      <RevealSection>
-        <ContinueWatching items={continueWatchingItems} loading={loading} />
-      </RevealSection>
 
       {/* 1. Trending Now */}
       <RevealSection>
