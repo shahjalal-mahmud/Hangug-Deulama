@@ -1,3 +1,5 @@
+/* src/components/layout/Footer.jsx */
+
 const footerColumns = [
   { title: 'Company', links: ['About Us', 'Press Room', 'Careers'] },
   { title: 'Legal', links: ['Privacy Policy', 'Cookie Preferences', 'Terms of Use'] },
@@ -7,19 +9,19 @@ const footerColumns = [
 const Footer = () => (
   <footer className="border-t border-border bg-surface mt-8">
     <div className="max-w-7xl mx-auto px-5 md:px-16 py-14">
-      <p className="font-display text-2xl font-bold text-accent uppercase tracking-tight mb-10">
+      <p className="font-display text-2xl font-bold text-primary uppercase tracking-tight mb-10">
         Hangug Deulama
       </p>
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
         {footerColumns.map((col) => (
           <div key={col.title} className="flex flex-col gap-3">
-            <h5 className="text-text-primary text-sm font-semibold">{col.title}</h5>
+            <h5 className="text-on-surface text-sm font-semibold">{col.title}</h5>
             {col.links.map((link) => (
               <a
                 key={link}
                 href="#"
-                className="text-text-secondary text-xs hover:text-accent transition-colors duration-200"
+                className="text-text-secondary text-xs hover:text-primary transition-colors duration-200"
               >
                 {link}
               </a>
@@ -28,14 +30,14 @@ const Footer = () => (
         ))}
 
         <div className="flex flex-col gap-3">
-          <h5 className="text-text-primary text-sm font-semibold">Connect</h5>
+          <h5 className="text-on-surface text-sm font-semibold">Connect</h5>
           <div className="flex gap-4">
             {['public', 'video_library', 'forum'].map((icon) => (
               <a
                 key={icon}
                 href="#"
                 aria-label={icon.replace('_', ' ')}
-                className="text-text-secondary hover:text-accent transition-colors duration-200"
+                className="text-text-secondary hover:text-primary transition-colors duration-200"
               >
                 <span className="material-symbols-outlined text-[20px]">{icon}</span>
               </a>
