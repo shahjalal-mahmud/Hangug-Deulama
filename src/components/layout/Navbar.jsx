@@ -64,9 +64,7 @@ const Navbar = () => {
 
           <span className="flex flex-col leading-none">
             <span className="font-display text-lg md:text-xl font-bold tracking-tight">
-              <span className="bg-linear-to-r from-primary to-secondary bg-clip-text text-transparent">
-                Hangug
-              </span>{' '}
+              <span className="text-primary">Hangug</span>{' '}
               <span className="text-text-primary">Deulama</span>
             </span>
             <span className="hidden sm:block eyebrow text-text-tertiary text-[10px] tracking-[0.2em] mt-0.5">
