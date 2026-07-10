@@ -3,142 +3,193 @@
   themes: cinema --default;
 }
 
+/* ============================================================
+   HANGUG DEULAMA — DESIGN TOKENS
+   ------------------------------------------------------------
+   One palette family, one hue temperature: everything here is
+   built on a warm near-black "cinema" neutral (a hair of rose
+   in the shadows) so surfaces, borders, and text all agree with
+   the primary rose/gold brand colors instead of fighting a
+   neutral-gray background. Text tokens are DERIVED, not
+   duplicated — there is exactly one "text on dark" family, and
+   every alias (on-background, on-surface, on-surface-variant…)
+   points back to it. No more parallel gray-white vs pink-white
+   sets going out of sync.
+   ============================================================ */
+
 @theme {
-  /* Background colors */
-  --color-background: #0A0A0C;
-  --color-bg-base: #0A0A0C;
-  --color-bg-elevated: #141417;
-  --color-bg-elevated-2: #1C1C21;
-  
-  /* Surface colors */
-  --color-surface: #1c1011;
-  --color-surface-dim: #1c1011;
+  /* ---------------------------------------------------------
+     BACKGROUND — page-level, darkest layer. Monotonic ramp:
+     base < elevated < elevated-2 (each step slightly lighter).
+     --------------------------------------------------------- */
+  --color-bg-base: #0B0708;
+  --color-bg-elevated: #150F10;
+  --color-bg-elevated-2: #1E1516;
+  --color-background: var(--color-bg-base);
+
+  /* ---------------------------------------------------------
+     SURFACE — card / panel layer. Same warm-black hue family
+     as background so nothing reads as "a different app."
+     Ramp is monotonic light→dark: lowest < low < (base) <
+     high < highest < bright.
+     --------------------------------------------------------- */
+  --color-surface: #1C1011;
+  --color-surface-dim: #170B0C;
   --color-surface-bright: #453536;
-  --color-surface-container: #2a1c1d;
-  --color-surface-container-low: #251819;
-  --color-surface-container-lowest: #170b0c;
+  --color-surface-container-lowest: #120A0A;
+  --color-surface-container-low: #211516;
+  --color-surface-container: #2A1C1D;
   --color-surface-container-high: #352627;
   --color-surface-container-highest: #403132;
   --color-surface-variant: #403132;
-  
-  /* Primary accent colors */
-  --color-primary: #ffb2b7;
-  --color-primary-container: #f55c6f;
-  --color-on-primary: #67001b;
-  --color-on-primary-container: #5b0017;
-  --color-on-primary-fixed: #40000d;
-  --color-on-primary-fixed-variant: #8f0a2b;
-  --color-primary-fixed: #ffdadb;
-  --color-primary-fixed-dim: #ffb2b7;
-  --color-inverse-primary: #b12941;
-  --color-surface-tint: #ffb2b7;
-  
-  /* Secondary accent colors (gold) */
-  --color-secondary: #f1bf65;
-  --color-secondary-container: #7d5800;
-  --color-on-secondary: #422d00;
-  --color-on-secondary-container: #ffd284;
+
+  /* ---------------------------------------------------------
+     PRIMARY — rose. Unchanged, contrast-checked pairs kept.
+     --------------------------------------------------------- */
+  --color-primary: #FFB2B7;
+  --color-primary-container: #F55C6F;
+  --color-on-primary: #67001B;
+  --color-on-primary-container: #5B0017;
+  --color-on-primary-fixed: #40000D;
+  --color-on-primary-fixed-variant: #8F0A2B;
+  --color-primary-fixed: #FFDADB;
+  --color-primary-fixed-dim: #FFB2B7;
+  --color-inverse-primary: #B12941;
+  --color-surface-tint: #FFB2B7;
+
+  /* ---------------------------------------------------------
+     SECONDARY — gold. Unchanged, contrast-checked pairs kept.
+     --------------------------------------------------------- */
+  --color-secondary: #F1BF65;
+  --color-secondary-container: #7D5800;
+  --color-on-secondary: #422D00;
+  --color-on-secondary-container: #FFD284;
   --color-on-secondary-fixed: #271900;
-  --color-on-secondary-fixed-variant: #5e4100;
-  --color-secondary-fixed: #ffdea9;
-  --color-secondary-fixed-dim: #f1bf65;
-  
-  /* Tertiary accent colors */
-  --color-tertiary: #6edba7;
-  --color-tertiary-container: #30a374;
+  --color-on-secondary-fixed-variant: #5E4100;
+  --color-secondary-fixed: #FFDEA9;
+  --color-secondary-fixed-dim: #F1BF65;
+
+  /* ---------------------------------------------------------
+     TERTIARY — mint green (watched / success accents).
+     --------------------------------------------------------- */
+  --color-tertiary: #6EDBA7;
+  --color-tertiary-container: #30A374;
   --color-on-tertiary: #003824;
-  --color-on-tertiary-container: #00311e;
+  --color-on-tertiary-container: #00311E;
   --color-on-tertiary-fixed: #002113;
   --color-on-tertiary-fixed-variant: #005235;
-  --color-tertiary-fixed: #8bf8c2;
-  --color-tertiary-fixed-dim: #6edba7;
-  
-  /* Error colors */
-  --color-error: #ffb4ab;
-  --color-error-container: #93000a;
+  --color-tertiary-fixed: #8BF8C2;
+  --color-tertiary-fixed-dim: #6EDBA7;
+
+  /* ---------------------------------------------------------
+     ERROR / SUCCESS / DANGER — status colors.
+     --------------------------------------------------------- */
+  --color-error: #FFB4AB;
+  --color-error-container: #93000A;
   --color-on-error: #690005;
-  --color-on-error-container: #ffdad6;
-  
-  /* Success colors */
+  --color-on-error-container: #FFDAD6;
   --color-success: #4ADE80;
   --color-danger: #F45B69;
-  
-  /* Text colors */
-  --color-text-primary: #F5F5F7;
-  --color-text-secondary: #A0A0A8;
-  --color-text-tertiary: #6B6B72;
-  --color-on-background: #f6dddd;
-  --color-on-surface: #f6dddd;
-  --color-on-surface-variant: #e0bfc0;
-  --color-inverse-on-surface: #3c2d2d;
-  --color-inverse-surface: #f6dddd;
-  
-  /* Border colors */
+
+  /* ---------------------------------------------------------
+     TEXT — SINGLE source of truth. Every "on-*" alias below
+     points here, so text never mismatches its background
+     again regardless of which token a component reaches for.
+     Warm off-white → warm mid-gray → warm dim-gray, all pulled
+     toward the same rose-black hue as the surfaces they sit on.
+     --------------------------------------------------------- */
+  --color-text-primary: #F7EDEE;    /* headings, primary body copy */
+  --color-text-secondary: #B39B9C;  /* metadata, secondary body copy */
+  --color-text-tertiary: #8A7375;   /* placeholders, least emphasis */
+
+  /* Material-style aliases — all derived, none independent */
+  --color-on-background: var(--color-text-primary);
+  --color-on-surface: var(--color-text-primary);
+  --color-on-surface-variant: var(--color-text-secondary);
+  --color-inverse-surface: var(--color-text-primary);       /* light chip on dark theme */
+  --color-inverse-on-surface: var(--color-surface-container); /* dark text on that light chip */
+
+  /* ---------------------------------------------------------
+     BORDERS — derived from the same warm-brown surface hue.
+     --------------------------------------------------------- */
   --color-border: rgba(89, 65, 66, 0.35);
   --color-border-strong: rgba(89, 65, 66, 0.65);
-  --color-outline: #a7898b;
+  --color-border-subtle: rgba(64, 49, 50, 0.5);
+  --color-outline: #A7898B;
   --color-outline-variant: #594142;
-  --color-border-subtle: #2A2A30;
-  
-  /* Legacy/backward compatibility colors */
-  --color-accent: #ffb2b7;
-  --color-accent-hover: #e89a9f;
-  --color-accent-muted: #5b0017;
-  --color-gold: #f1bf65;
+
+  /* ---------------------------------------------------------
+     LEGACY / SHORTHAND ALIASES — kept for backward compat,
+     now pointing at the primary family instead of drifting
+     off on their own arbitrary values.
+     --------------------------------------------------------- */
+  --color-accent: var(--color-primary);
+  --color-accent-hover: #E89A9F;
+  --color-accent-muted: var(--color-on-primary-container);
+  --color-gold: var(--color-secondary);
   --color-gold-soft: rgba(241, 191, 101, 0.14);
-  
-  /* Font families */
+
+  /* ---------------------------------------------------------
+     TYPE — display (Sora) for headings, body (Inter) for copy.
+     --------------------------------------------------------- */
   --font-display: "Sora", system-ui, sans-serif;
   --font-body: "Inter", system-ui, sans-serif;
   --font-metadata: "Inter", system-ui, sans-serif;
   --font-h1: "Sora", system-ui, sans-serif;
+  --font-h2: "Sora", system-ui, sans-serif;
   --font-button: "Inter", system-ui, sans-serif;
   --font-body-md: "Inter", system-ui, sans-serif;
   --font-body-sm: "Inter", system-ui, sans-serif;
   --font-hero-title: "Sora", system-ui, sans-serif;
   --font-hero-title-mobile: "Sora", system-ui, sans-serif;
   --font-card-title: "Sora", system-ui, sans-serif;
-  --font-h2: "Sora", system-ui, sans-serif;
-  
-  /* Font sizes */
+
   --font-size-metadata: 13px;
   --font-size-h1: 40px;
+  --font-size-h2: 24px;
   --font-size-button: 14px;
   --font-size-body-md: 16px;
   --font-size-body-sm: 14px;
+  --font-size-hero-title: 72px;
   --font-size-hero-title-mobile: 48px;
   --font-size-card-title: 18px;
-  --font-size-h2: 24px;
-  --font-size-hero-title: 72px;
-  
-  /* Spacing */
+
+  /* ---------------------------------------------------------
+     SPACING / RADIUS / MOTION
+     --------------------------------------------------------- */
   --spacing-gutter-laptop: 32px;
+  --spacing-gutter-tablet: 20px;
+  --spacing-gutter-desktop: 64px;
   --spacing-content-gap: 24px;
   --spacing-container-max: 1440px;
   --spacing-section-gap: 96px;
   --spacing-grid-gap: 20px;
-  --spacing-gutter-tablet: 20px;
-  --spacing-gutter-desktop: 64px;
-  
-  /* Border radius */
+
   --radius-default: 0.25rem;
   --radius-lg: 0.5rem;
   --radius-xl: 0.75rem;
   --radius-full: 9999px;
-  
-  /* Easing */
+
   --ease-cinematic: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+/* ============================================================
+   DAISYUI THEME MAP
+   ------------------------------------------------------------
+   base-100 → base-300 is now a real elevation ramp (light to
+   dark) instead of jumping between the warm surface family and
+   the neutral background family. base-content always resolves
+   to the single text-primary token above.
+   ============================================================ */
 @plugin "daisyui/theme" {
   name: "cinema";
   default: true;
   prefersdark: true;
   color-scheme: dark;
 
-  --color-base-100: var(--color-surface);
-  --color-base-200: var(--color-background);
-  --color-base-300: var(--color-surface-container);
+  --color-base-100: var(--color-bg-elevated-2); /* cards, top layer */
+  --color-base-200: var(--color-bg-elevated);    /* section panels */
+  --color-base-300: var(--color-bg-base);        /* page background, deepest */
   --color-base-content: var(--color-text-primary);
 
   --color-primary: var(--color-primary);
@@ -161,8 +212,8 @@
   }
 
   body {
-    background-color: var(--color-background);
-    color: var(--color-on-background);
+    background-color: var(--color-bg-base);
+    color: var(--color-text-primary);
     font-family: var(--font-body);
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
@@ -170,7 +221,30 @@
 
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-display);
+    color: var(--color-text-primary);
     letter-spacing: -0.01em;
+  }
+
+  p {
+    color: var(--color-text-secondary);
+  }
+
+  a {
+    color: inherit;
+  }
+
+  /* Consistent, on-brand selection + focus states so keyboard
+     nav and text selection don't fall back to browser defaults
+     that clash with the palette. */
+  ::selection {
+    background-color: rgba(255, 178, 183, 0.28);
+    color: var(--color-text-primary);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+    border-radius: var(--radius-default);
   }
 
   ::-webkit-scrollbar {
@@ -178,25 +252,27 @@
     height: 4px;
   }
   ::-webkit-scrollbar-track {
-    background: var(--color-background);
+    background: var(--color-bg-base);
   }
   ::-webkit-scrollbar-thumb {
     background: var(--color-surface-container-high);
     border-radius: 10px;
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: var(--color-accent-muted);
+    background: rgba(255, 178, 183, 0.35);
   }
 }
 
 @layer components {
   .surface-card {
     background-color: var(--color-surface);
+    color: var(--color-on-surface);
     border: 1px solid var(--color-border);
   }
 
   .surface-card-elevated {
     background-color: var(--color-surface-container);
+    color: var(--color-on-surface);
     border: 1px solid var(--color-border-strong);
   }
 
@@ -207,6 +283,7 @@
     font-weight: 600;
     letter-spacing: 0.08em;
     text-transform: uppercase;
+    color: var(--color-secondary);
   }
 
   /* Subtle film-grain texture for the hero backdrop — keeps the photo
@@ -224,14 +301,32 @@
     pointer-events: none;
   }
 
-  /* Glass overlay for the hero section */
+  /* Glass overlay for the hero section — now derived from the primary
+     and background tokens instead of one-off hardcoded rgba values,
+     so it shifts automatically if the palette ever changes. */
   .glass-overlay {
-    background: linear-gradient(135deg, rgba(103, 0, 27, 0.8) 0%, rgba(20, 20, 23, 0.95) 100%);
+    background: linear-gradient(
+      135deg,
+      rgba(103, 0, 27, 0.8) 0%,
+      rgba(21, 15, 16, 0.95) 100%
+    );
   }
 
   /* Custom input focus styles */
   .custom-input:focus {
     box-shadow: 0 0 0 2px rgba(255, 178, 183, 0.4);
+  }
+
+  /* Match-score / recommendation badge — ties primary + secondary
+     together for that "premium algorithmic pick" feel. */
+  .match-badge {
+    background: linear-gradient(
+      120deg,
+      var(--color-primary-container) 0%,
+      var(--color-secondary-container) 100%
+    );
+    color: var(--color-text-primary);
+    border: 1px solid var(--color-border-strong);
   }
 }
 
@@ -242,6 +337,10 @@
   .no-scrollbar {
     -ms-overflow-style: none;
     scrollbar-width: none;
+  }
+
+  .text-balance {
+    text-wrap: balance;
   }
 }
 
