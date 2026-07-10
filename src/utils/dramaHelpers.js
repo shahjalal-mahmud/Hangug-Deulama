@@ -35,6 +35,19 @@ export const filterByGenre = (dramas, genre) => {
   return dramas.filter((d) => parseGenres(d).includes(genre));
 };
 
+/* Loose, case-insensitive genre matcher that accepts a list of aliases.
+   Used for the homepage genre rails (Rom-Com, Historical, etc.) since we
+   can't guarantee the exact casing/label the backend catalog uses for a
+   given category — e.g. "Historical" vs "History" vs "Period". Matches
+   if ANY keyword matches ANY of the drama's genres. */
+export const filterByGenreAny = (dramas, keywords = []) => {
+  if (!keywords.length) return dramas;
+  const lowerKeywords = keywords.map((k) => k.toLowerCase());
+  return dramas.filter((d) =>
+    parseGenres(d).some((g) => lowerKeywords.includes(g.toLowerCase()))
+  );
+};
+
 export const filterBySearch = (dramas, query) => {
   if (!query?.trim()) return dramas;
   const q = query.trim().toLowerCase();
