@@ -416,3 +416,42 @@
     scroll-behavior: auto !important;
   }
 }
+
+/* ============================================================
+   PRIMARY BUTTON OVERRIDE — premium rose → berry CTA
+   ------------------------------------------------------------
+   Old look: flat `bg-primary-container` (#F55C6F, a saturated
+   tomato-coral — reads as "warning/delete" more than "premium
+   CTA") + near-black maroon text on top = muddy, low-contrast
+   button. This is a pure color fix, no layout/markup change.
+
+   Scoped to `button.bg-primary-container` / `button.text-on-primary`
+   (tag + class) on purpose:
+   - Deliberately unlayered (outside @layer), so in Tailwind v4's
+     cascade it automatically outranks the `utilities` layer —
+     no !important needed, no source-order gymnastics.
+   - The tag+class selector also beats plain `.hover:bg-accent-hover`
+     on specificity, so the hover state is fully replaced too.
+   - Because it's scoped to the <button> tag, any badge/chip
+     elsewhere in the app that reuses these same utility classes
+     on a <span>/<div> is completely unaffected — only real
+     buttons change, everywhere they appear, with zero JSX edits.
+   ============================================================ */
+button.bg-primary-container {
+  background: linear-gradient(135deg, #FF7C9C 0%, #E23F63 55%, #C22C55 100%);
+  box-shadow: 0 8px 24px -6px rgba(226, 63, 99, 0.45);
+}
+
+button.bg-primary-container:hover:not(:disabled) {
+  background: linear-gradient(135deg, #FF96AF 0%, #EC4E72 55%, #D03A62 100%);
+  box-shadow: 0 10px 30px -6px rgba(226, 63, 99, 0.55);
+}
+
+button.bg-primary-container:disabled {
+  background: linear-gradient(135deg, #FF7C9C 0%, #E23F63 55%, #C22C55 100%);
+  box-shadow: none;
+}
+
+button.text-on-primary {
+  color: #FFF5F7;
+}
