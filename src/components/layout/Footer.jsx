@@ -16,7 +16,7 @@ const Footer = () => (
       <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
         {footerColumns.map((col) => (
           <div key={col.title} className="flex flex-col gap-3">
-            <h5 className="text-on-surface text-sm font-semibold">{col.title}</h5>
+            <h5 className="text-text-primary text-sm font-semibold">{col.title}</h5>
             {col.links.map((link) => (
               <a
                 key={link}
@@ -30,7 +30,7 @@ const Footer = () => (
         ))}
 
         <div className="flex flex-col gap-3">
-          <h5 className="text-on-surface text-sm font-semibold">Connect</h5>
+          <h5 className="text-text-primary text-sm font-semibold">Connect</h5>
           <div className="flex gap-4">
             {['public', 'video_library', 'forum'].map((icon) => (
               <a
