@@ -197,6 +197,15 @@
   animation: collageIn 900ms var(--ease-cinematic) both;
 }
 
+@keyframes kenBurns {
+  0% { transform: scale(1); }
+  100% { transform: scale(1.08); }
+}
+
+.animate-ken-burns {
+  animation: kenBurns 20s ease-out forwards;
+}
+
 /* Performance/accessibility: honor reduced-motion globally, not just
    in useScrollReveal — covers hover scale/translate transitions too. */
 @media (prefers-reduced-motion: reduce) {
