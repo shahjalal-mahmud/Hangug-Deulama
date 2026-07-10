@@ -33,7 +33,7 @@ const Home = () => {
 
   // Spotlight always pulls from the unfiltered top-rated pool, independent
   // of the genre filter below it — the hero stays stable while browsing.
-  const spotlightItems = useMemo(() => getTrending(dramas, 5), [dramas]);
+  const spotlightItems = useMemo(() => getTrending(dramas, 10), [dramas]);
 
   const continueWatchingItems = useMemo(
     () => getContinueWatching(dramas, dislikedDramas, watchedDramas),

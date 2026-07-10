@@ -388,6 +388,33 @@
   animation: fadeUp 700ms var(--ease-cinematic) both;
 }
 
+/* Slow drift/zoom on the active hero backdrop — subtle enough to read
+   as "alive" without competing with the title text on top of it.
+   Duration deliberately outlasts the 5s slide interval so it never
+   visibly resets mid-view. */
+@keyframes heroKenBurns {
+  from { transform: scale(1); }
+  to { transform: scale(1.08); }
+}
+
+.animate-ken-burns {
+  animation: heroKenBurns 7s var(--ease-cinematic) forwards;
+}
+
+/* Story-style progress segment fill for the hero spotlight carousel —
+   mounts fresh every time a segment becomes active, so the animation
+   always starts from empty. */
+@keyframes progressFill {
+  from { width: 0%; }
+  to { width: 100%; }
+}
+
+.animate-progress-fill {
+  animation-name: progressFill;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}
+
 /* Staggered fade-in for the hero collage tiles. */
 @keyframes collageIn {
   from {
