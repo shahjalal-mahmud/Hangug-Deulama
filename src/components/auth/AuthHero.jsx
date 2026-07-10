@@ -72,7 +72,7 @@ const AuthHero = () => {
 
       {/* Maroon glass overlay + branding */}
       <div
-        className="absolute inset-0 z-10 flex flex-col justify-end p-10 xl:p-12"
+        className="absolute inset-0 z-10 flex flex-col justify-center p-10 xl:p-12"
         style={{
           background:
             'linear-gradient(135deg, rgba(91,0,23,0.82) 0%, rgba(28,16,17,0.96) 100%)',

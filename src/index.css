@@ -4,30 +4,129 @@
 }
 
 @theme {
+  /* Background colors */
   --color-background: #0A0A0C;
-  --color-surface: #251819;
-  --color-surface-elevated: #2a1c1d;
-  --color-surface-overlay: #352627;
-
-  --color-accent: #f55c6f;
-  --color-accent-hover: #e8586c;
-  --color-accent-muted: #5b0017;
-
-  /* Secondary accent: reserved for quality/rating signals (stars, match
-     scores) so it never competes with the crimson "action" accent. */
-  --color-gold: #f1bf65;
-  --color-gold-soft: rgba(241, 191, 101, 0.14);
-
-  --color-text-primary: #f5f5f7;
-  --color-text-secondary: #a0a0a8;
-  --color-text-tertiary: #6b6b72;
-
+  --color-bg-base: #0A0A0C;
+  --color-bg-elevated: #141417;
+  --color-bg-elevated-2: #1C1C21;
+  
+  /* Surface colors */
+  --color-surface: #1c1011;
+  --color-surface-dim: #1c1011;
+  --color-surface-bright: #453536;
+  --color-surface-container: #2a1c1d;
+  --color-surface-container-low: #251819;
+  --color-surface-container-lowest: #170b0c;
+  --color-surface-container-high: #352627;
+  --color-surface-container-highest: #403132;
+  --color-surface-variant: #403132;
+  
+  /* Primary accent colors */
+  --color-primary: #ffb2b7;
+  --color-primary-container: #f55c6f;
+  --color-on-primary: #67001b;
+  --color-on-primary-container: #5b0017;
+  --color-on-primary-fixed: #40000d;
+  --color-on-primary-fixed-variant: #8f0a2b;
+  --color-primary-fixed: #ffdadb;
+  --color-primary-fixed-dim: #ffb2b7;
+  --color-inverse-primary: #b12941;
+  --color-surface-tint: #ffb2b7;
+  
+  /* Secondary accent colors (gold) */
+  --color-secondary: #f1bf65;
+  --color-secondary-container: #7d5800;
+  --color-on-secondary: #422d00;
+  --color-on-secondary-container: #ffd284;
+  --color-on-secondary-fixed: #271900;
+  --color-on-secondary-fixed-variant: #5e4100;
+  --color-secondary-fixed: #ffdea9;
+  --color-secondary-fixed-dim: #f1bf65;
+  
+  /* Tertiary accent colors */
+  --color-tertiary: #6edba7;
+  --color-tertiary-container: #30a374;
+  --color-on-tertiary: #003824;
+  --color-on-tertiary-container: #00311e;
+  --color-on-tertiary-fixed: #002113;
+  --color-on-tertiary-fixed-variant: #005235;
+  --color-tertiary-fixed: #8bf8c2;
+  --color-tertiary-fixed-dim: #6edba7;
+  
+  /* Error colors */
+  --color-error: #ffb4ab;
+  --color-error-container: #93000a;
+  --color-on-error: #690005;
+  --color-on-error-container: #ffdad6;
+  
+  /* Success colors */
+  --color-success: #4ADE80;
+  --color-danger: #F45B69;
+  
+  /* Text colors */
+  --color-text-primary: #F5F5F7;
+  --color-text-secondary: #A0A0A8;
+  --color-text-tertiary: #6B6B72;
+  --color-on-background: #f6dddd;
+  --color-on-surface: #f6dddd;
+  --color-on-surface-variant: #e0bfc0;
+  --color-inverse-on-surface: #3c2d2d;
+  --color-inverse-surface: #f6dddd;
+  
+  /* Border colors */
   --color-border: rgba(89, 65, 66, 0.35);
   --color-border-strong: rgba(89, 65, 66, 0.65);
-
+  --color-outline: #a7898b;
+  --color-outline-variant: #594142;
+  --color-border-subtle: #2A2A30;
+  
+  /* Legacy/backward compatibility colors */
+  --color-accent: #ffb2b7;
+  --color-accent-hover: #e89a9f;
+  --color-accent-muted: #5b0017;
+  --color-gold: #f1bf65;
+  --color-gold-soft: rgba(241, 191, 101, 0.14);
+  
+  /* Font families */
   --font-display: "Sora", system-ui, sans-serif;
   --font-body: "Inter", system-ui, sans-serif;
-
+  --font-metadata: "Inter", system-ui, sans-serif;
+  --font-h1: "Sora", system-ui, sans-serif;
+  --font-button: "Inter", system-ui, sans-serif;
+  --font-body-md: "Inter", system-ui, sans-serif;
+  --font-body-sm: "Inter", system-ui, sans-serif;
+  --font-hero-title: "Sora", system-ui, sans-serif;
+  --font-hero-title-mobile: "Sora", system-ui, sans-serif;
+  --font-card-title: "Sora", system-ui, sans-serif;
+  --font-h2: "Sora", system-ui, sans-serif;
+  
+  /* Font sizes */
+  --font-size-metadata: 13px;
+  --font-size-h1: 40px;
+  --font-size-button: 14px;
+  --font-size-body-md: 16px;
+  --font-size-body-sm: 14px;
+  --font-size-hero-title-mobile: 48px;
+  --font-size-card-title: 18px;
+  --font-size-h2: 24px;
+  --font-size-hero-title: 72px;
+  
+  /* Spacing */
+  --spacing-gutter-laptop: 32px;
+  --spacing-content-gap: 24px;
+  --spacing-container-max: 1440px;
+  --spacing-section-gap: 96px;
+  --spacing-grid-gap: 20px;
+  --spacing-gutter-tablet: 20px;
+  --spacing-gutter-desktop: 64px;
+  
+  /* Border radius */
+  --radius-default: 0.25rem;
+  --radius-lg: 0.5rem;
+  --radius-xl: 0.75rem;
+  --radius-full: 9999px;
+  
+  /* Easing */
   --ease-cinematic: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -39,20 +138,20 @@
 
   --color-base-100: var(--color-surface);
   --color-base-200: var(--color-background);
-  --color-base-300: var(--color-surface-elevated);
+  --color-base-300: var(--color-surface-container);
   --color-base-content: var(--color-text-primary);
 
-  --color-primary: var(--color-accent);
-  --color-primary-content: #ffffff;
+  --color-primary: var(--color-primary);
+  --color-primary-content: var(--color-on-primary);
 
-  --color-secondary: var(--color-surface-elevated);
-  --color-secondary-content: var(--color-text-primary);
+  --color-secondary: var(--color-secondary);
+  --color-secondary-content: var(--color-on-secondary);
 
-  --color-neutral: var(--color-surface-overlay);
+  --color-neutral: var(--color-surface-container-high);
   --color-neutral-content: var(--color-text-secondary);
 
-  --radius-box: 0.75rem;
-  --radius-field: 0.5rem;
+  --radius-box: var(--radius-xl);
+  --radius-field: var(--radius-lg);
   --border: 1px;
 }
 
@@ -63,7 +162,7 @@
 
   body {
     background-color: var(--color-background);
-    color: var(--color-text-primary);
+    color: var(--color-on-background);
     font-family: var(--font-body);
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
@@ -82,7 +181,7 @@
     background: var(--color-background);
   }
   ::-webkit-scrollbar-thumb {
-    background: var(--color-surface-overlay);
+    background: var(--color-surface-container-high);
     border-radius: 10px;
   }
   ::-webkit-scrollbar-thumb:hover {
@@ -97,14 +196,14 @@
   }
 
   .surface-card-elevated {
-    background-color: var(--color-surface-elevated);
+    background-color: var(--color-surface-container);
     border: 1px solid var(--color-border-strong);
   }
 
   /* Recurring typographic device: Hangul + English eyebrow label used
      above every section heading and the hero, e.g. "지금 인기 · TRENDING NOW". */
   .eyebrow {
-    font-size: 0.6875rem;
+    font-size: var(--font-size-metadata);
     font-weight: 600;
     letter-spacing: 0.08em;
     text-transform: uppercase;
@@ -123,6 +222,16 @@
     opacity: 0.05;
     mix-blend-mode: overlay;
     pointer-events: none;
+  }
+
+  /* Glass overlay for the hero section */
+  .glass-overlay {
+    background: linear-gradient(135deg, rgba(103, 0, 27, 0.8) 0%, rgba(20, 20, 23, 0.95) 100%);
+  }
+
+  /* Custom input focus styles */
+  .custom-input:focus {
+    box-shadow: 0 0 0 2px rgba(255, 178, 183, 0.4);
   }
 }
 
