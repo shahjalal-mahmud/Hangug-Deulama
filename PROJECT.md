@@ -807,7 +807,6 @@ The `errors` field is either a per-field validation map, or a single `code` key 
 - BottomNav (mobile)
 - Footer
 - ProfileMenu
-- NotificationButton
 - ProtectedRoute wrapper for `Profile` and `Activity`
 
 ---

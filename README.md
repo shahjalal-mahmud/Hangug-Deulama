@@ -10,21 +10,39 @@
 
 ## 📑 Table of Contents
 
-- [Overview](#-overview)
-- [Features](#-features)
-- [Tech Stack](#-tech-stack)
-- [Project Structure](#-project-structure)
-- [Getting Started](#-getting-started)
-- [Environment Variables](#-environment-variables)
-- [API Surface](#-api-surface)
-- [Database Schema](#-database-schema)
-- [Recommendation Logic](#-recommendation-logic)
-- [State Management](#-state-management)
-- [Scripts](#-scripts)
-- [Roadmap](#-roadmap)
-- [Academic Context](#-academic-context)
-- [Developer](#-developer)
-- [License](#-license)
+- [🎬 Hangug Deulama](#-hangug-deulama)
+  - [📑 Table of Contents](#-table-of-contents)
+  - [🧭 Overview](#-overview)
+  - [✨ Features](#-features)
+    - [Discovery](#discovery)
+    - [Engagement](#engagement)
+    - [Personalization](#personalization)
+    - [Account \& UX](#account--ux)
+    - [Engineering](#engineering)
+  - [🛠️ Tech Stack](#️-tech-stack)
+    - [Frontend](#frontend)
+    - [Backend](#backend)
+    - [Tooling](#tooling)
+  - [📂 Project Structure](#-project-structure)
+  - [🚀 Getting Started](#-getting-started)
+    - [Prerequisites](#prerequisites)
+    - [1. Clone \& install](#1-clone--install)
+    - [2. Configure environment](#2-configure-environment)
+    - [3. Start the backend](#3-start-the-backend)
+    - [4. Run the frontend](#4-run-the-frontend)
+    - [5. Build for production](#5-build-for-production)
+  - [🚢 Deployment](#-deployment)
+  - [💻 Local Setup (XAMPP)](#-local-setup-xampp)
+  - [🔐 Environment Variables](#-environment-variables)
+  - [📡 API Surface](#-api-surface)
+  - [🗄️ Database Schema](#️-database-schema)
+  - [🧠 Recommendation Logic](#-recommendation-logic)
+  - [🧠 State Management](#-state-management)
+  - [📜 Scripts](#-scripts)
+  - [🗺️ Roadmap](#️-roadmap)
+  - [🎓 Academic Context](#-academic-context)
+  - [👨‍💻 Developer](#-developer)
+  - [📄 License](#-license)
 
 ---
 
@@ -91,16 +109,16 @@ The product name _Hangug Deulama_ (한국 드라마) literally translates to "Ko
 
 ### Frontend
 
-| Layer            | Library / Tool              | Version  |
-| ---------------- | --------------------------- | -------- |
-| UI Framework     | React                       | 19.x     |
-| Bundler          | Vite                        | 8.x      |
-| Styling          | Tailwind CSS (+ Vite plugin)| 4.x      |
-| Routing          | React Router DOM            | 7.x      |
-| HTTP             | Axios                       | 1.x      |
-| Utility          | clsx                        | 2.x      |
-| Component lib    | daisyUI                     | 5.x      |
-| Linting          | ESLint + react-hooks plugin | 10.x     |
+| Layer         | Library / Tool               | Version |
+| ------------- | ---------------------------- | ------- |
+| UI Framework  | React                        | 19.x    |
+| Bundler       | Vite                         | 8.x     |
+| Styling       | Tailwind CSS (+ Vite plugin) | 4.x     |
+| Routing       | React Router DOM             | 7.x     |
+| HTTP          | Axios                        | 1.x     |
+| Utility       | clsx                         | 2.x     |
+| Component lib | daisyUI                      | 5.x     |
+| Linting       | ESLint + react-hooks plugin  | 10.x    |
 
 ### Backend
 
@@ -149,7 +167,7 @@ Hangug-Deulama/
 │   │
 │   ├── components/
 │   │   ├── layout/                # Navbar, BottomNav, Footer, ProfileMenu,
-│   │   │   │                       # NotificationButton, SearchBar, ProtectedRoute
+│   │   │   │                       # SearchBar, ProtectedRoute
 │   │   ├── home/                  # HeroSection, GenrePills, ContinueWatching,
 │   │   │   │                       # TrendingSection, SpotlightRail, RecommendationSection
 │   │   ├── discover/              # DiscoverHero, DiscoverSearchBar, CategoryTabs,
@@ -274,9 +292,9 @@ Before deploying to shared hosting, run the full stack locally on XAMPP and walk
 
 ## 🔐 Environment Variables
 
-| Variable            | Description                                                                          | Example                                       |
-| ------------------- | ------------------------------------------------------------------------------------ | --------------------------------------------- |
-| `VITE_API_BASE_URL` | Base URL of the PHP backend. Leave blank for same-origin (API at `/api/...`).       | `http://localhost/hangug-api/public`          |
+| Variable            | Description                                                                   | Example                              |
+| ------------------- | ----------------------------------------------------------------------------- | ------------------------------------ |
+| `VITE_API_BASE_URL` | Base URL of the PHP backend. Leave blank for same-origin (API at `/api/...`). | `http://localhost/hangug-api/public` |
 
 The JWT token and user payload are persisted to `localStorage` under keys defined in [`src/api/config.js`](src/api/config.js).
 
@@ -286,27 +304,27 @@ The JWT token and user payload are persisted to `localStorage` under keys define
 
 The frontend consumes a JSON REST API documented in detail in [`docs/api.md`](docs/api.md). Quick reference:
 
-| Method | Endpoint                            | Purpose                          |
-| ------ | ----------------------------------- | -------------------------------- |
-| GET    | `/api/health`                       | Liveness check                   |
-| POST   | `/api/auth/register`                | Create an account                |
-| POST   | `/api/auth/login`                   | Obtain a JWT                     |
-| GET    | `/api/me`                           | Validate token / fetch self      |
-| GET    | `/api/dramas`                       | Browse the catalog (paged)       |
-| GET    | `/api/dramas/{id}`                  | Drama details                    |
-| POST   | `/api/swipe`                        | Record like / dislike            |
-| POST   | `/api/favorites`                    | Add favorite                     |
-| DELETE | `/api/favorites/{drama_id}`         | Remove favorite                  |
-| GET    | `/api/favorites`                    | List favorites                   |
-| POST   | `/api/watch-later`                  | Add to Watch Later               |
-| DELETE | `/api/watch-later/{drama_id}`       | Remove from Watch Later          |
-| GET    | `/api/watch-later`                  | List Watch Later                 |
-| POST   | `/api/watched`                      | Mark as watched                  |
-| GET    | `/api/watched`                      | List watched                     |
-| GET    | `/api/profile`                      | Get profile                      |
-| PUT    | `/api/profile`                      | Update profile (JSON or multipart) |
-| GET    | `/api/profile/genre-statistics`     | Taste profile                    |
-| GET    | `/api/recommendations`              | Personalized Top 10              |
+| Method | Endpoint                        | Purpose                            |
+| ------ | ------------------------------- | ---------------------------------- |
+| GET    | `/api/health`                   | Liveness check                     |
+| POST   | `/api/auth/register`            | Create an account                  |
+| POST   | `/api/auth/login`               | Obtain a JWT                       |
+| GET    | `/api/me`                       | Validate token / fetch self        |
+| GET    | `/api/dramas`                   | Browse the catalog (paged)         |
+| GET    | `/api/dramas/{id}`              | Drama details                      |
+| POST   | `/api/swipe`                    | Record like / dislike              |
+| POST   | `/api/favorites`                | Add favorite                       |
+| DELETE | `/api/favorites/{drama_id}`     | Remove favorite                    |
+| GET    | `/api/favorites`                | List favorites                     |
+| POST   | `/api/watch-later`              | Add to Watch Later                 |
+| DELETE | `/api/watch-later/{drama_id}`   | Remove from Watch Later            |
+| GET    | `/api/watch-later`              | List Watch Later                   |
+| POST   | `/api/watched`                  | Mark as watched                    |
+| GET    | `/api/watched`                  | List watched                       |
+| GET    | `/api/profile`                  | Get profile                        |
+| PUT    | `/api/profile`                  | Update profile (JSON or multipart) |
+| GET    | `/api/profile/genre-statistics` | Taste profile                      |
+| GET    | `/api/recommendations`          | Personalized Top 10                |
 
 The Axios client automatically attaches `Authorization: Bearer <token>` and centralizes error normalization — see [`src/api/client.js`](src/api/client.js).
 
@@ -316,15 +334,15 @@ The Axios client automatically attaches `Authorization: Bearer <token>` and cent
 
 Full diagram and rationale live in [`docs/DATABASE_DESIGN.md`](docs/DATABASE_DESIGN.md). High-level tables:
 
-| Table            | Key columns                                                                  |
-| ---------------- | ---------------------------------------------------------------------------- |
-| `users`          | `user_id`, `full_name`, `email`, `password_hash`, `avatar_url`, `created_at`  |
-| `dramas`         | `drama_id`, `title`, `storyline`, `genre`, `rating`, `release_year`, `poster_url`, `banner_url` |
-| `swipes`         | `swipe_id`, `user_id`, `drama_id`, `swipe_type` (like / dislike), `created_at` |
-| `favorites`      | `favorite_id`, `user_id`, `drama_id`, `created_at`                            |
-| `watch_later`    | `watch_later_id`, `user_id`, `drama_id`, `created_at`                        |
-| `watched`        | `watched_id`, `user_id`, `drama_id`, `watched_at`                            |
-| `user_preferences` | `preference_id`, `user_id`, `genre`, `preference_score`                    |
+| Table              | Key columns                                                                                     |
+| ------------------ | ----------------------------------------------------------------------------------------------- |
+| `users`            | `user_id`, `full_name`, `email`, `password_hash`, `avatar_url`, `created_at`                    |
+| `dramas`           | `drama_id`, `title`, `storyline`, `genre`, `rating`, `release_year`, `poster_url`, `banner_url` |
+| `swipes`           | `swipe_id`, `user_id`, `drama_id`, `swipe_type` (like / dislike), `created_at`                  |
+| `favorites`        | `favorite_id`, `user_id`, `drama_id`, `created_at`                                              |
+| `watch_later`      | `watch_later_id`, `user_id`, `drama_id`, `created_at`                                           |
+| `watched`          | `watched_id`, `user_id`, `drama_id`, `watched_at`                                               |
+| `user_preferences` | `preference_id`, `user_id`, `genre`, `preference_score`                                         |
 
 ---
 
