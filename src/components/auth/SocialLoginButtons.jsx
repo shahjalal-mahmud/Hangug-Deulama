@@ -21,8 +21,8 @@ const AppleIcon = () => (
 
 const baseButtonClasses =
   'flex items-center justify-center gap-3 px-6 py-3.5 rounded-xl ' +
-  'bg-surface-elevated border border-border-strong ' +
-  'text-text-primary text-sm font-semibold ' +
+  'bg-bg-elevated-2 border border-outline-variant ' +
+  'text-on-surface text-sm font-semibold ' +
   'opacity-70 cursor-not-allowed select-none';
 
 const SocialLoginButtons = () => (
