@@ -46,7 +46,7 @@ const PasswordInput = ({
           aria-label={showPassword ? 'Hide password' : 'Show password'}
           aria-pressed={showPassword}
           className="flex items-center justify-center w-9 h-9 rounded-lg
-                     text-text-tertiary hover:text-on-surface
+                     text-text-tertiary hover:text-text-secondary
                      hover:bg-surface-container-high/60
                      focus-visible:outline-none focus-visible:ring-2
                      focus-visible:ring-primary/60
