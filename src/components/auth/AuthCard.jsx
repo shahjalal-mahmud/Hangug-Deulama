@@ -27,8 +27,8 @@ const AuthCard = ({
         <div
           role="alert"
           className="mb-6 px-4 py-3 rounded-xl
-                     bg-accent-muted/40 border border-accent/40
-                     text-accent text-sm flex items-start gap-2"
+                     bg-on-primary-container/40 border border-primary/40
+                     text-primary text-sm flex items-start gap-2"
         >
           <span
             aria-hidden="true"
