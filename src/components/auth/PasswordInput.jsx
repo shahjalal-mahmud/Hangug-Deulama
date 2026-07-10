@@ -1,3 +1,8 @@
+/* src/components/auth/PasswordInput.jsx
+   Password field built on top of AuthInput. Keeps the existing
+   show/hide logic (a single boolean toggle lifted to the parent) so
+   the Login/Register pages don't lose control of state. */
+
 import AuthInput from './AuthInput';
 
 const PasswordInput = ({
@@ -8,6 +13,7 @@ const PasswordInput = ({
   autoComplete = 'current-password',
   showPassword,
   onToggleVisibility,
+  showForgotLink = false,
 }) => {
   return (
     <AuthInput
@@ -21,6 +27,18 @@ const PasswordInput = ({
       autoComplete={autoComplete}
       required
       leftIcon="lock"
+      labelExtra={
+        showForgotLink ? (
+          <button
+            type="button"
+            title="Coming soon"
+            className="text-accent text-[11px] font-semibold uppercase tracking-[0.1em]
+                       hover:text-accent-hover transition-colors duration-200"
+          >
+            Forgot?
+          </button>
+        ) : null
+      }
       rightSlot={
         <button
           type="button"
