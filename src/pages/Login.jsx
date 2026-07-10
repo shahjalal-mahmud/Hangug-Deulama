@@ -121,6 +121,7 @@ const Login = () => {
                   autoComplete="email"
                   inputMode="email"
                   required
+                  leftIcon="mail"
                   error={errors.email}
                 />
 
