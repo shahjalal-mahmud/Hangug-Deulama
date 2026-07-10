@@ -32,7 +32,7 @@ const PasswordInput = ({
           <button
             type="button"
             title="Coming soon"
-            className="text-accent text-[11px] font-semibold uppercase tracking-[0.1em]
+            className="text-accent text-[11px] font-semibold uppercase tracking-widest
                        hover:text-accent-hover transition-colors duration-200"
           >
             Forgot?

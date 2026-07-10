@@ -3,11 +3,11 @@
 
 const AuthDivider = ({ label = 'Or continue with email' }) => (
   <div className="relative flex items-center" role="separator">
-    <div className="flex-grow border-t border-border" />
+    <div className="grow border-t border-border" />
     <span className="mx-4 text-[11px] font-semibold uppercase tracking-[0.14em] text-text-tertiary">
       {label}
     </span>
-    <div className="flex-grow border-t border-border" />
+    <div className="grow border-t border-border" />
   </div>
 );
 
