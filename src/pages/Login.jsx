@@ -158,13 +158,6 @@ const Login = () => {
           </div>
         </section>
       </div>
-
-      {/* Minimal copyright footer, matching the reference. */}
-      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 w-full text-center pointer-events-none">
-        <p className="text-text-tertiary text-[11px] font-medium tracking-wide">
-          © 2026 Hangug Deulama. All rights reserved.
-        </p>
-      </div>
     </div>
   );
 };
