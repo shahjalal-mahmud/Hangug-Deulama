@@ -60,7 +60,7 @@ const AuthInput = ({
           inputMode={inputMode}
           aria-invalid={hasError}
           aria-describedby={hasError ? `${id}-error` : undefined}
-          className={`w-full bg-transparent py-3.5 text-sm text-on-surface
+          className={`w-full bg-transparent py-3.5 text-sm text-text-primary
                      placeholder:text-text-tertiary/70
                      focus:outline-none rounded-xl
                      ${leftIcon ? 'pl-2.5 pr-4' : 'px-4'}`}
