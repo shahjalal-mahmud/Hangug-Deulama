@@ -6,17 +6,35 @@ import GenrePills from '../components/home/GenrePills';
 import ContinueWatching from '../components/home/ContinueWatching';
 import TrendingSection from '../components/home/TrendingSection';
 import RecommendationSection from '../components/home/RecommendationSection';
+import GenreRow from '../components/home/GenreRow';
+import AllDramaSection from '../components/home/AllDramaSection';
 import RevealSection from '../components/ui/RevealSection';
 import ErrorState from '../components/ui/ErrorState';
 import {
   getUniqueGenres,
   filterByGenre,
+  filterByGenreAny,
   getTrending,
   getContinueWatching,
   getRecommendations,
   getLikedGenres,
   getReasonText,
+  sortDramas,
 } from '../utils/dramaHelpers';
+
+/* Config-driven genre rails. Each entry uses a list of aliases since we
+   can't guarantee the exact label casing the backend catalog uses for a
+   given category (e.g. "Historical" vs "Period"). Order here is the
+   exact serial requested for the page, right after "Top Picks For You". */
+const GENRE_SECTIONS = [
+  { id: 'romcom', eyebrow: '로맨스 코미디 · ROM-COM', title: 'Rom-Com', keywords: ['Romance', 'Rom-Com', 'Romantic Comedy'] },
+  { id: 'historical', eyebrow: '사극 · HISTORICAL', title: 'Historical', keywords: ['Historical', 'History', 'Period', 'Sageuk'] },
+  { id: 'thriller', eyebrow: '스릴러 · THRILLER', title: 'Thriller', keywords: ['Thriller'] },
+  { id: 'fantasy', eyebrow: '판타지 · FANTASY', title: 'Fantasy', keywords: ['Fantasy'] },
+  { id: 'action', eyebrow: '액션 · ACTION', title: 'Action', keywords: ['Action'] },
+  { id: 'horror', eyebrow: '공포 · HORROR', title: 'Horror', keywords: ['Horror'] },
+  { id: 'comedy', eyebrow: '코미디 · COMEDY', title: 'Comedy', keywords: ['Comedy'] },
+];
 
 const Home = () => {
   const {
@@ -80,6 +98,21 @@ const Home = () => {
     ? "Based on what you've liked"
     : 'Top picks to get you started';
 
+  // One row per genre in GENRE_SECTIONS, each sorted by rating within
+  // that genre. Computed together so we don't spread N useMemo calls
+  // across a loop.
+  const genreSectionsData = useMemo(
+    () =>
+      GENRE_SECTIONS.map((section) => ({
+        ...section,
+        items: getTrending(filterByGenreAny(dramas, section.keywords), 12),
+      })),
+    [dramas]
+  );
+
+  // "All Dramas" — newest first, full catalog, paginated client-side.
+  const allDramaItems = useMemo(() => sortDramas(dramas, 'newest'), [dramas]);
+
   if (error && !dramas.length) {
     return (
       <div className="px-5 md:px-16 max-w-3xl mx-auto py-20">
@@ -104,12 +137,33 @@ const Home = () => {
         <ContinueWatching items={continueWatchingItems} loading={loading} />
       </RevealSection>
 
+      {/* 1. Trending Now */}
       <RevealSection>
         <TrendingSection items={trendingItems} loading={loading} />
       </RevealSection>
 
+      {/* 2. Top Picks For You */}
       <RevealSection>
         <RecommendationSection items={recommendationItems} subtitle={recommendationSubtitle} />
+      </RevealSection>
+
+      {/* 3-9. Rom-Com, Historical, Thriller, Fantasy, Action, Horror, Comedy */}
+      {genreSectionsData.map((section) => (
+        <RevealSection key={section.id}>
+          <GenreRow
+            id={`${section.id}-heading`}
+            eyebrow={section.eyebrow}
+            title={section.title}
+            items={section.items}
+            loading={loading}
+            actionTo={`/discover?genre=${encodeURIComponent(section.title)}`}
+          />
+        </RevealSection>
+      ))}
+
+      {/* 10. All Drama */}
+      <RevealSection>
+        <AllDramaSection items={allDramaItems} loading={loading} />
       </RevealSection>
     </div>
   );
