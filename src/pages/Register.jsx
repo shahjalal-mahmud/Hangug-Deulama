@@ -91,40 +91,30 @@ const Register = () => {
   };
 
   return (
-    <div className="relative min-h-screen w-full bg-background text-text-primary overflow-hidden">
-      {/* Soft radial wash behind the right panel — same as Login. */}
-      <div
-        className="pointer-events-none absolute inset-0
-                   bg-[radial-gradient(circle_at_top_right,rgba(179,55,63,0.08),transparent_55%),radial-gradient(circle_at_bottom_left,rgba(214,168,92,0.05),transparent_60%)]"
-        aria-hidden="true"
-      />
-      {/* Reuse the existing film-grain utility at very low opacity. */}
-      <div className="absolute inset-0 film-grain opacity-60 pointer-events-none" aria-hidden="true" />
-
+    <div className="relative min-h-screen w-full bg-background text-on-background overflow-hidden">
       <div className="relative grid min-h-screen lg:grid-cols-2">
         {/* Left: cinematic collage (desktop only) — same AuthHero. */}
         <AuthHero />
 
         {/* Right: brand on mobile, auth card on every screen. */}
-        <section className="relative flex flex-col items-center justify-center px-5 sm:px-8 py-16 lg:py-24">
+        <section className="relative flex flex-col items-center justify-center px-6 md:px-12 py-16 lg:py-24">
           <div className="w-full max-w-md">
             <BrandSection />
 
             <AuthCard
-              eyebrow="Join Hangug Deulama"
-              title="Begin Your Cinematic Journey"
-              subtitle="Create your account to curate watchlists, track episodes, and receive picks tuned to your taste."
+              title="Join the Story"
+              subtitle="Discover a new world of K-dramas."
               error={submitError}
               footer={
                 <p className="text-text-secondary text-sm">
                   Already have an account?{' '}
                   <Link
                     to="/login"
-                    className="text-accent font-semibold hover:text-accent-hover
-                               transition-colors duration-200
+                    className="text-accent font-bold hover:underline
+                               transition-all duration-200
                                focus-visible:outline-none focus-visible:underline"
                   >
-                    Sign in
+                    Log in
                   </Link>
                 </p>
               }
@@ -144,11 +134,11 @@ const Register = () => {
 
                 <AuthInput
                   id="email"
-                  label="Email"
+                  label="Email Address"
                   type="email"
                   value={form.email}
                   onChange={handleChange('email')}
-                  placeholder="you@example.com"
+                  placeholder="name@example.com"
                   autoComplete="email"
                   inputMode="email"
                   required
@@ -163,6 +153,7 @@ const Register = () => {
                   autoComplete="new-password"
                   showPassword={showPassword}
                   onToggleVisibility={() => setShowPassword((v) => !v)}
+                  showForgotLink={false}
                 />
 
                 {/* Confirmation field mirrors the primary password styling
@@ -177,28 +168,34 @@ const Register = () => {
                   autoComplete="new-password"
                   required
                   error={errors.password_confirmation}
+                  leftIcon="lock"
                 />
 
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="mt-2 w-full inline-flex items-center justify-center gap-2
-                             rounded-xl bg-accent text-white text-sm font-semibold
-                             uppercase tracking-[0.08em] px-6 py-3.5
-                             shadow-[0_18px_40px_-18px_rgba(179,55,63,0.9)]
+                  className="w-full mt-2 inline-flex items-center justify-center gap-2
+                             rounded-xl bg-primary-container text-on-primary text-sm font-semibold
+                             px-6 py-4
+                             shadow-lg shadow-primary-container/20
                              hover:bg-accent-hover
                              focus-visible:outline-none focus-visible:ring-2
-                             focus-visible:ring-accent/60 focus-visible:ring-offset-2
+                             focus-visible:ring-primary/60 focus-visible:ring-offset-2
                              focus-visible:ring-offset-background
-                             active:scale-[0.985]
-                             transition-all duration-300 ease-cinematic
+                             active:scale-[0.98]
+                             transition-all duration-200 ease-cinematic
                              disabled:opacity-60 disabled:cursor-not-allowed
-                             disabled:hover:bg-accent"
+                             disabled:hover:bg-primary-container"
                 >
                   {submitting && (
                     <span className="loading loading-spinner loading-xs" aria-hidden="true" />
                   )}
-                  {submitting ? 'Creating account' : 'Create Account'}
+                  <span>{submitting ? 'Creating account' : 'Create Account'}</span>
+                  {!submitting && (
+                    <span className="material-symbols-outlined text-[18px] leading-none">
+                      arrow_forward
+                    </span>
+                  )}
                 </button>
               </form>
             </AuthCard>
