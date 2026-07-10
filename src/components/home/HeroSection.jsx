@@ -112,7 +112,7 @@ const HeroSection = ({ items: fallbackItems = [], loading: catalogLoading }) => 
 
   if (showSkeleton) {
     return (
-      <section className="relative w-full h-[78vh] min-h-[520px] md:h-screen md:min-h-0 overflow-hidden">
+      <section className="relative w-full h-[78vh] min-h-130 md:h-screen md:min-h-0 overflow-hidden">
         <div className="absolute inset-0 bg-bg-elevated animate-pulse" aria-hidden="true" />
       </section>
     );
@@ -123,7 +123,7 @@ const HeroSection = ({ items: fallbackItems = [], loading: catalogLoading }) => 
   return (
     <section
       ref={sectionRef}
-      className="relative w-full h-[78vh] min-h-[520px] md:h-screen md:min-h-0 overflow-hidden select-none
+      className="relative w-full h-[78vh] min-h-130 md:h-screen md:min-h-0 overflow-hidden select-none
                  focus-visible:outline-none"
       aria-roledescription="carousel"
       aria-label="Top rated dramas spotlight"
@@ -145,7 +145,7 @@ const HeroSection = ({ items: fallbackItems = [], loading: catalogLoading }) => 
         <div
           key={drama.drama_id}
           className={clsx(
-            'absolute inset-0 transition-opacity duration-[1100ms] ease-cinematic',
+            'absolute inset-0 transition-opacity duration-1100 ease-cinematic',
             i === index ? 'opacity-100 z-10' : 'opacity-0 z-0'
           )}
           aria-hidden={i !== index}
