@@ -1,10 +1,7 @@
 /* src/pages/Login.jsx
    Sign-in screen. Posts to /api/auth/login, persists the returned JWT
    via AuthContext, and redirects to the page the user came from (or
-   the home page if they navigated here directly).
-
-   UI redesign only — every interaction (validation, submit, redirect,
-   show/hide password) is identical to the previous version. */
+   the home page if they navigated here directly). */
 
 import { useState } from 'react';
 import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom';
@@ -16,6 +13,8 @@ import BrandSection from '../components/auth/BrandSection';
 import AuthCard from '../components/auth/AuthCard';
 import AuthInput from '../components/auth/AuthInput';
 import PasswordInput from '../components/auth/PasswordInput';
+import SocialLoginButtons from '../components/auth/SocialLoginButtons';
+import AuthDivider from '../components/auth/AuthDivider';
 
 const Login = () => {
   const { login, isAuthenticated, bootstrapped, status } = useAuth();
@@ -72,48 +71,41 @@ const Login = () => {
 
   return (
     <div className="relative min-h-screen w-full bg-background text-text-primary overflow-hidden">
-      {/* Soft radial wash behind the right panel — adds depth without
-          introducing any new color tokens. */}
-      <div
-        className="pointer-events-none absolute inset-0
-                   bg-[radial-gradient(circle_at_top_right,rgba(179,55,63,0.08),transparent_55%),radial-gradient(circle_at_bottom_left,rgba(214,168,92,0.05),transparent_60%)]"
-        aria-hidden="true"
-      />
-      {/* Reuse the existing film-grain utility at very low opacity. */}
-      <div className="absolute inset-0 film-grain opacity-60 pointer-events-none" aria-hidden="true" />
-
       <div className="relative grid min-h-screen lg:grid-cols-2">
         {/* Left: cinematic collage (desktop only). */}
         <AuthHero />
 
-        {/* Right: brand on mobile, auth card on every screen. */}
-        <section className="relative flex flex-col items-center justify-center px-5 sm:px-8 py-16 lg:py-24">
+        {/* Right: brand on mobile, auth content on every screen. */}
+        <section className="relative flex flex-col items-center justify-center px-6 md:px-12 py-16 lg:py-24">
           <div className="w-full max-w-md">
             <BrandSection />
 
             <AuthCard
-              eyebrow="Sign in"
               title="Welcome Back"
-              subtitle="Continue your cinematic journey through Korean drama."
+              subtitle="Continue your cinematic journey."
               error={submitError}
               footer={
                 <p className="text-text-secondary text-sm">
-                  New to Hangug Deulama?{' '}
+                  Don&apos;t have an account?{' '}
                   <Link
                     to="/register"
-                    className="text-accent font-semibold hover:text-accent-hover
-                               transition-colors duration-200
+                    className="text-accent font-bold hover:underline
+                               transition-all duration-200
                                focus-visible:outline-none focus-visible:underline"
                   >
-                    Create an account
+                    Create account
                   </Link>
                 </p>
               }
             >
+              <SocialLoginButtons />
+
+              <AuthDivider label="Or continue with email" />
+
               <form onSubmit={handleSubmit} noValidate className="space-y-5">
                 <AuthInput
                   id="email"
-                  label="Email"
+                  label="Email Address"
                   type="email"
                   value={form.email}
                   onChange={handleChange('email')}
@@ -132,33 +124,46 @@ const Login = () => {
                   error={errors.password}
                   showPassword={showPassword}
                   onToggleVisibility={() => setShowPassword((v) => !v)}
+                  showForgotLink
                 />
 
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="mt-2 w-full inline-flex items-center justify-center gap-2
+                  className="w-full mt-2 inline-flex items-center justify-center gap-2
                              rounded-xl bg-accent text-white text-sm font-semibold
-                             uppercase tracking-[0.08em] px-6 py-3.5
-                             shadow-[0_18px_40px_-18px_rgba(179,55,63,0.9)]
+                             px-6 py-4
+                             shadow-lg shadow-accent/20
                              hover:bg-accent-hover
                              focus-visible:outline-none focus-visible:ring-2
                              focus-visible:ring-accent/60 focus-visible:ring-offset-2
                              focus-visible:ring-offset-background
-                             active:scale-[0.985]
-                             transition-all duration-300 ease-cinematic
+                             active:scale-[0.98]
+                             transition-all duration-200 ease-cinematic
                              disabled:opacity-60 disabled:cursor-not-allowed
                              disabled:hover:bg-accent"
                 >
                   {submitting && (
                     <span className="loading loading-spinner loading-xs" aria-hidden="true" />
                   )}
-                  {submitting ? 'Signing in' : 'Sign In'}
+                  <span>{submitting ? 'Signing in' : 'Sign In'}</span>
+                  {!submitting && (
+                    <span className="material-symbols-outlined text-[18px] leading-none">
+                      arrow_forward
+                    </span>
+                  )}
                 </button>
               </form>
             </AuthCard>
           </div>
         </section>
+      </div>
+
+      {/* Minimal copyright footer, matching the reference. */}
+      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 w-full text-center pointer-events-none">
+        <p className="text-text-tertiary text-[11px] font-medium tracking-wide">
+          © 2026 Hangug Deulama. All rights reserved.
+        </p>
       </div>
     </div>
   );
