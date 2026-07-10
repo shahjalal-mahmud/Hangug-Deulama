@@ -1,3 +1,10 @@
+/* src/components/auth/AuthInput.jsx
+   Premium dark input used by the auth screens.
+
+   Pure presentation: receives the existing form state and change handler
+   from the parent so the Login/Register pages keep full control of
+   validation, state, and accessibility wiring. */
+
 const AuthInput = ({
   id,
   label,
@@ -11,18 +18,21 @@ const AuthInput = ({
   inputMode,
   rightSlot,
   leftIcon,
+  labelExtra,
 }) => {
   const hasError = Boolean(error);
 
   return (
     <div className="w-full">
-      <label
-        htmlFor={id}
-        className="block text-[11px] font-semibold uppercase tracking-[0.14em]
-                   text-text-secondary mb-2"
-      >
-        {label}
-      </label>
+      <div className="flex items-center justify-between mb-2">
+        <label
+          htmlFor={id}
+          className="text-[11px] font-semibold uppercase tracking-[0.14em] text-text-secondary"
+        >
+          {label}
+        </label>
+        {labelExtra}
+      </div>
       <div
         className={`relative flex items-center rounded-xl bg-surface-elevated/80
                     border transition-all duration-300 ease-cinematic
