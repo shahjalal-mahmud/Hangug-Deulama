@@ -32,7 +32,7 @@ const PasswordInput = ({
           <button
             type="button"
             title="Coming soon"
-            className="text-accent text-[11px] font-semibold uppercase tracking-widest
+            className="text-primary text-[11px] font-semibold uppercase tracking-widest
                        hover:text-accent-hover transition-colors duration-200"
           >
             Forgot?
@@ -46,10 +46,10 @@ const PasswordInput = ({
           aria-label={showPassword ? 'Hide password' : 'Show password'}
           aria-pressed={showPassword}
           className="flex items-center justify-center w-9 h-9 rounded-lg
-                     text-text-tertiary hover:text-text-secondary
-                     hover:bg-surface-overlay/60
+                     text-text-tertiary hover:text-on-surface
+                     hover:bg-surface-container-high/60
                      focus-visible:outline-none focus-visible:ring-2
-                     focus-visible:ring-accent/60
+                     focus-visible:ring-primary/60
                      transition-all duration-200 ease-cinematic"
         >
           <span className="material-symbols-outlined text-[20px] leading-none">
