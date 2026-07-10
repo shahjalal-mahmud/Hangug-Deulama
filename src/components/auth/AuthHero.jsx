@@ -1,100 +1,98 @@
-/* Full-bleed cinematic backdrop with a slow Ken Burns drift, layered
-   scrims for legibility, and a floating "preview card" that mirrors
-   the recommendation UI users will see once logged in — the one
-   signature flourish on this screen. */
+/* src/components/auth/AuthHero.jsx
+   Cinematic left half of the auth screens: a rotated, staggered
+   2x2 poster collage under a maroon glass-overlay gradient, matching
+   the approved design reference. Purely presentational — swap the
+   URLs for the platform's own CDN-hosted artwork when available. */
 
 import ImageWithSkeleton from '../ui/ImageWithSkeleton';
 
-const backdrop = {
-  src: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTrLWRn1tQE75FJwAfvRtKoUiAnJOMBK9YKW9L02ich4g&s=10',
-  alt: 'Neon-lit Seoul street at night, still from a Korean drama',
-};
-
-const previewCard = {
-  src: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRQE8qpzTtIZBQkcp9wvi9U_HUH0EfyqFrgQ2dFS4Igbw&s=10',
-  alt: 'Moody portrait still from a Korean drama',
-  title: 'Crash Course in Romance',
-  match: 97,
-};
+const collageImages = [
+  {
+    src: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAu1HEhU2jYrnULGZ8eLW1ZiFxlFDiCl1FAICjr0r0FPMw6oJYOgcwhizXnHeVjlpV8sWEYL2G4_ptNpL5eVy43vJUnYm44Jgx7AdkE8o7_9eni59cPZAcwh8THlAANm44xpgVV7yGk9vdQKSrLnAORwZxeXZtdzMnS-Rg0p1pD_ILQvyBLtRFXPcnzcInCx_h0rsoVDR_MtwLlRdtQGE5jRO0OZCtlHBO-wpC7cvS8HZA67vBOvOHj_rnxwXNND3dBBpep9ehQ7fo',
+    alt: 'Cinematic portrait of a K-drama lead under neon rain in Seoul',
+    height: 'h-[380px] xl:h-[420px]',
+  },
+  {
+    src: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCHz7eA6HgCGvAQ9FjZ3eGNP2FkXM2rVpvgA-U1_5iL7YJJO4rPlHXihUdaoaHIT47cfGGUAVKXN82kgfPlWfJq2G_dSelIkhUkz7ZnaoOkhNjeDsDYBjKB4Nnpq8-HI9AquoE2jPK4tiUZi8lybuyViUfqAyia5H1u1HMTr04cuYMWcmRzixD2Ob6zyuWqb7cJQ_lv0bNt-_8TkcolZlzvi_Gk8qcJuqLH9FbsCDGkeDcMIHtN-F63o0MdCsjjyqhC29Pw4mSCL9E',
+    alt: 'Minimalist Seoul penthouse interior at twilight',
+    height: 'h-[280px] xl:h-[320px]',
+  },
+  {
+    src: 'https://lh3.googleusercontent.com/aida-public/AB6AXuB_G3O64a0JI2DjXA8X_XprxO0-ZQ8PMWwzXghvacvHLsyawW_x34mjI58t9nxDzaF3kzo2f0rPKSqueQ5oOp0w6R31WE4WAJNxsFybt9vywjBbC4zuUhxZRCVEsLTr2xmQit16QnNE6zsrDgLQADbMzp-eSPn2J8xBW7U88-NBY6Ld2N90b84DK71T51y8UTbqyT1Ewxq16U-XOa5ZkN60Isj18YksGyxqy_G6OYkRSUrWNZQPxEMOSYQJQL4f5-yVnjKWHSxSskU',
+    alt: 'Close-up of a classic film camera and reels on a dark table',
+    height: 'h-[280px] xl:h-[320px]',
+  },
+  {
+    src: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCFOnyI32qDdggvh2nUS0oEvpV2t_I4rBjywXexA7J5ldPmqMoVM4XqPHXnwRDtoG0ewZniwptGWyBnoxS1e1b2_1ST5bMNu9nEJY-USMG0h-C7RV90rG6xNFT2LC2Eon9TWQog_i7kZtsK8bY8fS8_JCBjsxqiw2YpGcdk3Wx_sYPfdg50sS2kA_uW7ag35Ua4JKeMPGn3F-WHlzbmWs-SXsqy7t8CJGUDo17xoMYGoZfjIdFqQX4eB03qY_Wr9bFPRSMb-OL-d60',
+    alt: 'Traditional palace courtyard lit by paper lanterns at night',
+    height: 'h-[380px] xl:h-[420px]',
+  },
+];
 
 const AuthHero = () => {
   return (
     <aside
-      className="relative hidden lg:block overflow-hidden bg-background"
+      className="relative hidden lg:flex items-center justify-center
+                 overflow-hidden bg-background border-r border-border"
       aria-label="Welcome to Hangug Deulama"
     >
-      {/* Backdrop */}
-      <div className="absolute inset-0">
-        <ImageWithSkeleton
-          src={backdrop.src}
-          alt={backdrop.alt}
-          className="w-full h-full object-cover animate-ken-burns"
-        />
-      </div>
-
-      {/* Scrims — keep the bottom-left content legible regardless of
-          what the backdrop image contains */}
+      {/* Rotated, staggered 2x2 poster collage */}
       <div
-        className="absolute inset-0 bg-linear-to-t from-background via-background/55 to-background/10"
+        className="absolute -top-10 -left-10 grid grid-cols-2 gap-3 w-full h-[120%]"
+        style={{ transform: 'rotate(-5deg) scale(1.1)' }}
         aria-hidden="true"
-      />
-      <div
-        className="absolute inset-0 bg-linear-to-r from-background/92 via-background/25 to-transparent"
-        aria-hidden="true"
-      />
-      <div className="absolute inset-0 film-grain pointer-events-none" aria-hidden="true" />
-
-      {/* Top brand mark — grounds the screen as part of the product,
-          not a marketing splash */}
-      <div className="relative z-10 flex items-center gap-2.5 p-10 xl:p-12">
-        <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-accent font-display text-sm font-bold text-white">
-          H
-        </span>
-        <span className="font-display text-sm font-semibold tracking-[0.14em] text-text-primary uppercase">
-          Hangug Deulama
-        </span>
-      </div>
-
-      {/* Headline + floating preview card */}
-      <div className="relative z-10 flex h-[calc(100%-6rem)] flex-col justify-end p-10 xl:p-12">
-        <p className="eyebrow text-accent mb-3 flex items-center gap-2">
-          <span aria-hidden="true" className="inline-block w-8 h-px bg-accent/70" />
-          한국 드라마 · K-DRAMA
-        </p>
-        <h1 className="font-display font-bold text-text-primary leading-[0.95] text-5xl xl:text-6xl tracking-tight max-w-md">
-          Every story
-          <br />
-          worth staying up for.
-        </h1>
-        <p className="mt-4 max-w-sm text-text-secondary text-sm xl:text-base leading-relaxed">
-          Swipe through curated K-dramas matched to your taste — from
-          slow-burn romances to late-night thrillers.
-        </p>
-
-        <div
-          className="mt-10 flex w-fit items-center gap-3 rounded-2xl
-                     surface-card-elevated border border-border-strong
-                     p-3 pr-5 shadow-[0_30px_60px_-24px_rgba(0,0,0,0.8)]
-                     animate-float"
-        >
-          <ImageWithSkeleton
-            src={previewCard.src}
-            alt={previewCard.alt}
-            className="h-16 w-12 rounded-lg object-cover shrink-0"
-          />
-          <div>
-            <p className="text-[10px] uppercase tracking-[0.12em] text-text-tertiary mb-1">
-              Picked for you
-            </p>
-            <p className="font-display text-sm font-semibold text-text-primary">
-              {previewCard.title}
-            </p>
-            <p className="text-xs font-semibold mt-0.5 text-gold">
-              {previewCard.match}% Match
-            </p>
-          </div>
+      >
+        <div className="space-y-3 pt-12">
+          {[collageImages[0], collageImages[1]].map((img, i) => (
+            <div
+              key={img.alt}
+              className={`${img.height} rounded-xl overflow-hidden shadow-2xl
+                         transition-transform duration-700 hover:scale-105
+                         animate-collage-in`}
+              style={{ animationDelay: `${i * 90}ms` }}
+            >
+              <ImageWithSkeleton src={img.src} alt={img.alt} className="w-full h-full object-cover" />
+            </div>
+          ))}
+        </div>
+        <div className="space-y-3">
+          {[collageImages[2], collageImages[3]].map((img, i) => (
+            <div
+              key={img.alt}
+              className={`${img.height} rounded-xl overflow-hidden shadow-2xl
+                         transition-transform duration-700 hover:scale-105
+                         animate-collage-in`}
+              style={{ animationDelay: `${(i + 2) * 90}ms` }}
+            >
+              <ImageWithSkeleton src={img.src} alt={img.alt} className="w-full h-full object-cover" />
+            </div>
+          ))}
         </div>
       </div>
+
+      {/* Maroon glass overlay + branding */}
+      <div
+        className="absolute inset-0 z-10 flex flex-col justify-end p-10 xl:p-12"
+        style={{
+          background:
+            'linear-gradient(135deg, rgba(91,0,23,0.82) 0%, rgba(28,16,17,0.96) 100%)',
+        }}
+      >
+        <div className="max-w-md animate-float">
+          <h1 className="font-display font-bold text-accent text-6xl xl:text-7xl leading-[1.05] mb-4">
+            Hangug
+            <br />
+            Deulama
+          </h1>
+          <p className="text-text-secondary text-sm xl:text-base max-w-sm leading-relaxed opacity-90">
+            Experience the most compelling stories from Korea in stunning
+            cinematic quality. Your journey into the heart of Seoul&apos;s
+            finest dramas begins here.
+          </p>
+        </div>
+      </div>
+
+      <div className="absolute inset-0 film-grain pointer-events-none z-10" aria-hidden="true" />
     </aside>
   );
 };
