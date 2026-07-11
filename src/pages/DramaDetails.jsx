@@ -2,21 +2,14 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useDrama } from '../context/DramaContext';
-import {
-  parseGenres,
-  parseStars,
-  getLikedGenres,
-  getMatchScore,
-  getReasonText,
-  pickImage,
-} from '../utils/dramaHelpers';
+import { parseGenres, getLikedGenres, getMatchScore } from '../utils/dramaHelpers';
 import * as dramasApi from '../api/dramas';
 
-import BackdropHero from '../components/details/BackdropHero';
+import PosterPanel from '../components/details/PosterPanel';
+import DetailsHeader from '../components/details/DetailsHeader';
 import SynopsisSection from '../components/details/SynopsisSection';
 import InfoGrid from '../components/details/InfoGrid';
 import CastSection from '../components/details/CastSection';
-import RecommendationReason from '../components/details/RecommendationReason';
 import SimilarDramas from '../components/details/SimilarDramas';
 import DetailsSkeleton from '../components/details/DetailsSkeleton';
 import EmptyState from '../components/ui/EmptyState';
@@ -96,10 +89,6 @@ const DramaDetails = () => {
   }, [drama]);
 
   const likedGenres = useMemo(() => getLikedGenres(dramas, likedDramas), [dramas, likedDramas]);
-  const likedDramaTitles = useMemo(
-    () => dramas.filter((d) => likedDramas.includes(d.drama_id)).map((d) => d.title),
-    [dramas, likedDramas]
-  );
 
   const similarDramas = useMemo(() => {
     if (!drama || !dramas.length) return [];
@@ -172,10 +161,7 @@ const DramaDetails = () => {
   }
 
   const genres = parseGenres(drama);
-  const stars = parseStars(drama.stars);
   const status = getDramaStatus(drama.drama_id);
-  const matchScore = getMatchScore(drama, likedGenres);
-  const reasonText = getReasonText(drama, likedGenres, likedDramaTitles);
 
   const infoItems = [
     { label: 'Genres', value: genres.join(', ') },
@@ -185,46 +171,41 @@ const DramaDetails = () => {
     { label: 'Country', value: 'South Korea' },
   ];
 
-  // Use the API-provided image when available, otherwise banner fallback.
-  const heroDrama = pickImage(drama) ? { ...drama, banner_url: pickImage(drama) } : drama;
-
   return (
     <div>
-      <BackdropHero
-        drama={heroDrama}
-        status={status}
-        onLike={() => likeDrama(drama.drama_id)}
-        onDislike={() => dislikeDrama(drama.drama_id)}
-        onWatched={() => watchDrama(drama.drama_id)}
-        onBookmark={() => toggleBookmark(drama.drama_id)}
-        onShare={handleShare}
-      />
+      <section className="px-5 md:px-16 max-w-6xl mx-auto pt-28 md:pt-32 pb-16">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-16">
+          <div className="md:col-span-4">
+            <PosterPanel drama={drama} />
+          </div>
 
-      {shareError && (
-        <div className="px-5 md:px-16 max-w-6xl mx-auto pt-6">
-          <ErrorState title="Couldn't share" description={shareError} onRetry={() => setShareError(null)} />
-        </div>
-      )}
+          <div className="md:col-span-8 space-y-10">
+            <DetailsHeader
+              drama={drama}
+              status={status}
+              onLike={() => likeDrama(drama.drama_id)}
+              onDislike={() => dislikeDrama(drama.drama_id)}
+              onWatched={() => watchDrama(drama.drama_id)}
+              onBookmark={() => toggleBookmark(drama.drama_id)}
+              onShare={handleShare}
+            />
 
-      <section className="px-5 md:px-16 max-w-6xl mx-auto py-10 grid grid-cols-1 md:grid-cols-12 gap-10">
-        <div className="md:col-span-8 space-y-12">
-          <RevealSection>
-            <SynopsisSection storyline={drama.storyline} />
-          </RevealSection>
+            {shareError && (
+              <ErrorState title="Couldn't share" description={shareError} onRetry={() => setShareError(null)} />
+            )}
 
-          <RevealSection>
-            <InfoGrid items={infoItems} />
-          </RevealSection>
+            <RevealSection>
+              <SynopsisSection storyline={drama.storyline} />
+            </RevealSection>
 
-          <RevealSection>
-            <CastSection stars={stars} />
-          </RevealSection>
-        </div>
+            <RevealSection>
+              <InfoGrid items={infoItems} />
+            </RevealSection>
 
-        <div className="md:col-span-4">
-          <RevealSection>
-            <RecommendationReason score={matchScore} reasonText={reasonText} />
-          </RevealSection>
+            <RevealSection>
+              <CastSection stars={parseGenres(drama) && drama.stars ? drama.stars.split(',').map((s) => s.trim()).filter(Boolean) : []} />
+            </RevealSection>
+          </div>
         </div>
       </section>
 
