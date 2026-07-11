@@ -445,40 +445,152 @@
 }
 
 /* ============================================================
-   PRIMARY BUTTON OVERRIDE — premium rose → berry CTA
+   BUTTON STYLES — matching navbar logo gradient
    ------------------------------------------------------------
-   Old look: flat `bg-primary-container` (#F55C6F, a saturated
-   tomato-coral — reads as "warning/delete" more than "premium
-   CTA") + near-black maroon text on top = muddy, low-contrast
-   button. This is a pure color fix, no layout/markup change.
-
-   Scoped to `button.bg-primary-container` / `button.text-on-primary`
-   (tag + class) on purpose:
-   - Deliberately unlayered (outside @layer), so in Tailwind v4's
-     cascade it automatically outranks the `utilities` layer —
-     no !important needed, no source-order gymnastics.
-   - The tag+class selector also beats plain `.hover:bg-accent-hover`
-     on specificity, so the hover state is fully replaced too.
-   - Because it's scoped to the <button> tag, any badge/chip
-     elsewhere in the app that reuses these same utility classes
-     on a <span>/<div> is completely unaffected — only real
-     buttons change, everywhere they appear, with zero JSX edits.
+   These styles replicate the beautiful gradient from the navbar
+   brand logo (한) and apply it to buttons throughout the app.
    ============================================================ */
-button.bg-primary-container {
-  background: linear-gradient(135deg, #FF7C9C 0%, #E23F63 55%, #C22C55 100%);
-  box-shadow: 0 8px 24px -6px rgba(226, 63, 99, 0.45);
+
+/* Primary gradient button — matches the logo's bg-linear-to-br 
+   from primary via primary-container to secondary */
+.btn-gradient {
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-container) 55%, var(--color-secondary) 100%);
+  color: var(--color-on-primary);
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--radius-xl);
+  font-weight: 600;
+  font-family: var(--font-button);
+  font-size: var(--font-size-button);
+  letter-spacing: 0.02em;
+  transition: all 0.3s var(--ease-cinematic);
+  box-shadow: 0 8px 24px -6px rgba(255, 178, 183, 0.35);
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
 }
 
-button.bg-primary-container:hover:not(:disabled) {
-  background: linear-gradient(135deg, #FF96AF 0%, #EC4E72 55%, #D03A62 100%);
-  box-shadow: 0 10px 30px -6px rgba(226, 63, 99, 0.55);
+.btn-gradient:hover:not(:disabled) {
+  transform: scale(1.05) rotate(1deg);
+  box-shadow: 0 12px 32px -8px rgba(255, 178, 183, 0.5);
 }
 
-button.bg-primary-container:disabled {
-  background: linear-gradient(135deg, #FF7C9C 0%, #E23F63 55%, #C22C55 100%);
-  box-shadow: none;
+.btn-gradient:active:not(:disabled) {
+  transform: scale(0.98);
 }
 
-button.text-on-primary {
-  color: #FFF5F7;
+.btn-gradient:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Glow effect — subtle pulsing aura matching the logo's 
+   [text-shadow:0_0_30px_rgba(255,178,183,0.15)] */
+.btn-gradient::after {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: inherit;
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-container) 55%, var(--color-secondary) 100%);
+  opacity: 0;
+  filter: blur(20px);
+  transition: opacity 0.4s var(--ease-cinematic);
+  z-index: -1;
+}
+
+.btn-gradient:hover::after {
+  opacity: 0.6;
+}
+
+/* Secondary gradient button — more subtle, uses the same gradient
+   but with lower opacity for less prominent actions */
+.btn-gradient-subtle {
+  background: linear-gradient(135deg, rgba(255, 178, 183, 0.15) 0%, rgba(245, 92, 111, 0.15) 55%, rgba(241, 191, 101, 0.15) 100%);
+  color: var(--color-text-primary);
+  border: 1px solid rgba(255, 178, 183, 0.2);
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--radius-xl);
+  font-weight: 600;
+  font-family: var(--font-button);
+  font-size: var(--font-size-button);
+  letter-spacing: 0.02em;
+  transition: all 0.3s var(--ease-cinematic);
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-gradient-subtle:hover:not(:disabled) {
+  background: linear-gradient(135deg, rgba(255, 178, 183, 0.25) 0%, rgba(245, 92, 111, 0.25) 55%, rgba(241, 191, 101, 0.25) 100%);
+  border-color: rgba(255, 178, 183, 0.4);
+  transform: scale(1.02);
+}
+
+.btn-gradient-subtle:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Small button variant — for compact UI elements */
+.btn-gradient-sm {
+  padding: 0.5rem 1rem;
+  font-size: 0.75rem;
+  border-radius: var(--radius-lg);
+}
+
+/* Large button variant — for hero sections */
+.btn-gradient-lg {
+  padding: 1rem 2.5rem;
+  font-size: 1.125rem;
+  border-radius: var(--radius-xl);
+}
+
+/* Ghost button — minimal version for secondary CTAs */
+.btn-gradient-ghost {
+  background: transparent;
+  color: var(--color-text-primary);
+  border: 1px solid var(--color-border-strong);
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--radius-xl);
+  font-weight: 600;
+  font-family: var(--font-button);
+  font-size: var(--font-size-button);
+  letter-spacing: 0.02em;
+  transition: all 0.3s var(--ease-cinematic);
+  cursor: pointer;
+}
+
+.btn-gradient-ghost:hover:not(:disabled) {
+  background: rgba(255, 178, 183, 0.1);
+  border-color: var(--color-primary);
+  transform: scale(1.02);
+}
+
+/* Icon button — circular variant for icon-only actions */
+.btn-gradient-icon {
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  border-radius: var(--radius-full);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-container) 55%, var(--color-secondary) 100%);
+  color: var(--color-on-primary);
+  border: none;
+  transition: all 0.3s var(--ease-cinematic);
+  cursor: pointer;
+  box-shadow: 0 4px 16px -4px rgba(255, 178, 183, 0.35);
+}
+
+.btn-gradient-icon:hover:not(:disabled) {
+  transform: scale(1.1) rotate(5deg);
+  box-shadow: 0 8px 24px -4px rgba(255, 178, 183, 0.5);
+}
+
+.btn-gradient-icon:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
 }

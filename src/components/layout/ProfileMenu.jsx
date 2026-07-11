@@ -19,27 +19,29 @@ const ProfileMenu = () => {
     navigate('/');
   };
 
-  /* Logged-out state: same rose→berry gradient as every other CTA on
-     the site, so "Sign in" reads as an action, not a low-contrast pill
-     (the old bg-accent + white-text combo was near-illegible — light
-     pink background under white text). */
+  /* Logged-out state: matches the navbar logo gradient exactly.
+     Uses the same primary→primary-container→secondary gradient with
+     matching hover effects (scale + rotate) and shadow treatment. */
   if (!isAuthenticated) {
     return (
       <Link
         to="/login"
-        className="inline-flex items-center gap-2 rounded-full
-                   text-xs font-semibold uppercase tracking-wide px-4 py-2.5
-                   bg-linear-to-br from-[#FF7C9C] via-[#E23F63] to-[#C22C55]
-                   text-[#FFF5F7] shadow-lg shadow-primary-container/30
-                   hover:shadow-xl hover:shadow-primary-container/40 hover:brightness-105
+        className="inline-flex items-center gap-2 rounded-xl
+                   bg-linear-to-br from-primary via-primary-container to-secondary
+                   text-on-primary
+                   shadow-lg shadow-primary-container/25
+                   transition-all duration-300 ease-cinematic
+                   hover:scale-105 hover:rotate-3
+                   hover:shadow-xl hover:shadow-primary-container/40
                    active:scale-[0.98]
-                   transition-all duration-300
+                   font-display text-sm font-bold
+                   px-5 py-2.5
                    focus-visible:outline-none focus-visible:ring-2
                    focus-visible:ring-primary/60 focus-visible:ring-offset-2
                    focus-visible:ring-offset-bg-base"
       >
-        <span className="material-symbols-outlined text-[16px]">login</span>
-        Sign in
+        <span className="material-symbols-outlined text-[18px]">login</span>
+        Sign In
       </Link>
     );
   }
