@@ -13,8 +13,6 @@ const SwipeDeck = ({
   likedGenres,
   totalDecided,
   totalDramas,
-  isFiltered,
-  onClearFilters,
   onLike,
   onDislike,
   onWatched,
@@ -51,25 +49,10 @@ const SwipeDeck = ({
     return (
       <div className="py-6">
         <EmptyState
-          icon={isFiltered ? 'filter_alt_off' : 'auto_awesome'}
-          title={isFiltered ? 'No matches in this filter' : "You're all caught up"}
-          description={
-            isFiltered
-              ? 'Try a different genre or clear your search to see more titles.'
-              : 'You\u2019ve been through every drama in the catalog. Check back soon for new additions.'
-          }
+          icon="auto_awesome"
+          title="You're all caught up"
+          description="You've been through every drama in the catalog. Check back soon for new additions."
         />
-        {isFiltered && (
-          <div className="flex justify-center mt-6">
-            <button
-              type="button"
-              onClick={onClearFilters}
-              className="btn-gradient-ghost text-sm"
-            >
-              Clear filters
-            </button>
-          </div>
-        )}
       </div>
     );
   }
