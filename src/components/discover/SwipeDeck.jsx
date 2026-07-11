@@ -13,6 +13,8 @@ const SwipeDeck = ({
   likedGenres,
   totalDecided,
   totalDramas,
+  isFiltered,
+  onClearFilters,
   onLike,
   onDislike,
   onWatched,
@@ -21,9 +23,13 @@ const SwipeDeck = ({
 }) => {
   const topCardRef = useRef(null);
 
-  const triggerSwipe = useCallback((direction) => {
-    topCardRef.current?.triggerSwipe(direction);
-  }, []);
+  const triggerSwipe = useCallback(
+    (direction) => {
+      if (!queue.length) return;
+      topCardRef.current?.triggerSwipe(direction);
+    },
+    [queue.length]
+  );
 
   const bookmarkTop = useCallback(() => {
     if (queue[0]) onBookmark(queue[0].drama_id);
@@ -43,11 +49,28 @@ const SwipeDeck = ({
 
   if (!queue.length) {
     return (
-      <EmptyState
-        icon="auto_awesome"
-        title="You're all caught up"
-        description="No dramas match your current filters. Try a different genre or clear your search."
-      />
+      <div className="py-6">
+        <EmptyState
+          icon={isFiltered ? 'filter_alt_off' : 'auto_awesome'}
+          title={isFiltered ? 'No matches in this filter' : "You're all caught up"}
+          description={
+            isFiltered
+              ? 'Try a different genre or clear your search to see more titles.'
+              : 'You\u2019ve been through every drama in the catalog. Check back soon for new additions.'
+          }
+        />
+        {isFiltered && (
+          <div className="flex justify-center mt-6">
+            <button
+              type="button"
+              onClick={onClearFilters}
+              className="btn-gradient-ghost text-sm"
+            >
+              Clear filters
+            </button>
+          </div>
+        )}
+      </div>
     );
   }
 
@@ -55,10 +78,10 @@ const SwipeDeck = ({
   const topDrama = stack[0];
 
   return (
-    <div className="flex flex-col items-center gap-8 pb-10">
-      <SwipeProgress decided={totalDecided} total={totalDramas} />
+    <div className="flex flex-col items-center gap-7 pb-14">
+      <SwipeProgress decided={totalDecided} total={totalDramas} remaining={queue.length} />
 
-      <div className="relative w-full max-w-sm h-140">
+      <div className="relative w-full max-w-sm h-[520px] sm:h-[560px]">
         {stack.map((drama, i) => (
           <SwipeCard
             key={drama.drama_id}
