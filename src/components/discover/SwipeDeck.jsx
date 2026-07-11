@@ -81,7 +81,7 @@ const SwipeDeck = ({
     <div className="flex flex-col items-center gap-7 pb-14">
       <SwipeProgress decided={totalDecided} total={totalDramas} remaining={queue.length} />
 
-      <div className="relative w-full max-w-sm h-[520px] sm:h-[560px]">
+      <div className="relative w-full max-w-sm h-130 sm:h-140">
         {stack.map((drama, i) => (
           <SwipeCard
             key={drama.drama_id}
