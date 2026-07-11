@@ -7,7 +7,7 @@ import { useEffect, useState } from 'react';
 import * as profileApi from '../../api/profile';
 import { toFieldErrors } from '../../utils/formErrors';
 import { resolveAvatar } from '../../utils/avatar';
-import ImageWithSkeleton from '../ui/ImageWithSkeleton';
+import Avatar from '../ui/Avatar';
 
 const MAX_IMAGE_BYTES = 5 * 1024 * 1024; // 5 MB to match backend validation
 
@@ -119,7 +119,7 @@ const ProfileEditModal = ({ open, onClose, profile, onUpdated }) => {
 
   return (
     <div
-      className="fixed inset-0 z-[100] bg-background/80 backdrop-blur-sm flex items-center justify-center px-5 py-8"
+      className="fixed inset-0 z-100 bg-background/80 backdrop-blur-sm flex items-center justify-center px-5 py-8"
       role="dialog"
       aria-modal="true"
       aria-labelledby="profile-edit-title"
@@ -166,15 +166,11 @@ const ProfileEditModal = ({ open, onClose, profile, onUpdated }) => {
         <form onSubmit={handleSubmit} noValidate className="space-y-5">
           <div className="flex items-center gap-4">
             <div
-              className="w-16 h-16 rounded-full p-[2px] flex-none"
+              className="w-16 h-16 rounded-full p-0.5 flex-none"
               style={{ background: 'linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%)' }}
             >
-              <div className="w-full h-full rounded-full overflow-hidden bg-surface-elevated flex items-center justify-center">
-                {avatarSrc ? (
-                  <ImageWithSkeleton src={avatarSrc} alt="Avatar preview" className="w-full h-full" />
-                ) : (
-                  <span className="material-symbols-outlined text-2xl text-text-tertiary">person</span>
-                )}
+              <div className="w-full h-full rounded-full overflow-hidden bg-surface-elevated">
+                <Avatar src={avatarSrc} alt="Avatar preview" className="w-full h-full rounded-full" />
               </div>
             </div>
             <label className="inline-flex items-center gap-2 rounded-full border border-border-strong text-text-secondary hover:text-text-primary hover:bg-white/5 text-xs font-medium uppercase tracking-wide px-4 py-2 cursor-pointer transition-colors">
