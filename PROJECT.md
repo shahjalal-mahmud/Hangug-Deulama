@@ -468,7 +468,7 @@ Hangug-Deulama/
 │   │   │   │                       # SwipeProgress, KeyboardHints
 │   │   ├── details/               # BackdropHero, ActionBar, SynopsisSection,
 │   │   │   │                       # InfoGrid, CastCard, CastSection,
-│   │   │   │                       # RecommendationReason, SimilarDramas, DetailsSkeleton
+│   │   │   │                       # SimilarDramas, DetailsSkeleton
 │   │   ├── drama/                 # DramaCard, DramaPosterCard, LandscapeDramaCard
 │   │   ├── profile/               # ProfileEditModal
 │   │   └── ui/                    # Button, EmptyState, ErrorState, LoadingState,
