@@ -462,8 +462,8 @@ Hangug-Deulama/
 │   │   │   │                       # NotificationButton, SearchBar, ProtectedRoute
 │   │   ├── home/                  # HeroSection, GenrePills, ContinueWatching,
 │   │   │   │                       # TrendingSection, SpotlightRail, RecommendationSection
-│   │   ├── discover/              # DiscoverHero, DiscoverSearchBar, CategoryTabs,
-│   │   │   │                       # GenreFilter, SortDropdown, SwipeDeck, SwipeCard,
+│   │   ├── discover/              # DiscoverHero
+│   │   │   │                       # SwipeDeck, SwipeCard,
 │   │   │   │                       # ActionButtons, RecommendationBadge,
 │   │   │   │                       # SwipeProgress, KeyboardHints
 │   │   ├── details/               # BackdropHero, ActionBar, SynopsisSection,
