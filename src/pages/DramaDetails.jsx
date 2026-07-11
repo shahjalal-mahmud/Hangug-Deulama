@@ -39,6 +39,9 @@ const DramaDetails = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [shareError, setShareError] = useState(null);
+  /* A tick we bump on retry to force the fetch effect to re-run
+     without nuking the whole page via window.location.reload(). */
+  const [refreshTick, setRefreshTick] = useState(0);
 
   const dramaId = useMemo(() => {
     if (!id) return null;
@@ -68,7 +71,9 @@ const DramaDetails = () => {
       try {
         const res = await dramasApi.getDrama(dramaId);
         if (cancelled) return;
-        setDrama(res.data || null);
+        // Backend wraps the row in { data: { drama: {...} } } via
+        // Response::ok, so unwrap one level before assigning.
+        setDrama(res?.data?.drama || null);
       } catch (err) {
         if (cancelled) return;
         if (err.status === 404) {
@@ -84,7 +89,7 @@ const DramaDetails = () => {
     return () => {
       cancelled = true;
     };
-  }, [dramaId, dramas]);
+  }, [dramaId, dramas, refreshTick]);
 
   useEffect(() => {
     document.title = drama ? `${drama.title} — HANGUG DEULAMA` : 'HANGUG DEULAMA';
@@ -145,10 +150,9 @@ const DramaDetails = () => {
           onRetry={() => {
             setError(null);
             setLoading(true);
-            // Re-running the effect: toggle dramaId to force a refetch.
-            // The simplest way to do that here is to bump state — we
-            // simply trigger a remount via location reload fallback.
-            window.location.reload();
+            // Bumping refreshTick re-runs the fetch effect cleanly
+            // without a hard page reload (preserves scroll + state).
+            setRefreshTick((t) => t + 1);
           }}
         />
       </div>
