@@ -17,7 +17,9 @@ const SwipeDeck = ({
   onDislike,
   onWatched,
   onBookmark,
+  onFavorite,
   bookmarkedDramas,
+  favoriteDramas,
 }) => {
   const topCardRef = useRef(null);
 
@@ -32,6 +34,10 @@ const SwipeDeck = ({
   const bookmarkTop = useCallback(() => {
     if (queue[0]) onBookmark(queue[0].drama_id);
   }, [queue, onBookmark]);
+
+  const favoriteTop = useCallback(() => {
+    if (queue[0]) onFavorite(queue[0].drama_id);
+  }, [queue, onFavorite]);
 
   useEffect(() => {
     const handleKey = (e) => {
@@ -74,7 +80,9 @@ const SwipeDeck = ({
             isTop={i === 0}
             matchScore={getMatchScore(drama, likedGenres)}
             isBookmarked={bookmarkedDramas.includes(drama.drama_id)}
+            isFavorited={favoriteDramas.includes(drama.drama_id)}
             onBookmark={() => onBookmark(drama.drama_id)}
+            onFavorite={() => onFavorite(drama.drama_id)}
             onSwipe={(direction) => {
               if (direction === 'like') onLike(drama.drama_id);
               else if (direction === 'dislike') onDislike(drama.drama_id);
@@ -89,7 +97,9 @@ const SwipeDeck = ({
         onWatched={() => triggerSwipe('watched')}
         onLike={() => triggerSwipe('like')}
         onBookmark={bookmarkTop}
+        onFavorite={favoriteTop}
         isBookmarked={bookmarkedDramas.includes(topDrama?.drama_id)}
+        isFavorited={favoriteDramas.includes(topDrama?.drama_id)}
       />
 
       <KeyboardHints />

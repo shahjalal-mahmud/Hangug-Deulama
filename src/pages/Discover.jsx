@@ -14,10 +14,12 @@ const Discover = () => {
     dislikedDramas,
     watchedDramas,
     bookmarkedDramas,
+    favoriteDramas,
     likeDrama,
     dislikeDrama,
     watchDrama,
     toggleBookmark,
+    toggleFavorite,
   } = useDrama();
 
   const likedGenres = useMemo(() => getLikedGenres(dramas, likedDramas), [dramas, likedDramas]);
@@ -51,7 +53,9 @@ const Discover = () => {
         onDislike={dislikeDrama}
         onWatched={watchDrama}
         onBookmark={toggleBookmark}
+        onFavorite={toggleFavorite}
         bookmarkedDramas={bookmarkedDramas}
+        favoriteDramas={favoriteDramas}
       />
     </div>
   );

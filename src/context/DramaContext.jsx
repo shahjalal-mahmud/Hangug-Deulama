@@ -256,7 +256,7 @@ export const DramaProvider = ({ children }) => {
       dislikedDramas,
       watchedDramas: watched,
       bookmarkedDramas: watchLater,
-      favorites,
+      favoriteDramas: favorites,
       likeDrama,
       dislikeDrama,
       watchDrama,

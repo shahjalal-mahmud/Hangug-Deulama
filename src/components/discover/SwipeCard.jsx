@@ -9,7 +9,17 @@ const SWIPE_THRESHOLD = 110;
 const ROTATION_FACTOR = 0.05;
 
 const SwipeCard = forwardRef(
-  ({ drama, depth = 0, isTop = false, matchScore, isBookmarked, onBookmark, onSwipe }, ref) => {
+  ({
+    drama,
+    depth = 0,
+    isTop = false,
+    matchScore,
+    isBookmarked,
+    isFavorited,
+    onBookmark,
+    onFavorite,
+    onSwipe,
+  }, ref) => {
     const cardRef = useRef(null);
     const dragState = useRef({ startX: 0, startY: 0, dragging: false });
     const [offset, setOffset] = useState({ x: 0, y: 0 });
@@ -142,12 +152,30 @@ const SwipeCard = forwardRef(
               type="button"
               onClick={(e) => {
                 e.stopPropagation();
+                onFavorite();
+              }}
+              aria-label={isFavorited ? 'Remove from favorites' : 'Add to favorites'}
+              aria-pressed={isFavorited}
+              className={`w-9 h-9 rounded-full backdrop-blur-sm flex items-center justify-center transition-colors duration-300
+                ${isFavorited ? 'bg-accent text-white' : 'bg-background/70 text-text-secondary hover:text-text-primary'}`}
+            >
+              <span
+                className="material-symbols-outlined text-lg"
+                style={{ fontVariationSettings: isFavorited ? "'FILL' 1" : "'FILL' 0" }}
+              >
+                star
+              </span>
+            </button>
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
                 onBookmark();
               }}
               aria-label={isBookmarked ? 'Remove bookmark' : 'Save for later'}
               aria-pressed={isBookmarked}
               className={`w-9 h-9 rounded-full backdrop-blur-sm flex items-center justify-center transition-colors duration-300
-                ${isBookmarked ? 'bg-accent text-white' : 'bg-background/70 text-text-secondary hover:text-text-primary'}`}
+                ${isBookmarked ? 'bg-secondary text-white' : 'bg-background/70 text-text-secondary hover:text-text-primary'}`}
             >
               <span
                 className="material-symbols-outlined text-lg"

@@ -5,7 +5,15 @@
    card's own gesture vocabulary so keyboard/click users get the
    same three-way choice as a swipe, plus bookmark as a bonus. */
 
-const ActionButtons = ({ onDislike, onWatched, onLike, onBookmark, isBookmarked }) => (
+const ActionButtons = ({
+  onDislike,
+  onWatched,
+  onLike,
+  onBookmark,
+  onFavorite,
+  isBookmarked,
+  isFavorited,
+}) => (
   <div className="flex items-center justify-center gap-4 md:gap-5">
     <button
       type="button"
@@ -39,6 +47,26 @@ const ActionButtons = ({ onDislike, onWatched, onLike, onBookmark, isBookmarked 
     >
       <span className="material-symbols-outlined text-3xl" style={{ fontVariationSettings: "'FILL' 1" }}>
         favorite
+      </span>
+    </button>
+
+    <button
+      type="button"
+      onClick={onFavorite}
+      aria-label={isFavorited ? 'Remove from favorites' : 'Add to favorites'}
+      aria-pressed={isFavorited}
+      title={isFavorited ? 'Remove from favorites' : 'Add to favorites'}
+      className={`w-12 h-12 rounded-full border flex items-center justify-center transition-all duration-300
+                  active:scale-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/60
+                  ${isFavorited
+                    ? 'bg-accent/15 border-accent/40 text-accent'
+                    : 'bg-white/5 border-border-strong text-text-secondary hover:text-accent hover:border-accent/40'}`}
+    >
+      <span
+        className="material-symbols-outlined text-xl"
+        style={{ fontVariationSettings: isFavorited ? "'FILL' 1" : "'FILL' 0" }}
+      >
+        star
       </span>
     </button>
 
