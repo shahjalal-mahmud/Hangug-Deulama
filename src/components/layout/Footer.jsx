@@ -99,19 +99,23 @@ const Footer = () => {
             </p>
             <Link
               to="/discover"
-              className="inline-flex items-center gap-1.5 rounded-full w-fit
-                         text-xs font-semibold uppercase tracking-wide px-4 py-2.5
-                         bg-linear-to-br from-[#FF7C9C] via-[#E23F63] to-[#C22C55]
-                         text-[#FFF5F7] shadow-lg shadow-primary-container/30
-                         hover:shadow-xl hover:shadow-primary-container/40 hover:brightness-105
+              className="inline-flex items-center gap-2.5
+                         rounded-xl
+                         bg-linear-to-br from-primary via-primary-container to-secondary
+                         text-on-primary
+                         shadow-lg shadow-primary-container/25
+                         hover:shadow-xl hover:shadow-primary-container/40
+                         hover:scale-[1.05] hover:rotate-1
                          active:scale-[0.98]
-                         transition-all duration-300
+                         transition-all duration-300 ease-cinematic
+                         font-display text-sm font-bold
+                         px-5 py-2.5
                          focus-visible:outline-none focus-visible:ring-2
                          focus-visible:ring-primary/60 focus-visible:ring-offset-2
                          focus-visible:ring-offset-surface-dim"
             >
               Start Discovering
-              <span className="material-symbols-outlined text-[16px]">arrow_outward</span>
+              <span className="material-symbols-outlined text-[18px]">arrow_outward</span>
             </Link>
           </div>
         </div>
