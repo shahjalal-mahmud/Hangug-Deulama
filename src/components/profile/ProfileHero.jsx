@@ -3,7 +3,11 @@
    same treatment the marketing hero uses elsewhere in the app — so the
    profile page reads as the same product rather than a bolted-on admin
    screen. The avatar ring reuses the exact primary→secondary gradient
-   from .btn-gradient, tying the page's one accent together. */
+   from .btn-gradient, tying the page's one accent together. Avatar
+   fallback (missing image or a broken backend URL) is handled centrally
+   by the Avatar component. */
+
+import Avatar from '../ui/Avatar';
 
 const ProfileHero = ({ name, email, avatarSrc, topGenreLabel, onEdit, onLogout }) => (
   <header className="relative overflow-hidden rounded-2xl border border-border film-grain">
@@ -18,15 +22,11 @@ const ProfileHero = ({ name, email, avatarSrc, topGenreLabel, onEdit, onLogout }
 
     <div className="relative flex flex-col sm:flex-row items-center sm:items-start gap-6 p-6 sm:p-8">
       <div
-        className="w-28 h-28 rounded-full p-[3px] flex-none"
+        className="w-28 h-28 rounded-full p-0.75 flex-none"
         style={{ background: 'linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%)' }}
       >
-        <div className="w-full h-full rounded-full overflow-hidden bg-surface flex items-center justify-center">
-          {avatarSrc ? (
-            <img src={avatarSrc} alt={name || 'Profile avatar'} className="w-full h-full object-cover" />
-          ) : (
-            <span className="material-symbols-outlined text-4xl text-text-tertiary">person</span>
-          )}
+        <div className="w-full h-full rounded-full overflow-hidden bg-surface">
+          <Avatar src={avatarSrc} alt={name} className="w-full h-full rounded-full" />
         </div>
       </div>
 
