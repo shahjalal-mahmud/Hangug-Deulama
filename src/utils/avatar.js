@@ -5,6 +5,13 @@
 
 import { API_BASE_URL } from '../api';
 
+/* Place your fallback image at public/default-avatar.png (any name works,
+   just update this path — files in /public are served from the site root,
+   no import needed). Swap this for an `import defaultAvatar from
+   '../assets/default-avatar.png'` instead if you'd rather bundle it from
+   src/assets. */
+export const DEFAULT_AVATAR_SRC = '/avatar.jpg';
+
 export const resolveAvatar = (image) => {
   if (!image) return null;
   return /^https?:\/\//i.test(image) ? image : `${API_BASE_URL}/${image}`;

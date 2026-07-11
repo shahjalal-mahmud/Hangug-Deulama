@@ -41,7 +41,6 @@ const Profile = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [editOpen, setEditOpen] = useState(false);
-  const [showDeveloperDetails, setShowDeveloperDetails] = useState(false);
 
   const load = async () => {
     setLoading(true);
@@ -157,44 +156,6 @@ const Profile = () => {
           </div>
         </section>
       )}
-
-      {/* ============================================================ */}
-      {/* Developer details — verbatim field + raw response viewer,     */}
-      {/* kept for verifying the data layer end-to-end without putting  */}
-      {/* it in front of ordinary users.                                */}
-      {/* ============================================================ */}
-      <div className="mt-10 pt-6 border-t border-border-subtle">
-        <button
-          type="button"
-          onClick={() => setShowDeveloperDetails((v) => !v)}
-          className="inline-flex items-center gap-1.5 text-xs text-text-tertiary hover:text-text-secondary transition-colors"
-        >
-          <span className="material-symbols-outlined text-[15px]">code</span>
-          {showDeveloperDetails ? 'Hide developer details' : 'Show developer details'}
-        </button>
-
-        {showDeveloperDetails && (
-          <div className="mt-4 space-y-3">
-            <details className="border border-border rounded-xl px-4 py-3">
-              <summary className="cursor-pointer text-text-secondary text-sm">
-                GET /api/profile response
-              </summary>
-              <pre className="mt-3 p-3 bg-surface-container-lowest text-tertiary rounded-lg overflow-auto text-xs">
-                {JSON.stringify(profile, null, 2)}
-              </pre>
-            </details>
-            <details className="border border-border rounded-xl px-4 py-3">
-              <summary className="cursor-pointer text-text-secondary text-sm">
-                GET /api/profile/genre-statistics response
-              </summary>
-              <pre className="mt-3 p-3 bg-surface-container-lowest text-tertiary rounded-lg overflow-auto text-xs">
-                {JSON.stringify(stats, null, 2)}
-              </pre>
-            </details>
-          </div>
-        )}
-      </div>
-
       <ProfileEditModal
         open={editOpen}
         onClose={() => setEditOpen(false)}
