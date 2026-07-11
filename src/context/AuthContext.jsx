@@ -155,7 +155,13 @@ export const AuthProvider = ({ children }) => {
       token,
       status,
       bootstrapped,
-      isAuthenticated: !!token && status === 'authenticated',
+      /* "Authenticated" covers both the verified state and the
+         optimistic state of having a persisted token that we're
+         currently re-validating. Without this, a hard refresh would
+         briefly flash a "Sign In" button before /api/me returns.
+         A genuine logout (token cleared) still flips it back to
+         false because token is null. */
+      isAuthenticated: !!token && (status === 'authenticated' || status === 'authenticating'),
       login,
       register,
       logout,
