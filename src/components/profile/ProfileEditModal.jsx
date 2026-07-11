@@ -5,8 +5,8 @@
 
 import { useEffect, useState } from 'react';
 import * as profileApi from '../../api/profile';
-import { API_BASE_URL } from '../../api';
 import { toFieldErrors } from '../../utils/formErrors';
+import { resolveAvatar } from '../../utils/avatar';
 import ImageWithSkeleton from '../ui/ImageWithSkeleton';
 
 const MAX_IMAGE_BYTES = 5 * 1024 * 1024; // 5 MB to match backend validation
@@ -38,13 +38,7 @@ const ProfileEditModal = ({ open, onClose, profile, onUpdated }) => {
 
   if (!open) return null;
 
-  const avatarSrc = imagePreview
-    ? imagePreview
-    : profile?.image
-    ? /^https?:\/\//i.test(profile.image)
-      ? profile.image
-      : `${API_BASE_URL}/${profile.image}`
-    : null;
+  const avatarSrc = imagePreview || resolveAvatar(profile?.image);
 
   const handleImageChange = (e) => {
     const file = e.target.files?.[0];
@@ -137,7 +131,7 @@ const ProfileEditModal = ({ open, onClose, profile, onUpdated }) => {
       >
         <div className="flex items-start justify-between gap-3 mb-6">
           <div>
-            <p className="eyebrow text-accent mb-1">Edit profile</p>
+            <p className="eyebrow mb-1">Edit profile</p>
             <h2 id="profile-edit-title" className="font-display text-xl font-semibold text-text-primary">
               Update your details
             </h2>
@@ -163,8 +157,7 @@ const ProfileEditModal = ({ open, onClose, profile, onUpdated }) => {
         {successMessage && (
           <div
             role="status"
-            className="mb-5 px-4 py-3 rounded-lg bg-emerald-500/10 border border-emerald-500/30
-                       text-emerald-400 text-sm"
+            className="mb-5 px-4 py-3 rounded-lg bg-tertiary/10 border border-tertiary/30 text-tertiary text-sm"
           >
             {successMessage}
           </div>
@@ -172,12 +165,17 @@ const ProfileEditModal = ({ open, onClose, profile, onUpdated }) => {
 
         <form onSubmit={handleSubmit} noValidate className="space-y-5">
           <div className="flex items-center gap-4">
-            <div className="w-16 h-16 rounded-full overflow-hidden bg-surface-elevated flex items-center justify-center border border-border-strong flex-none">
-              {avatarSrc ? (
-                <ImageWithSkeleton src={avatarSrc} alt="Avatar preview" className="w-full h-full" />
-              ) : (
-                <span className="material-symbols-outlined text-2xl text-text-tertiary">person</span>
-              )}
+            <div
+              className="w-16 h-16 rounded-full p-[2px] flex-none"
+              style={{ background: 'linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%)' }}
+            >
+              <div className="w-full h-full rounded-full overflow-hidden bg-surface-elevated flex items-center justify-center">
+                {avatarSrc ? (
+                  <ImageWithSkeleton src={avatarSrc} alt="Avatar preview" className="w-full h-full" />
+                ) : (
+                  <span className="material-symbols-outlined text-2xl text-text-tertiary">person</span>
+                )}
+              </div>
             </div>
             <label className="inline-flex items-center gap-2 rounded-full border border-border-strong text-text-secondary hover:text-text-primary hover:bg-white/5 text-xs font-medium uppercase tracking-wide px-4 py-2 cursor-pointer transition-colors">
               <span className="material-symbols-outlined text-[16px]">image</span>
@@ -290,25 +288,10 @@ const ProfileEditModal = ({ open, onClose, profile, onUpdated }) => {
           </div>
 
           <div className="flex items-center justify-end gap-3 pt-2">
-            <button
-              type="button"
-              onClick={onClose}
-              className="inline-flex items-center justify-center rounded-full border border-border-strong
-                         text-text-secondary hover:text-text-primary hover:bg-white/5 text-xs
-                         font-medium uppercase tracking-wide px-5 py-2.5 transition-colors duration-300
-                         focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/60"
-            >
+            <button type="button" onClick={onClose} className="btn-gradient-ghost btn-gradient-sm">
               Cancel
             </button>
-            <button
-              type="submit"
-              disabled={submitting}
-              className="inline-flex items-center justify-center gap-2 rounded-full bg-accent text-white
-                         text-xs font-medium uppercase tracking-wide px-5 py-2.5
-                         hover:bg-accent-hover transition-colors duration-300
-                         focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/60
-                         active:scale-[0.98] disabled:opacity-60 disabled:cursor-not-allowed"
-            >
+            <button type="submit" disabled={submitting} className="btn-gradient btn-gradient-sm">
               {submitting && <span className="loading loading-spinner loading-xs" />}
               {submitting ? 'Saving' : 'Save changes'}
             </button>
