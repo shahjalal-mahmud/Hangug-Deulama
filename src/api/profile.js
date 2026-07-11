@@ -37,9 +37,14 @@ export const updateProfile = ({
     if (newPassword) form.append('new_password', newPassword);
     if (confirmPassword) form.append('confirm_password', confirmPassword);
     form.append('image', image);
-    return apiClient
-      .put('/profile', form, { headers: { 'Content-Type': 'multipart/form-data' } })
-      .then((r) => r.data);
+    /* IMPORTANT: do NOT set Content-Type manually here. When you pass a
+       FormData body, axios auto-generates the correct
+       `multipart/form-data; boundary=------...` header. Forcing
+       `multipart/form-data` without a boundary produces a malformed
+       body that the backend's file parser can't read, so the upload
+       silently fails (the name/password still update, but no file
+       arrives). Let axios set the header itself. */
+    return apiClient.put('/profile', form).then((r) => r.data);
   }
 
   const body = {};
