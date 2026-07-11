@@ -130,25 +130,30 @@ const Login = () => {
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="w-full mt-2 inline-flex items-center justify-center gap-2
-                             rounded-xl bg-primary-container text-on-primary text-sm font-semibold
+                  className="w-full inline-flex items-center justify-center gap-2.5
+                             rounded-xl
+                             bg-linear-to-br from-primary via-primary-container to-secondary
+                             text-on-primary
+                             shadow-lg shadow-primary-container/25
+                             hover:shadow-xl hover:shadow-primary-container/40
+                             hover:scale-[1.02]
+                             active:scale-[0.98]
+                             transition-all duration-300 ease-cinematic
+                             font-display text-base font-bold
                              px-6 py-4
-                             shadow-lg shadow-primary-container/20
-                             hover:bg-accent-hover
                              focus-visible:outline-none focus-visible:ring-2
                              focus-visible:ring-primary/60 focus-visible:ring-offset-2
                              focus-visible:ring-offset-bg-base
-                             active:scale-[0.98]
-                             transition-all duration-200 ease-cinematic
                              disabled:opacity-60 disabled:cursor-not-allowed
-                             disabled:hover:bg-primary-container"
+                             disabled:hover:scale-100 disabled:hover:shadow-lg
+                             disabled:hover:shadow-primary-container/25"
                 >
                   {submitting && (
                     <span className="loading loading-spinner loading-xs" aria-hidden="true" />
                   )}
                   <span>{submitting ? 'Signing in' : 'Get Started'}</span>
                   {!submitting && (
-                    <span className="material-symbols-outlined text-[18px] leading-none">
+                    <span className="material-symbols-outlined text-[20px] leading-none">
                       arrow_forward
                     </span>
                   )}
