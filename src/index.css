@@ -594,3 +594,54 @@
   cursor: not-allowed;
   transform: none;
 }
+
+/* Primary gradient button — matches the logo's bg-linear-to-br 
+   from primary via primary-container to secondary */
+.btn-gradient {
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-container) 55%, var(--color-secondary) 100%);
+  color: var(--color-on-primary);
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--radius-xl);
+  font-weight: 600;
+  font-family: var(--font-button);
+  font-size: var(--font-size-button);
+  letter-spacing: 0.02em;
+  transition: all 0.3s var(--ease-cinematic);
+  box-shadow: 0 8px 24px -6px rgba(255, 178, 183, 0.35);
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Override text color for better readability on gradient backgrounds */
+.btn-gradient .text-on-primary-fixed-variant {
+  color: var(--color-on-primary-fixed-variant);
+}
+
+/* Or if you want to use the primary text color (white/light) */
+.btn-gradient .text-on-primary-fixed {
+  color: var(--color-on-primary-fixed);
+}
+
+/* Ghost button with better text contrast */
+.btn-gradient-ghost {
+  background: transparent;
+  color: var(--color-text-secondary);
+  border: 1px solid var(--color-border-strong);
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--radius-xl);
+  font-weight: 600;
+  font-family: var(--font-button);
+  font-size: var(--font-size-button);
+  letter-spacing: 0.02em;
+  transition: all 0.3s var(--ease-cinematic);
+  cursor: pointer;
+}
+
+.btn-gradient-ghost:hover:not(:disabled) {
+  background: rgba(255, 178, 183, 0.1);
+  border-color: var(--color-primary);
+  color: var(--color-text-primary);
+  transform: scale(1.02);
+}

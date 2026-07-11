@@ -49,10 +49,18 @@ const ProfileHero = ({ name, email, avatarSrc, topGenreLabel, onEdit, onLogout }
         </p>
 
         <div className="flex items-center justify-center sm:justify-start gap-3 mt-5">
-          <button type="button" onClick={onEdit} className="btn-gradient btn-gradient-sm">
+          <button 
+            type="button" 
+            onClick={onEdit} 
+            className="btn-gradient btn-gradient-sm text-on-primary-fixed-variant font-bold"
+          >
             Edit profile
           </button>
-          <button type="button" onClick={onLogout} className="btn-gradient-ghost btn-gradient-sm">
+          <button 
+            type="button" 
+            onClick={onLogout} 
+            className="btn-gradient-ghost btn-gradient-sm text-text-secondary hover:text-text-primary"
+          >
             Sign out
           </button>
         </div>
