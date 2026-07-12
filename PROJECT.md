@@ -460,7 +460,7 @@ Hangug-Deulama/
 │   ├── components/
 │   │   ├── layout/                # Navbar, BottomNav, Footer, ProfileMenu,
 │   │   │   │                       # NotificationButton, SearchBar, ProtectedRoute
-│   │   ├── home/                  # HeroSection, GenrePills, ContinueWatching,
+│   │   ├── home/                  # HeroSection, GenrePills,
 │   │   │   │                       # TrendingSection, SpotlightRail, RecommendationSection
 │   │   ├── discover/              # DiscoverHero
 │   │   │   │                       # SwipeDeck, SwipeCard,
