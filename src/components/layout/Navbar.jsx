@@ -1,7 +1,6 @@
 /* src/components/layout/Navbar.jsx */
 import { NavLink, useNavigate } from 'react-router-dom';
 import clsx from 'clsx';
-import SearchBar from './SearchBar';
 import ProfileMenu from './ProfileMenu';
 import { useAuth } from '../../context/AuthContext';
 
@@ -89,33 +88,9 @@ const Navbar = () => {
         </nav>
 
         <div className="flex items-center gap-3 md:gap-4">
-          <SearchBar />
-          <span className="hidden md:block w-px h-6 bg-border-strong" aria-hidden="true" />
-          
-          {/* Show Sign In button when not authenticated, otherwise show nothing (since sign out is in profile menu) */}
-          {!isAuthenticated && (
-            <NavLink
-              to="/login"
-              className="inline-flex items-center gap-2 rounded-xl
-                         bg-linear-to-br from-primary via-primary-container to-secondary
-                         text-on-primary
-                         shadow-lg shadow-primary-container/25
-                         transition-all duration-300 ease-cinematic
-                         hover:scale-105 hover:rotate-3
-                         hover:shadow-xl hover:shadow-primary-container/40
-                         active:scale-[0.98]
-                         font-display text-sm font-bold
-                         px-5 py-2.5
-                         focus-visible:outline-none focus-visible:ring-2
-                         focus-visible:ring-primary/60 focus-visible:ring-offset-2
-                         focus-visible:ring-offset-bg-base"
-              aria-label="Sign in to your account"
-            >
-              <span className="material-symbols-outlined text-[18px]">login</span>
-              Sign in
-            </NavLink>
-          )}
-          
+          {/* ProfileMenu renders the Sign In button when logged out,
+              and the avatar + dropdown (containing Sign out) when logged in.
+              This guarantees exactly one auth button in the navbar in each state. */}
           <ProfileMenu />
         </div>
       </div>

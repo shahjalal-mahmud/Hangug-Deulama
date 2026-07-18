@@ -10,7 +10,7 @@ import { API_BASE_URL } from '../api';
    no import needed). Swap this for an `import defaultAvatar from
    '../assets/default-avatar.png'` instead if you'd rather bundle it from
    src/assets. */
-export const DEFAULT_AVATAR_SRC = '/avatar.avif';
+export const DEFAULT_AVATAR_SRC = `${import.meta.env.BASE_URL}avatar.avif`;
 
 export const resolveAvatar = (image) => {
   if (!image) return null;
