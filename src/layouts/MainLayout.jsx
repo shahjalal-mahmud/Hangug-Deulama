@@ -2,6 +2,7 @@ import { Outlet } from 'react-router-dom';
 import Navbar from '../components/layout/Navbar';
 import BottomNav from '../components/layout/BottomNav';
 import Footer from '../components/layout/Footer';
+import FloatingDownloadButton from '../components/layout/FloatingDownloadButton';
 
 const MainLayout = () => {
   return (
@@ -12,6 +13,7 @@ const MainLayout = () => {
       </main>
       <Footer />
       <BottomNav />
+      <FloatingDownloadButton />
     </div>
   );
 };
