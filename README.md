@@ -1,18 +1,35 @@
+<div align="center">
+
 # 🎬 Hangug Deulama
 
-> A swipe-based K-Drama discovery platform with personalized recommendations, built with **React 19, Tailwind CSS 4, PHP 8, and MySQL**.
+### 한국 드라마 — _Korean Drama_
 
-**Hangug Deulama** (한국 드라마 — _Korean Drama_) is a full-stack web application that helps users discover their next favorite Korean drama through an intuitive swipe experience. Every interaction — like, dislike, favorite, watch-later, watched — is captured, persisted, and fed into a rule-based recommendation engine that produces a personalized **Top 10** list.
+A swipe-based K-Drama discovery platform with personalized, rule-based recommendations.
 
-> **Academic Project** — Developed for the **Software Development II** course.
+Built with **React 19**, **Tailwind CSS 4**, **PHP 8**, and **MySQL**.
+
+[![React](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=white)](https://react.dev)
+[![Vite](https://img.shields.io/badge/Vite-8-646CFF?logo=vite&logoColor=white)](https://vitejs.dev)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind-4-38BDF8?logo=tailwindcss&logoColor=white)](https://tailwindcss.com)
+[![PHP](https://img.shields.io/badge/PHP-8-777BB4?logo=php&logoColor=white)](https://www.php.net)
+[![MySQL](https://img.shields.io/badge/MySQL-database-4479A1?logo=mysql&logoColor=white)](https://www.mysql.com)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
+**Academic Project** — developed for the **Software Development II** course.
+
+</div>
 
 ---
 
 ## 📑 Table of Contents
 
 - [🎬 Hangug Deulama](#-hangug-deulama)
+    - [한국 드라마 — _Korean Drama_](#한국-드라마--korean-drama)
   - [📑 Table of Contents](#-table-of-contents)
   - [🧭 Overview](#-overview)
+  - [📸 Screenshots](#-screenshots)
+    - [🖥️ Website](#️-website)
+    - [📱 Mobile App (Android)](#-mobile-app-android)
   - [✨ Features](#-features)
     - [Discovery](#discovery)
     - [Engagement](#engagement)
@@ -21,7 +38,7 @@
     - [Engineering](#engineering)
   - [🛠️ Tech Stack](#️-tech-stack)
     - [Frontend](#frontend)
-    - [Backend (lives in a separate PHP repo, reachable via `VITE_API_BASE_URL`)](#backend-lives-in-a-separate-php-repo-reachable-via-vite_api_base_url)
+    - [Backend (separate PHP repo, reachable via `VITE_API_BASE_URL`)](#backend-separate-php-repo-reachable-via-vite_api_base_url)
     - [Tooling](#tooling)
   - [📂 Project Structure](#-project-structure)
   - [🚀 Quick Start](#-quick-start)
@@ -63,12 +80,48 @@ With thousands of Korean dramas spread across multiple streaming platforms, view
 - **❤️ Favorite, 🔖 Watch Later, ✅ Watched** actions build a rich preference profile
 - **🎯 Personalized Top 10** recommendations, regenerated every time the swipe history changes
 
-The application works in two ways:
+The application ships in two modes, sharing the same frontend — only `VITE_API_BASE_URL` changes:
 
-1. **Local mode** — runs against a PHP/MySQL backend served by XAMPP for academic demos / mentor walkthroughs.
-2. **Production mode** — runs against the deployed API at `https://api.appriyo.com/hangug`.
+| Mode           | Backend                          | Use case                            |
+| -------------- | -------------------------------- | ----------------------------------- |
+| **Local**      | PHP/MySQL via XAMPP              | Academic demos, mentor walkthroughs |
+| **Production** | `https://api.appriyo.com/hangug` | Live deployed demo                  |
 
-Both modes use the same frontend; only `VITE_API_BASE_URL` changes.
+---
+
+## 📸 Screenshots
+
+> Replace the placeholders below with real captures — drop your image files into `docs/screenshots/web/` and `docs/screenshots/mobile/` and update the paths. Keep filenames descriptive (`home.png`, `discover-swipe.png`, `recommendations.png`, etc.) so the table stays easy to maintain.
+
+### 🖥️ Website
+
+<div align="center">
+
+|                                      Home                                       |                                      Discover (Swipe)                                       |                                       Drama Details                                       |
+| :-----------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------: |
+| <img src="docs/screenshots/web/home.png" width="260" alt="Web — Home screen" /> | <img src="docs/screenshots/web/discover.png" width="260" alt="Web — Discover swipe deck" /> | <img src="docs/screenshots/web/details.png" width="260" alt="Web — Drama details page" /> |
+
+|                                            Recommendations                                            |                                       Profile                                       |                                         Activity                                          |
+| :---------------------------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------: |
+| <img src="docs/screenshots/web/recommendations.png" width="260" alt="Web — Recommendations Top 10" /> | <img src="docs/screenshots/web/profile.png" width="260" alt="Web — Profile page" /> | <img src="docs/screenshots/web/activity.png" width="260" alt="Web — Activity timeline" /> |
+
+</div>
+
+### 📱 Mobile App (Android)
+
+<div align="center">
+
+|                                         Home                                          |                                      Swipe Deck                                       |                                           Recommendations                                            |
+| :-----------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------------------: |
+| <img src="docs/screenshots/mobile/home.png" width="200" alt="Mobile — Home screen" /> | <img src="docs/screenshots/mobile/swipe.png" width="200" alt="Mobile — Swipe deck" /> | <img src="docs/screenshots/mobile/recommendations.png" width="200" alt="Mobile — Recommendations" /> |
+
+|                                       Drama Details                                        |                                       Profile                                        |                                     Bottom Navigation                                      |
+| :----------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------: |
+| <img src="docs/screenshots/mobile/details.png" width="200" alt="Mobile — Drama details" /> | <img src="docs/screenshots/mobile/profile.png" width="200" alt="Mobile — Profile" /> | <img src="docs/screenshots/mobile/nav.png" width="200" alt="Mobile — Bottom navigation" /> |
+
+</div>
+
+> 💡 Tip: for a nicer README render, export screenshots at a consistent aspect ratio (e.g. 9:19.5 for mobile) and keep file sizes under ~300 KB each (PNG or WebP) so the page loads fast on GitHub.
 
 ---
 
@@ -77,7 +130,7 @@ Both modes use the same frontend; only `VITE_API_BASE_URL` changes.
 ### Discovery
 
 - 🎭 Curated catalog of K-Dramas with banner art and posters
-- 👉 **Swipe deck** powered by gesture + keyboard controls
+- 👉 Swipe deck powered by gesture + keyboard controls
 - 🔎 Search, category tabs, and genre filtering on the Discover screen
 - 🔥 Trending rail, genre pills, Continue Watching, and Spotlight on Home
 - 📊 Match-score badge for recommended titles
@@ -132,7 +185,7 @@ Both modes use the same frontend; only `VITE_API_BASE_URL` changes.
 | Utility       | clsx                         | 2.x     |
 | Linting       | ESLint + react-hooks plugin  | 10.x    |
 
-### Backend (lives in a separate PHP repo, reachable via `VITE_API_BASE_URL`)
+### Backend (separate PHP repo, reachable via `VITE_API_BASE_URL`)
 
 - **PHP 8** (vanilla, JSON REST API)
 - **JWT (HS256)** for stateless authentication
@@ -150,7 +203,7 @@ Both modes use the same frontend; only `VITE_API_BASE_URL` changes.
 
 ## 📂 Project Structure
 
-This repository contains the **frontend** only. The PHP backend is a separate codebase that is deployed to `api.appriyo.com/hangug` for production and to `localhost/hangug-api/public` for local XAMPP.
+This repository contains the **frontend** only. The PHP backend is a separate codebase, deployed to `api.appriyo.com/hangug` for production and to `localhost/hangug-api/public` for local XAMPP.
 
 ```text
 Hangug-Deulama/
@@ -158,7 +211,10 @@ Hangug-Deulama/
 │   ├── api.md                     # Full REST API reference
 │   ├── DATABASE_DESIGN.md         # ERD + table specs
 │   ├── DESING.md                  # UI / design system
-│   └── MOBILE_DESIGN.md           # Mobile-app design system
+│   ├── MOBILE_DESIGN.md           # Mobile-app design system
+│   └── screenshots/
+│       ├── web/                   # Website screenshots
+│       └── mobile/                # Android app screenshots
 │
 ├── public/
 │   └── favicon.svg
@@ -194,7 +250,7 @@ Hangug-Deulama/
 │   │   │                          # ActionBar, SynopsisSection, InfoGrid,
 │   │   │                          # CastCard, CastSection, SimilarDramas, DetailsSkeleton
 │   │   ├── drama/                 # DramaCard, DramaPosterCard, LandscapeDramaCard
-│   │   ├── profile/               # ProfileHero, ProfileEditModal,
+│   │   ├── profile/                # ProfileHero, ProfileEditModal,
 │   │   │                          # StatCard, TasteProfile, ProfileSkeleton
 │   │   └── ui/                    # Button, EmptyState, ErrorState, LoadingState,
 │   │                              # GenreBadge, ImageWithSkeleton, RevealSection,
@@ -243,6 +299,7 @@ Hangug-Deulama/
 ├── package-lock.json
 ├── vite.config.js                 # base: '/deulama/'
 ├── PROJECT.md                     # Full SRS / academic documentation
+├── LICENSE                        # MIT License
 └── README.md                      # You are here
 ```
 
@@ -260,7 +317,7 @@ Hangug-Deulama/
 ### 1. Clone & install
 
 ```bash
-git clone <your-repo-url>
+git clone https://github.com/shahjalal-mahmud/Hangug-Deulama.git
 cd Hangug-Deulama
 npm install
 ```
@@ -271,7 +328,7 @@ npm install
 cp .env.example .env
 ```
 
-Edit `.env` and choose **ONE** of the two backend targets (see [🔀 Switching Between Local & Production](#-switching-between-local--production) below):
+Edit `.env` and choose **ONE** of the two backend targets (see [🔀 Switching Between Local & Production](#-switching-between-local--production)):
 
 ```env
 # Local XAMPP
@@ -287,7 +344,7 @@ VITE_API_BASE_URL=http://localhost/hangug-api/public
 npm run dev
 ```
 
-Vite prints a local URL (usually `http://localhost:5173`). The Axios client automatically appends `/api` to the configured base URL, so requests go to e.g. `http://localhost:5173/api/...` in dev (Vite proxy not needed — calls go directly to `VITE_API_BASE_URL`).
+Vite prints a local URL (usually `http://localhost:5173`). The Axios client automatically appends `/api` to the configured base URL, so requests go directly to `VITE_API_BASE_URL` — no dev proxy needed.
 
 ### 4. Build for production
 
@@ -310,7 +367,7 @@ The frontend is **environment-agnostic**. You only need to change `VITE_API_BASE
 | **PRODUCTION** — deployed demo      | `https://api.appriyo.com/hangug`      | Live backend hosted on shared hosting     |
 | **SAME-ORIGIN** — PHP & SPA on host | _(blank)_ → requests go to `/api/...` | When both frontend and API share one host |
 
-After editing `.env` **restart** `npm run dev` so Vite re-injects the variable.
+After editing `.env`, **restart** `npm run dev` so Vite re-injects the variable.
 
 The Axios client in `src/api/client.js` reads `VITE_API_BASE_URL` via `src/api/config.js` and appends `/api` automatically — for example, with the production value, every call ends up at `https://api.appriyo.com/hangug/api/...`.
 
@@ -496,7 +553,7 @@ The result is a personalized **Top 10** list that avoids content the user has al
 The app uses two React Contexts layered in [`src/App.jsx`](src/App.jsx):
 
 ```text
-<AuthProvider>     ← JWT session, login/register/logout, 401 listener
+<AuthProvider>       ← JWT session, login/register/logout, 401 listener
   └─ <DramaProvider>  ← catalog, favorites, watch-later, watched, swipe mutations
       └─ <RouterProvider>
 ```
@@ -545,7 +602,7 @@ This project was developed for the **Software Development II** course to demonst
 - Modern frontend engineering (hooks, context, optimistic UI)
 - Responsive UI / UX design principles
 
-Full SRS lives in [`PROJECT.md`](PROJECT.md) and the supplementary design & database docs in [`docs/`](docs/).
+Full SRS lives in [`PROJECT.md`](PROJECT.md), with supplementary design & database docs in [`docs/`](docs/).
 
 ---
 
@@ -566,8 +623,12 @@ Full SRS lives in [`PROJECT.md`](PROJECT.md) and the supplementary design & data
 **Md. Shahajalal Mahmud**
 Full Stack Developer · Android Developer · Software Engineering Student
 
+[![GitHub](https://img.shields.io/badge/GitHub-shahjalal--mahmud-181717?logo=github&logoColor=white)](https://github.com/shahjalal-mahmud)
+
 ---
 
 ## 📄 License
 
-This project is created for educational and academic purposes.
+This project is licensed under the **MIT License** — see [`LICENSE`](LICENSE) for details.
+
+It was created for educational and academic purposes as part of the Software Development II coursework.
