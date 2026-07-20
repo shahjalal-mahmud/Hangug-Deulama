@@ -105,6 +105,10 @@ The application ships in two modes, sharing the same frontend — only `VITE_API
 | :---------------------------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------: |
 | <img src="docs/screenshots/web/recommendations.png" width="260" alt="Web — Recommendations Top 10" /> | <img src="docs/screenshots/web/profile.png" width="260" alt="Web — Profile page" /> | <img src="docs/screenshots/web/activity.png" width="260" alt="Web — Activity timeline" /> |
 
+|                                            Login                                            |                                       Top Picks For you                                     |                                         Register                                          |
+| :---------------------------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------: |
+| <img src="docs/screenshots/web/toppics.png" width="260" alt="Web — Top Picks For You" /> | <img src="docs/screenshots/web/login.png" width="260" alt="Web — Login page" /> | <img src="docs/screenshots/web/register.png" width="260" alt="Web — Register page" /> |
+
 </div>
 
 ### 📱 Mobile App (Android)
