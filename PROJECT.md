@@ -2,28 +2,31 @@
 
 ## A Personalized K-Drama Recommendation System Using Swipe-Based User Interaction
 
-### Software Development II Project Documentation
+### Software Development II — Project Documentation
 
 ---
 
 # 1. Project Information
 
-**Project Title:** Hangug Deulama (한국 드라마 — Korean Drama)
+| Field                | Value                                              |
+| -------------------- | -------------------------------------------------- |
+| **Project Title**    | Hangug Deulama (한국 드라마 — Korean Drama)        |
+| **Project Type**     | Full-Stack Web Application                         |
+| **Project Category** | Entertainment & Personalized Recommendation System |
+| **Course**           | Software Development II                            |
+| **Author**           | Md. Shahajalal Mahmud                              |
+| **Methodology**      | Incremental Development (9 phases)                 |
 
-**Project Type:** Web Application
-
-**Project Category:** Entertainment & Personalized Recommendation System
-
-**Project Description:** A full-stack web application that helps users discover their next favorite Korean drama through an intuitive swipe experience. Every interaction is captured, persisted, and fed back into a rule-based recommendation engine that produces a personalized Top 10.
+**Project Description:** A full-stack web application that helps users discover their next favorite Korean drama through an intuitive swipe experience. Every interaction is captured, persisted, and fed back into a rule-based recommendation engine that produces a personalized **Top 10** list tailored to each user.
 
 **Frontend Technologies:**
 
 - React.js (19.x)
 - Vite (8.x)
-- Tailwind CSS (4.x)
+- Tailwind CSS (4.x) — via the Vite plugin
+- daisyUI (5.x)
 - React Router DOM (7.x)
 - Axios (1.x)
-- daisyUI (5.x)
 - clsx (2.x)
 - ESLint with React Hooks + React Refresh rules
 
@@ -31,54 +34,39 @@
 
 - PHP 8.0+ (vanilla, JSON REST API — single front controller routing via `App\Core\Router`)
 - JWT (HS256) for stateless authentication
-
-**Database:**
-
 - MySQL / MariaDB via PDO (utf8mb4)
 
-**Communication:**
+**Communication:** REST-style JSON API with standardized response envelope (`{ success, message, data }`).
 
-- REST-style JSON API with standardized response envelope
-
-**Development Tools:**
-
-- Visual Studio Code
-- XAMPP / Laragon / MAMP
-- Git & GitHub
-
-**Development Methodology:**
-
-- Incremental Development (9 phases)
+**Development Tools:** Visual Studio Code · XAMPP / Laragon / MAMP · Postman · Git & GitHub.
 
 ---
 
 # 2. Project Overview
 
-Hangug Deulama is a simple and user-friendly K-Drama recommendation web application designed to help users discover dramas based on their personal interests and viewing preferences.
+Hangug Deulama is a user-friendly K-Drama recommendation web application designed to help users discover dramas based on their personal interests and viewing preferences.
 
-Instead of using traditional search and filter interfaces, the application introduces a swipe-based interaction similar to modern recommendation platforms. Users can quickly browse drama cards containing posters, titles, genres, and short descriptions, then express their preferences by swiping left (dislike) or right (like).
+Instead of relying on traditional search and filter interfaces, the application introduces a swipe-based interaction similar to modern recommendation platforms. Users browse drama cards containing posters, titles, genres, and short descriptions, then express their preferences by swiping left (dislike) or right (like).
 
 The application supports four primary engagement actions:
 
-- **Swipe right** to like a drama
-- **Swipe left** to skip / dislike it
+- **Swipe right** → like a drama
+- **Swipe left** → skip / dislike a drama
 - **Favorite** — pin dramas you love
 - **Watch Later** — bookmark something for later
 - **Watched** — log what you've completed
 
-The application continuously records every interaction and uses the accumulated signal to generate **personalized recommendations** and a **Top 10 list** tailored to each user. The recommendation engine uses a rule-based approach that combines likes, dislikes, favorites, watch-later activity, and watched history.
+Every interaction is recorded and used to generate **personalized recommendations** and a **Top 10** list tailored to each user. The recommendation engine uses a rule-based approach that combines likes, dislikes, favorites, watch-later activity, and watched history.
 
-The primary objective is to provide a fast, intuitive, and engaging way for users to discover new Korean dramas, while supporting anonymous-mode usage that syncs to an account on registration.
+A key design goal is **anonymous-mode usage** — users can swipe and build a taste profile without an account, and the activity syncs automatically on registration.
 
 ---
 
 # 3. Problem Statement
 
-With thousands of Korean dramas available across multiple streaming platforms, users often spend significant time searching for something to watch.
+With thousands of Korean dramas available across multiple streaming platforms, users often spend significant time searching for something to watch. Traditional recommendation systems require manual searching, complicated filtering, or extensive account setup before any personalization can begin.
 
-Traditional recommendation systems frequently require manual searching, complicated filtering options, or extensive account setup before any personalization can begin.
-
-Hangug Deulama aims to simplify this process by allowing users to express their preferences naturally through swipe interactions and automatically generating recommendations based on accumulated user behavior — without requiring an account upfront.
+**Hangug Deulama** simplifies this by letting users express their preferences naturally through swipe interactions, automatically generating recommendations from accumulated behavior — **without requiring an account upfront**.
 
 ---
 
@@ -93,12 +81,13 @@ Hangug Deulama aims to simplify this process by allowing users to express their 
 - Create personalized recommendations based on user preferences.
 - Implement JWT-based stateless authentication.
 - Provide a modern, cinema-inspired responsive UI.
+- Run the same frontend against a **local** backend (XAMPP) and a **production** backend (`api.appriyo.com`) via a single environment variable.
 
 ## Secondary Objectives
 
 - Maintain user favorite (heart) list.
 - Maintain user watch-later queue.
-- Maintain user watched history.
+- Maintain user watched history (write-once).
 - Provide per-genre taste profile (genre statistics).
 - Generate Top 10 personalized recommendations with cold-start fallback.
 - Support anonymous-mode browsing that syncs to an account on login.
@@ -108,7 +97,7 @@ Hangug Deulama aims to simplify this process by allowing users to express their 
 
 # 5. Project Scope
 
-The system includes:
+### In Scope
 
 - User registration and login (JWT-based)
 - Anonymous-mode browsing (localStorage-backed)
@@ -119,7 +108,7 @@ The system includes:
 - Like and dislike recording
 - Watch Later queue management
 - Favorites management
-- Watched history tracking
+- Watched history tracking (no removal)
 - Personalized recommendation generation (Top 10)
 - Per-genre preference statistics
 - Activity timeline
@@ -127,45 +116,51 @@ The system includes:
 - Match-score badge for recommended titles
 - Responsive web interface (mobile + desktop)
 - Global 401 listener — auto sign-out on expired tokens
+- Dual-environment support: **local XAMPP** + **production (`api.appriyo.com`)**
 
-Future improvements such as AI-based recommendations, collaborative filtering, and streaming platform integration are outside the scope of this project.
+### Out of Scope (Future Improvements)
+
+- AI-based / collaborative-filtering recommendations
+- Streaming-platform deep-links
+- User ratings & reviews
+- Multi-language UI
 
 ---
 
 # 6. Target Users
 
-- K-Drama enthusiasts
-- New viewers looking for recommendations
-- Casual entertainment users
-- Students and young adults
-- Users who prefer a frictionless, anonymous-first discovery experience
+- K-Drama enthusiasts looking for their next watch
+- New viewers wanting frictionless recommendations
+- Casual entertainment users who prefer swipe-based discovery
+- Students and young adults who use mobile-first interfaces
+- Users who value anonymous-first browsing with optional sync
 
 ---
 
 # 7. Functional Requirements
 
-## User Management
+## 7.1 User Management
 
 - User Registration (`full_name`, `email`, `password`, `password_confirmation`)
 - User Login (returns JWT)
-- JWT validation on protected routes
-- User Profile (id, name, email, image, liked_count, watched_count, favorite_genres)
+- JWT validation on protected routes (`GET /api/me`)
+- User Profile (id, name, email, image, liked_count, watched_count, favorite_genres top-3)
 - Editable profile (name + avatar upload + password change)
-- Anonymous-mode support with localStorage persistence
+- Anonymous-mode support with `localStorage` persistence (`hd_liked_dramas`, `hd_disliked_dramas`)
 - Global 401 listener that auto-signs-out on expired tokens
 
-### User Profile stores:
+### `users` table fields
 
-- user_id
-- full_name
-- email
-- password_hash
-- avatar_url (profile_image)
-- created_at
+- `user_id` (PK)
+- `full_name`
+- `email` (unique, ≤ 191 chars)
+- `password_hash`
+- `avatar_url` / `profile_image`
+- `created_at`
 
 ---
 
-## Drama Browsing
+## 7.2 Drama Browsing
 
 ### Catalog Endpoint
 
@@ -180,16 +175,16 @@ Public, paginated, sortable list of dramas supporting:
 
 Each drama record includes:
 
-- drama_id
-- title
-- storyline
-- genre (string) and genres (array)
-- imdb_rating
-- release_year
-- poster_url
-- banner_url
-- stars (cast)
-- created_at
+- `drama_id`
+- `title`
+- `storyline`
+- `genre` (string) and `genres` (array form)
+- `imdb_rating`
+- `release_year`
+- `poster_url`
+- `banner_url`
+- `stars` (cast)
+- `created_at`
 
 ### Browse UI (Discover screen)
 
@@ -204,7 +199,7 @@ Each drama record includes:
 ### Home Screen
 
 - Hero section
-- Genre pills
+- Genre pills row
 - Trending rail
 - Continue Watching rail
 - Spotlight rail
@@ -212,29 +207,29 @@ Each drama record includes:
 
 ---
 
-## Swipe System
+## 7.3 Swipe System
 
 ### Right Swipe (Like)
 
-- User likes the drama
-- Save swipe record with `swipe_type = "like"`
-- Increase genre preference score
+- User likes the drama.
+- Save swipe record with `swipe_type = "like"`.
+- Increase genre preference score.
 
 ### Left Swipe (Dislike)
 
-- User dislikes the drama
-- Save swipe record with `swipe_type = "dislike"`
-- Decrease genre preference score
+- User dislikes the drama.
+- Save swipe record with `swipe_type = "dislike"`.
+- Decrease genre preference score.
 
 ### Swipe Semantics
 
-- Endpoint `POST /api/swipe` is **idempotent and upserts** on `(user_id, drama_id)`.
+- `POST /api/swipe` is **idempotent and upserts** on `(user_id, drama_id)`.
 - First call returns `201 Created`; subsequent changes return `200 OK`.
 - Re-swiping with the same type returns `200 OK` (not `409 Conflict`).
 
 ---
 
-## Engagement Actions
+## 7.4 Engagement Actions
 
 In addition to swipes, users can perform three explicit actions on any drama:
 
@@ -261,13 +256,13 @@ In addition to swipes, users can perform three explicit actions on any drama:
 
 ---
 
-## User Profile Management
+## 7.5 User Profile Management
 
 - `GET /api/profile` — fetch full profile (id, name, email, image, liked_count, watched_count, favorite_genres top-3)
 - `PUT /api/profile` — update name, password, and/or image
   - JSON body for name and/or password
   - Multipart/form-data for image upload
-  - Image validation: JPG/JPEG/PNG/WebP only, ≤ 5 MB
+  - Image validation: JPG / JPEG / PNG / WebP only, ≤ 5 MB
   - Server-generated random filename (`YYYYMMDD_HHMMSS_<32-hex>.<ext>`)
   - Previous avatar deleted only after successful DB UPDATE
   - Default avatar (`default.png`) is never deleted
@@ -275,7 +270,7 @@ In addition to swipes, users can perform three explicit actions on any drama:
 
 ---
 
-## Recommendation Engine
+## 7.6 Recommendation Engine
 
 The recommendation system uses a **rule-based engine** that combines multiple signals into a single score per candidate drama:
 
@@ -294,11 +289,9 @@ For the genre-statistics endpoint, each genre's score is computed as:
 - `+5` per like
 - `+2` per watched
 - `-3` per dislike
-- Clamped at `0`
+- Clamped at `0` (never negative)
 
 ### Output
-
-The system generates:
 
 - Personalized recommendations (Top 10)
 - Cold-start fallback — highest-rated dramas when the user has no activity
@@ -307,23 +300,24 @@ The system generates:
 
 ---
 
-## Activity Timeline
+## 7.7 Activity Timeline
 
 - Records every swipe, like, favorite change, watch-later change, and watched mark
-- Surfaced on the Activity page
+- Surfaced on the Activity page with relative timestamps
 
 ---
 
 # 8. Non-Functional Requirements
 
-## Performance
+## 8.1 Performance
 
 - Fast API responses
 - Efficient database queries
 - Paginated catalog queries
 - Whitelisted sort columns (prevents SQL injection through `sort`/`order`)
+- Vite 8 dev server with instant HMR for fast iteration
 
-## Usability
+## 8.2 Usability
 
 - Clean cinema-inspired UI (Sora / Inter / Material Symbols)
 - Mobile responsive with custom bottom-nav
@@ -331,7 +325,7 @@ The system generates:
 - Optimistic UI updates for swipes / favorites / watch-later
 - Graceful loading and error states
 
-## Reliability
+## 8.3 Reliability
 
 - Secure password hashing (server-side, never exposed in API responses)
 - JWT-based stateless authentication
@@ -342,18 +336,19 @@ The system generates:
 - Image upload uses `finfo_file()` for true MIME detection (header is ignored)
 - Server-generated filenames for uploaded images (client cannot influence disk path)
 
-## Scalability
+## 8.4 Scalability
 
 - Database structure supports future expansion
-- Modular component-grouped architecture (`layout`, `home`, `discover`, `details`, `drama`, `profile`, `ui`)
+- Modular component-grouped architecture (`layout`, `home`, `discover`, `details`, `drama`, `profile`, `auth`, `ui`)
 - Centralized Axios client with interceptors and a normalized error envelope
 - Per-resource API modules (`auth`, `dramas`, `favorites`, `watchLater`, `watched`, `swipe`, `recommendations`, `profile`, `health`)
+- Environment-driven backend selection — local or production — via a single env variable
 
 ---
 
 # 9. System Architecture
 
-```
+```text
                 ┌──────────────────────────┐
                 │   React + Tailwind CSS   │
                 │   (Vite 8 / React 19)    │
@@ -379,11 +374,14 @@ The system generates:
                 └──────────────────────────┘
 ```
 
-The frontend communicates with the PHP backend through a JSON REST API.
+The same frontend talks to **two** physical backends:
 
-The backend processes requests through a single front controller (`public/index.php`) that routes every request through `App\Core\Router`, applies middleware (CORS, Auth), executes the controller, and returns the standardized JSON envelope.
+| Mode       | `VITE_API_BASE_URL`                  | Use case                        |
+| ---------- | ------------------------------------ | ------------------------------- |
+| LOCAL      | `http://localhost/hangug-api/public` | XAMPP demo / mentor walkthrough |
+| PRODUCTION | `https://api.appriyo.com/hangug`     | Live deployment                 |
 
-The Axios client on the frontend automatically attaches `Authorization: Bearer <token>` and centralizes error normalization. A global 401 listener signs the user out on expired tokens.
+The Axios client on the frontend automatically attaches `Authorization: Bearer <token>`, centralizes error normalization, and emits a global 401 event so the UI signs out on expired tokens.
 
 ---
 
@@ -408,7 +406,7 @@ The Axios client on the frontend automatically attaches `Authorization: Bearer <
 - **JWT** (HS256) for stateless authentication — secret in `config/app.php → jwt.secret`
 - **MySQL** relational database via PDO (utf8mb4)
 - Schema lives in `database/schema.sql`
-- Documented in `docs/api.md`, `docs/DATABASE_DESIGN.md`, `docs/SRS.md`, `docs/ER_Diagram.pdf`
+- Documented in [`docs/api.md`](docs/api.md), [`docs/DATABASE_DESIGN.md`](docs/DATABASE_DESIGN.md)
 
 ### Communication
 
@@ -419,23 +417,22 @@ The Axios client on the frontend automatically attaches `Authorization: Bearer <
 
 - Visual Studio Code
 - XAMPP / Laragon / MAMP (local PHP / MySQL stack)
+- Postman (API testing)
 - Git & GitHub
 
 ---
 
 # 11. Project Structure
 
+This repository contains the **frontend** only.
+
 ```text
 Hangug-Deulama/
 ├── docs/
-│   ├── api.md
-│   ├── DATABASE_DESIGN.md
-│   ├── ER_Diagram.pdf
-│   ├── SRS.md
-│   ├── DEPLOY.md
-│   ├── LOCAL_SETUP.md
-│   ├── Hangug-Deulama.postman_collection.json
-│   └── Hangug-Deulama.postman_environment.json
+│   ├── api.md                     # Full REST API reference
+│   ├── DATABASE_DESIGN.md         # ERD + table specs
+│   ├── DESING.md                  # Web design system & screen spec
+│   └── MOBILE_DESIGN.md           # Mobile-app design system
 │
 ├── public/
 │   └── favicon.svg
@@ -458,29 +455,32 @@ Hangug-Deulama/
 │   ├── assets/
 │   │
 │   ├── components/
+│   │   ├── auth/                  # AuthHero, AuthCard, AuthInput, AuthDivider,
+│   │   │                          # BrandSection, PasswordInput, SocialLoginButtons
 │   │   ├── layout/                # Navbar, BottomNav, Footer, ProfileMenu,
-│   │   │   │                       # NotificationButton, SearchBar, ProtectedRoute
-│   │   ├── home/                  # HeroSection, GenrePills,
-│   │   │   │                       # TrendingSection, SpotlightRail, RecommendationSection
-│   │   ├── discover/              # DiscoverHero
-│   │   │   │                       # SwipeDeck, SwipeCard,
-│   │   │   │                       # ActionButtons, RecommendationBadge,
-│   │   │   │                       # SwipeProgress, KeyboardHints
-│   │   ├── details/               # BackdropHero, ActionBar, SynopsisSection,
-│   │   │   │                       # InfoGrid, CastCard, CastSection,
-│   │   │   │                       # SimilarDramas, DetailsSkeleton
+│   │   │                          # SearchBar, ProtectedRoute, FloatingDownloadButton
+│   │   ├── home/                  # HeroSection, GenrePills, GenreRow,
+│   │   │                          # TrendingSection, SpotlightRail,
+│   │   │                          # RecommendationSection, AllDramaSection
+│   │   ├── discover/              # DiscoverHero, DiscoverFilters,
+│   │   │                          # SwipeDeck, SwipeCard, ActionButtons,
+│   │   │                          # RecommendationBadge, SwipeProgress, KeyboardHints
+│   │   ├── details/               # BackdropHero, DetailsHeader, PosterPanel,
+│   │   │                          # ActionBar, SynopsisSection, InfoGrid,
+│   │   │                          # CastCard, CastSection, SimilarDramas, DetailsSkeleton
 │   │   ├── drama/                 # DramaCard, DramaPosterCard, LandscapeDramaCard
-│   │   ├── profile/               # ProfileEditModal
+│   │   ├── profile/               # ProfileHero, ProfileEditModal,
+│   │   │                          # StatCard, TasteProfile, ProfileSkeleton
 │   │   └── ui/                    # Button, EmptyState, ErrorState, LoadingState,
 │   │                              # GenreBadge, ImageWithSkeleton, RevealSection,
-│   │                              # SectionHeader, SkeletonCard, MatchRing
+│   │                              # SectionHeader, SkeletonCard, MatchRing, Avatar
 │   │
 │   ├── context/
-│   │   ├── AuthContext.jsx        # JWT session state + auto-login
-│   │   └── DramaContext.jsx       # Catalog + favorites/watch-later/watched
+│   │   ├── AuthContext.jsx        # JWT session state + auto-login + 401 listener
+│   │   └── DramaContext.jsx       # Catalog + favorites/watch-later/watched + swipes
 │   │
 │   ├── data/
-│   │   └── dramas.json
+│   │   └── dramas.json            # Static fallback seed (not used by API mode)
 │   │
 │   ├── hooks/
 │   │   └── useScrollReveal.js
@@ -502,86 +502,100 @@ Hangug-Deulama/
 │   │   └── index.jsx              # createBrowserRouter + ProtectedRoute
 │   │
 │   ├── utils/
-│   │   └── dramaHelpers.js
+│   │   ├── dramaHelpers.js
+│   │   ├── avatar.js
+│   │   └── formErrors.js
 │   │
 │   ├── App.jsx                    # Provider tree: Auth → Drama → Router
 │   ├── main.jsx                   # createRoot + StrictMode
 │   └── index.css                  # Tailwind + custom theme tokens
 │
-├── .env.example
+├── .env.example                   # Documented env presets (LOCAL + PRODUCTION)
 ├── .gitignore
 ├── eslint.config.js
 ├── index.html
 ├── package.json
 ├── package-lock.json
-├── vite.config.js
-├── PROJECT.md                     # Full SRS / project documentation
-└── README.md                      # Project overview
+├── vite.config.js                 # base: '/deulama/'
+├── PROJECT.md                     # Full SRS / project documentation (this file)
+└── README.md                      # Project overview & quick start
 ```
 
 ---
 
 # 12. Proposed Database Design
 
-## users
+## 12.1 `users`
 
-- user_id (PK)
-- full_name
-- email (unique, ≤ 191 chars)
-- password_hash
-- avatar_url / profile_image
-- created_at
+- `user_id` (PK)
+- `full_name`
+- `email` (unique, ≤ 191 chars)
+- `password_hash`
+- `avatar_url` / `profile_image`
+- `created_at`
 
-## dramas
+## 12.2 `dramas`
 
-- drama_id (PK)
-- title
-- storyline
-- genre (comma-separated string)
-- imdb_rating
-- release_year
-- poster_url
-- banner_url
-- stars (cast)
-- created_at
+- `drama_id` (PK)
+- `title`
+- `storyline`
+- `genre` (comma-separated string)
+- `imdb_rating`
+- `release_year`
+- `poster_url`
+- `banner_url`
+- `stars` (cast)
+- `created_at`
 
-## swipes
+## 12.3 `swipes`
 
-- swipe_id (PK)
-- user_id (FK)
-- drama_id (FK)
-- swipe_type (`like` | `dislike`)
-- created_at
-- updated_at
+- `swipe_id` (PK)
+- `user_id` (FK)
+- `drama_id` (FK)
+- `swipe_type` (`like` | `dislike`)
+- `created_at`
+- `updated_at`
 - Unique on `(user_id, drama_id)` — supports upsert
 
-## favorites
+## 12.4 `favorites`
 
-- favorite_id (PK)
-- user_id (FK)
-- drama_id (FK)
-- created_at
+- `favorite_id` (PK)
+- `user_id` (FK)
+- `drama_id` (FK)
+- `created_at`
 
-## watch_later
+## 12.5 `watch_later`
 
-- watch_later_id (PK)
-- user_id (FK)
-- drama_id (FK)
-- created_at
+- `watch_later_id` (PK)
+- `user_id` (FK)
+- `drama_id` (FK)
+- `created_at`
 
-## watched
+## 12.6 `watched`
 
-- watched_id (PK)
-- user_id (FK)
-- drama_id (FK)
-- watched_at
+- `watched_id` (PK)
+- `user_id` (FK)
+- `drama_id` (FK)
+- `watched_at`
 
-## user_preferences
+## 12.7 `user_preferences`
 
-- preference_id (PK)
-- user_id (FK)
-- genre
-- preference_score
+- `preference_id` (PK)
+- `user_id` (FK)
+- `genre`
+- `preference_score`
+
+## 12.8 Entity Relationships
+
+```text
+users (1) ────────< swipes >──────── (1) dramas
+users (1) ────────< favorites >───── (1) dramas
+users (1) ────────< watch_later >─── (1) dramas
+users (1) ────────< watched >─────── (1) dramas
+users (1) ────────< user_preferences >── (1) dramas.genre
+```
+
+Full ER diagram lives in [`docs/DATABASE_DESIGN.md`](docs/DATABASE_DESIGN.md).
 
 ---
 
@@ -623,11 +637,11 @@ The system uses a **rule-based recommendation engine** that blends the following
 - **Genre preference score** — derived from cumulative likes/swipes
 - **User interaction history** — recent activity weighted higher
 
-### Cold-start Fallback
+### 14.1 Cold-Start Fallback
 
 When a user has no swipe / watched / favorites / watch-later activity, the system falls back to **highest-rated dramas** (sorted by `imdb_rating DESC`). The response flags this with `is_personalized: false` and `fallback: true`.
 
-### Per-genre scoring (statistics endpoint)
+### 14.2 Per-Genre Scoring (statistics endpoint)
 
 For each genre encountered in the user's activity:
 
@@ -642,15 +656,15 @@ The result is a personalized Top 10 list that avoids content the user has alread
 
 # 15. API Planning
 
-The full API surface is **19 endpoints** organized by feature area. Detailed request/response contracts live in [`docs/api.md`](docs/api.md). Summary:
+The full API surface is **19 endpoints** organized by feature area. Detailed request / response contracts live in [`docs/api.md`](docs/api.md). Summary:
 
-### Health
+### 15.1 Health
 
 | Method | Endpoint      | Purpose        | Auth |
 | ------ | ------------- | -------------- | :--: |
 | GET    | `/api/health` | Liveness check |  No  |
 
-### Authentication
+### 15.2 Authentication
 
 | Method | Endpoint             | Purpose                         | Auth |
 | ------ | -------------------- | ------------------------------- | :--: |
@@ -658,14 +672,14 @@ The full API surface is **19 endpoints** organized by feature area. Detailed req
 | POST   | `/api/auth/login`    | Obtain a JWT                    |  No  |
 | GET    | `/api/me`            | Validate token / fetch self     | Yes  |
 
-### Dramas
+### 15.3 Dramas
 
 | Method | Endpoint           | Purpose                       | Auth |
 | ------ | ------------------ | ----------------------------- | :--: |
 | GET    | `/api/dramas`      | Browse catalog (paged/sorted) |  No  |
 | GET    | `/api/dramas/{id}` | Drama details                 |  No  |
 
-### Favorites
+### 15.4 Favorites
 
 | Method | Endpoint                    | Purpose         | Auth |
 | ------ | --------------------------- | --------------- | :--: |
@@ -673,7 +687,7 @@ The full API surface is **19 endpoints** organized by feature area. Detailed req
 | DELETE | `/api/favorites/{drama_id}` | Remove favorite | Yes  |
 | GET    | `/api/favorites`            | List favorites  | Yes  |
 
-### Watch Later
+### 15.5 Watch Later
 
 | Method | Endpoint                      | Purpose           | Auth |
 | ------ | ----------------------------- | ----------------- | :--: |
@@ -681,20 +695,20 @@ The full API surface is **19 endpoints** organized by feature area. Detailed req
 | DELETE | `/api/watch-later/{drama_id}` | Remove from queue | Yes  |
 | GET    | `/api/watch-later`            | List queue        | Yes  |
 
-### Watched
+### 15.6 Watched
 
 | Method | Endpoint       | Purpose         | Auth |
 | ------ | -------------- | --------------- | :--: |
 | POST   | `/api/watched` | Mark as watched | Yes  |
 | GET    | `/api/watched` | List watched    | Yes  |
 
-### Swipe
+### 15.7 Swipe
 
 | Method | Endpoint     | Purpose               | Auth |
 | ------ | ------------ | --------------------- | :--: |
 | POST   | `/api/swipe` | Record like / dislike | Yes  |
 
-### User Profile
+### 15.8 User Profile
 
 | Method | Endpoint                        | Purpose                          | Auth |
 | ------ | ------------------------------- | -------------------------------- | :--: |
@@ -702,20 +716,20 @@ The full API surface is **19 endpoints** organized by feature area. Detailed req
 | PUT    | `/api/profile`                  | Update profile (JSON/multipart)  | Yes  |
 | GET    | `/api/profile/genre-statistics` | Taste profile (per-genre scores) | Yes  |
 
-### Recommendations
+### 15.9 Recommendations
 
 | Method | Endpoint               | Purpose             | Auth |
 | ------ | ---------------------- | ------------------- | :--: |
 | GET    | `/api/recommendations` | Personalized Top 10 | Yes  |
 
-### Authentication Notes
+### 15.10 Authentication Notes
 
 - All authenticated endpoints require `Authorization: Bearer <jwt>`.
 - JWT TTL: 7 days (configurable via `config/app.php → jwt.ttl_seconds`).
 - `204 No Content` is reserved by `Response::noContent()` but no current endpoint emits 204.
 - The login endpoint returns identical messages for wrong password and unknown email (no user enumeration).
 
-### Standard Response Envelope
+### 15.11 Standard Response Envelope
 
 Every response uses:
 
@@ -743,16 +757,16 @@ The `errors` field is either a per-field validation map, or a single `code` key 
 
 # 16. User Interface Plan
 
-### Home Page
+### 16.1 Home Page
 
 - Hero section
-- Genre pills
+- Genre pills row
 - Continue Watching rail
 - Trending rail
 - Spotlight rail
 - Recommendation section
 
-### Discover Page
+### 16.2 Discover Page
 
 - Discover hero
 - Search bar
@@ -765,7 +779,7 @@ The `errors` field is either a per-field validation map, or a single `code` key 
 - Swipe progress
 - Keyboard hints
 
-### Drama Details Page
+### 16.3 Drama Details Page
 
 - Backdrop hero
 - Action bar
@@ -776,17 +790,17 @@ The `errors` field is either a per-field validation map, or a single `code` key 
 - Similar dramas
 - Details skeleton (loading state)
 
-### Recommendations Page
+### 16.4 Recommendations Page
 
 - Top 10 personalized recommendations
 - Match-score badges
 - Cold-start fallback indicator
 
-### Activity Page
+### 16.5 Activity Page
 
 - Timeline of every swipe, like, favorite, watch-later, and watched event
 
-### Profile Page
+### 16.6 Profile Page
 
 - User information (name, email, avatar)
 - Liked count
@@ -794,37 +808,66 @@ The `errors` field is either a per-field validation map, or a single `code` key 
 - Top 3 favorite genres
 - Profile edit modal (name + avatar upload)
 - Activity summary
+- Taste profile chart
 
-### Login / Register Pages
+### 16.7 Login / Register Pages
 
 - JWT-based authentication
 - Form validation
 - Error handling
 
-### Layout
+### 16.8 Layout
 
 - Navbar
 - BottomNav (mobile)
 - Footer
 - ProfileMenu
-- ProtectedRoute wrapper for `Profile` and `Activity`
+- `ProtectedRoute` wrapper for `Profile` and `Activity`
 
 ---
 
-# 17. Development Plan
+# 17. Deployment & Environment Strategy
 
-### Phase 1
+The frontend is deployed as a static bundle that talks to **one of two** backends depending on the value of `VITE_API_BASE_URL`.
+
+| Layer       | URL                                  | Notes                                   |
+| ----------- | ------------------------------------ | --------------------------------------- |
+| Frontend    | `https://appriyo.com/deulama/`       | Static `dist/` served by shared hosting |
+| Backend API | `https://api.appriyo.com/hangug`     | Production PHP API                      |
+| Local API   | `http://localhost/hangug-api/public` | XAMPP / Laragon / MAMP for mentor demos |
+
+`vite.config.js` sets `base: '/deulama/'` so assets, fonts, and route prefixes work correctly under the production sub-path.
+
+## 17.1 Environment Variables
+
+| Variable            | Description                                                                                   | Local example                        | Production example               |
+| ------------------- | --------------------------------------------------------------------------------------------- | ------------------------------------ | -------------------------------- |
+| `VITE_API_BASE_URL` | Base URL of the PHP backend. Leave blank for same-origin (API at `/api/...` on current host). | `http://localhost/hangug-api/public` | `https://api.appriyo.com/hangug` |
+
+## 17.2 Switching Between Environments
+
+1. Edit `.env` and set `VITE_API_BASE_URL` to the desired value.
+2. Restart `npm run dev` (or rebuild with `npm run build`).
+3. The Axios client (`src/api/client.js`) reads the value via `src/api/config.js` and automatically appends `/api`.
+
+Both `.env.example` and `.env` ship pre-documented with both presets — see [`README.md`](README.md#-switching-between-local--production) for the full walkthrough.
+
+---
+
+# 18. Development Plan
+
+### Phase 1 — Foundation
 
 - Project setup
 - Database design
 - Environment configuration
 
-### Phase 2
+### Phase 2 — Data
 
 - Dataset preparation
 - MySQL integration
 
-### Phase 3
+### Phase 3 — Backend
 
 - PHP backend API development
 - Front controller + Router
@@ -832,7 +875,7 @@ The `errors` field is either a per-field validation map, or a single `code` key 
 - JWT implementation
 - Controllers and models
 
-### Phase 4
+### Phase 4 — Frontend Skeleton
 
 - React frontend development
 - Vite + Tailwind setup
@@ -840,39 +883,39 @@ The `errors` field is either a per-field validation map, or a single `code` key 
 - Context providers
 - API client
 
-### Phase 5
+### Phase 5 — Discovery
 
 - Swipe interaction implementation
 - Discover screen
 - Keyboard + gesture controls
 
-### Phase 6
+### Phase 6 — Recommendations
 
 - Recommendation logic
 - Genre statistics
 - Cold-start fallback
 
-### Phase 7
+### Phase 7 — User Account
 
 - User profile integration
 - Favorites, watch-later, watched
 - Activity timeline
 - Avatar upload
 
-### Phase 8
+### Phase 8 — Quality
 
 - Testing and bug fixing
 - cURL + Postman test suites
 
-### Phase 9
+### Phase 9 — Shipping
 
 - Final deployment and documentation
-- `docs/DEPLOY.md`, `docs/LOCAL_SETUP.md`
 - Postman collection + environment
+- Dual-environment configuration (local + production)
 
 ---
 
-# 18. Expected Outcomes
+# 19. Expected Outcomes
 
 After completion, the system should:
 
@@ -885,65 +928,61 @@ After completion, the system should:
 - Support anonymous-mode browsing that syncs to an account on registration
 - Provide a responsive and user-friendly experience on both mobile and desktop
 - Auto-sign-out on expired tokens via global 401 listener
-- Expose a stable 19-endpoint REST API documented in `docs/api.md`
+- Expose a stable 19-endpoint REST API documented in [`docs/api.md`](docs/api.md)
+- Run against both the local XAMPP backend (mentor demos) and the production backend at `api.appriyo.com` from a single codebase
 
 ---
 
-# 19. Future Improvements
+# 20. Future Improvements
 
-- ML-based recommendations (collaborative filtering on swipe data)
-- Full-text search with fuzzy matching
-- Advanced filtering (year, rating, network, country)
-- User ratings & reviews
-- Trending / Popular this week feed
-- Dark mode toggle
-- Multi-language support (English / বাংলা)
-- Direct deep-links to streaming platforms
+- 🧠 ML-based recommendations (collaborative filtering on swipe data)
+- 🔍 Full-text search with fuzzy matching
+- 🎚️ Advanced filtering (year, rating, network, country)
+- ⭐ User ratings & reviews
+- 🔥 Trending / Popular this week feed
+- 🌑 Dark mode toggle
+- 🌐 Multi-language support (English / বাংলা / 한국어)
+- 📺 Direct deep-links to streaming platforms
 
 ---
 
-# 20. State Management
+# 21. State Management
 
-The app uses two React Contexts layered in `src/App.jsx`:
+The app uses two React Contexts layered in [`src/App.jsx`](src/App.jsx):
 
-```
+```text
 <AuthProvider>     ← JWT session, login/register/logout, 401 listener
   └─ <DramaProvider>  ← catalog, favorites, watch-later, watched, swipe mutations
       └─ <RouterProvider>
 ```
 
-### AuthContext
+### 21.1 `AuthContext`
 
-- Token + user payload persisted in `localStorage`
+- Token + user payload persisted in `localStorage` (`hd_jwt`, `hd_user`)
 - `bootstrapped` flag tracks initial session restore
 - Global 401 listener auto-signs-out on expired tokens
-- Login, register, logout actions
+- Login, register, logout, updateUser actions
 
-### DramaContext
+### 21.2 `DramaContext`
 
-- Fetches the catalog
+- Fetches the catalog (`GET /api/dramas?limit=100`)
 - Hydrates user libraries on login
 - Applies **optimistic updates** for swipes / favorites / watch-later
-- Gracefully falls back to `localStorage` for anonymous use
+- Gracefully falls back to `localStorage` for anonymous use (`hd_liked_dramas`, `hd_disliked_dramas`)
 
 Liked and disliked drama IDs are mirrored in `localStorage` so anonymous users keep a consistent experience across reloads.
 
 ---
 
-# 21. Environment Configuration
+# 22. Conclusion
 
-| Variable            | Description                                                                   | Example                              |
-| ------------------- | ----------------------------------------------------------------------------- | ------------------------------------ |
-| `VITE_API_BASE_URL` | Base URL of the PHP backend. Leave blank for same-origin (API at `/api/...`). | `http://localhost/hangug-api/public` |
+Hangug Deulama delivers a simple, engaging, and personalized K-Drama discovery experience through swipe-based interaction and user preference analysis. By combining React 19, Tailwind CSS 4, vanilla PHP 8, and MySQL, the project demonstrates practical full-stack web development concepts — including RESTful API design, JWT authentication, rule-based recommendation, and modern frontend engineering (hooks, context, optimistic UI) — while delivering an intuitive recommendation system suitable for academic learning and future expansion.
 
-The JWT token and user payload are persisted to `localStorage` under keys defined in `src/api/config.js`.
+A unique strength of this project is its **dual-environment support**: the same frontend runs against a local XAMPP backend for academic demos and against the production backend at `api.appriyo.com/hangug` for the deployed demo, switched via a single environment variable (`VITE_API_BASE_URL`).
 
-A 10-step verification walkthrough (register → swipe → favorites → recommendations → profile edit + image upload → logout) lives in `docs/LOCAL_SETUP.md`. The shared-hosting deploy checklist lives in `docs/DEPLOY.md`.
+The current build covers the full vertical slice: discovery → swipe → library → recommendations → account, exposed as a stable 19-endpoint REST API.
 
 ---
 
-# 22. Conclusion
-
-Hangug Deulama aims to provide a simple, engaging, and personalized K-Drama discovery experience through swipe-based interaction and user preference analysis. By combining React 19, Tailwind CSS 4, vanilla PHP 8, and MySQL, the project demonstrates practical full-stack web development concepts — including RESTful API design, JWT authentication, rule-based recommendation, and modern frontend engineering (hooks, context, optimistic UI) — while delivering an intuitive recommendation system suitable for academic learning and future expansion.
-
-The current build covers the full vertical slice: discovery → swipe → library → recommendations → account, exposed as a stable 19-endpoint REST API.
+**Author:** Md. Shahajalal Mahmud
+**Course:** Software Development II
