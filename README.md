@@ -129,8 +129,6 @@ The application ships in two modes, sharing the same frontend — only `VITE_API
 
 </div>
 
-> 💡 Tip: for a nicer README render, export screenshots at a consistent aspect ratio (e.g. 9:19.5 for mobile) and keep file sizes under ~300 KB each (PNG or WebP) so the page loads fast on GitHub.
-
 ---
 
 ## ✨ Features
