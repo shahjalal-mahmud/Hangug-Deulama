@@ -24,11 +24,18 @@ import * as swipeApi from '../api/swipe';
 
 const DramaContext = createContext(null);
 
+// Keys for the arrays we keep in localStorage so swipes survive reloads
+// even when no one is logged in.
+// @see docs/ARCHITECTURE.md#sec-drama-context
 const LS_KEYS = {
   liked: 'hd_liked_dramas',
   disliked: 'hd_disliked_dramas',
 };
 
+// Read one of our localStorage arrays. Wrapped in try/catch because
+// localStorage can throw (private mode, full disk, corrupted JSON) and
+// we never want that to crash app startup — we just fall back to [].
+// @see docs/ARCHITECTURE.md#sec-drama-context
 const readLs = (key) => {
   try {
     const raw = localStorage.getItem(key);
@@ -63,9 +70,10 @@ export const DramaProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  /* Catalog fetch — runs on mount and whenever we log in (to clear
-     stale locals). We ignore pagination; the default `limit=20` is
-     enough to fill the home + discover + recommendations screens. */
+  /* Catalog fetch — runs on mount. We ignore pagination; a limit of
+     100 is enough to fill the home + discover + recommendations
+     screens, and the backend's default page size is smaller than that.
+     @see docs/API.md#sec-dramas-list */
   useEffect(() => {
     let cancelled = false;
     const fetchCatalog = async () => {
@@ -89,7 +97,12 @@ export const DramaProvider = ({ children }) => {
   }, []);
 
   /* When authenticated, hydrate the library lists. Failures here are
-     non-fatal — the UI just keeps working off localStorage. */
+     non-fatal — the UI just keeps working off localStorage.
+     @see docs/ARCHITECTURE.md#sec-drama-context */
+  // NOTE: the three requests below (favorites, watch-later, watched) are
+  // fired at the same time instead of one after another, because
+  // Promise.all runs them in parallel. That way we don't make the user
+  // wait three times in a row for things that could all happen at once.
   useEffect(() => {
     if (!bootstrapped) return;
     if (!isAuthenticated) {
@@ -110,8 +123,13 @@ export const DramaProvider = ({ children }) => {
         setFavorites(extractDramaIds(favsRes.data?.favorites));
         setWatchLater(extractDramaIds(wlRes.data?.watch_later));
         setWatched(extractDramaIds(wdRes.data?.watched));
-        // Seed the like/dislike lists from the swipe history endpoint?
-        // There's no GET for swipes, so we keep the localStorage copies.
+        // NOTE: the project plan
+        // (docs/PROJECT.md#sec-proj-overview) says your swipe history
+        // should automatically transfer to your account when you log in,
+        // but that part isn't built yet. Right now, only swipes you make
+        // AFTER logging in get saved to your account — anything you
+        // swiped before logging in stays only on this device.
+        // @see docs/ARCHITECTURE.md#sec-anonymous-sync-gap
       } catch {
         /* silent — keep existing local state */
       }
@@ -122,18 +140,29 @@ export const DramaProvider = ({ children }) => {
     };
   }, [bootstrapped, isAuthenticated]);
 
-  /* Persist liked/disliked locally so anonymous swipes survive reloads. */
+  /* Persist liked/disliked locally so anonymous swipes survive reloads.
+     @see docs/ARCHITECTURE.md#sec-drama-context */
   useEffect(() => writeLs(LS_KEYS.liked, likedDramas), [likedDramas]);
   useEffect(() => writeLs(LS_KEYS.disliked, dislikedDramas), [dislikedDramas]);
 
   /* --- Mutations -------------------------------------------------- */
 
+  // NOTE: "optimistic" here means the screen updates immediately,
+  // before we even know if the server call succeeded, because it
+  // makes the app feel instant. If the server call happens to fail,
+  // we don't undo the screen change — we just log a quiet warning —
+  // because a missed 'like' isn't a big deal to the user.
+  // @see docs/ARCHITECTURE.md#sec-drama-context
   const likeDrama = useCallback(
     async (dramaId) => {
       if (likedDramas.includes(dramaId)) return;
       setLikedDramas((prev) => [...prev, dramaId]);
       setDislikedDramas((prev) => prev.filter((id) => id !== dramaId));
 
+      // NOTE: if you're not logged in, we skip the server call entirely
+      // and only update the local copy — that's what makes swiping work
+      // even without an account.
+      // @see docs/ARCHITECTURE.md#sec-anonymous-sync-gap
       if (!isAuthenticated) return;
       try {
         await swipeApi.recordSwipe(dramaId, 'like');
@@ -145,6 +174,8 @@ export const DramaProvider = ({ children }) => {
     [likedDramas, isAuthenticated]
   );
 
+  // Mirror of likeDrama — same optimistic pattern for the other swipe.
+  // @see docs/ARCHITECTURE.md#sec-drama-context
   const dislikeDrama = useCallback(
     async (dramaId) => {
       if (dislikedDramas.includes(dramaId)) return;
@@ -161,6 +192,14 @@ export const DramaProvider = ({ children }) => {
     [dislikedDramas, isAuthenticated]
   );
 
+  // NOTE: unlike likeDrama, this mutation actually undoes the screen
+  // change if the server call fails (snapshot-and-revert). Marking
+  // something as watched is a bigger, more permanent action than a like,
+  // so a quiet warning isn't enough — the user needs to see the change
+  // disappear when the save didn't go through. The backend can also
+  // return 409 for a duplicate watch, which is exactly the case we want
+  // to roll back on.
+  // @see docs/ARCHITECTURE.md#sec-drama-context
   const watchDrama = useCallback(
     async (dramaId) => {
       // Watched is a log, not a toggle — calling it twice on the same
@@ -185,6 +224,9 @@ export const DramaProvider = ({ children }) => {
     [watched, isAuthenticated]
   );
 
+  // Snapshot-revert on failure, and the thrown Error is a typed message
+  // for the caller (e.g. a button) to show to the user.
+  // @see docs/ARCHITECTURE.md#sec-drama-context
   const toggleBookmark = useCallback(
     async (dramaId) => {
       const has = watchLater.includes(dramaId);
@@ -207,6 +249,9 @@ export const DramaProvider = ({ children }) => {
     [watchLater, isAuthenticated]
   );
 
+  // Same snapshot-revert pattern as toggleBookmark — change the screen,
+  // call the API, undo the screen change if the API call fails.
+  // @see docs/ARCHITECTURE.md#sec-drama-context
   const toggleFavorite = useCallback(
     async (dramaId) => {
       const has = favorites.includes(dramaId);
