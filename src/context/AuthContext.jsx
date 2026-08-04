@@ -16,6 +16,7 @@ import { onUnauthorized, TOKEN_STORAGE_KEY, USER_STORAGE_KEY } from '../api';
 
 const AuthContext = createContext(null);
 
+// @see docs/ARCHITECTURE.md#sec-auth-context
 const readPersisted = () => {
   try {
     const token = localStorage.getItem(TOKEN_STORAGE_KEY);
@@ -30,6 +31,7 @@ const readPersisted = () => {
   }
 };
 
+// @see docs/ARCHITECTURE.md#sec-auth-context
 const persist = ({ token, user }) => {
   try {
     if (token) localStorage.setItem(TOKEN_STORAGE_KEY, token);
@@ -37,7 +39,10 @@ const persist = ({ token, user }) => {
     if (user) localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(user));
     else localStorage.removeItem(USER_STORAGE_KEY);
   } catch {
-    /* localStorage may be unavailable in private mode — fail silently */
+    /* NOTE: the try/catch is here because some browsers (like Safari in
+       private browsing) block access to localStorage completely — without
+       this, the app would crash instead of just quietly not remembering
+       the login. */
   }
 };
 
@@ -55,7 +60,14 @@ export const AuthProvider = ({ children }) => {
   /* Auto-login: if we already have a token, verify it against /api/me.
      If the call fails (expired, deleted user, etc.) the 401 listener
      clears the session. We deliberately wait for this to finish before
-     rendering protected routes so we don't flash a redirect. */
+     rendering protected routes so we don't flash a redirect.
+
+     Three outcomes:
+       - token works     -> stay logged in
+       - token bad/gone  -> log out quietly, treat as anonymous
+       - no token saved  -> start logged out, no need to check
+// @see docs/ARCHITECTURE.md#sec-auth-context
+*/
   useEffect(() => {
     let cancelled = false;
 
@@ -90,7 +102,9 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   /* Wire the global 401 listener so any protected request that fails
-     for auth reasons automatically signs the user out. */
+     for auth reasons automatically signs the user out.
+// @see docs/ARCHITECTURE.md#sec-api-401-bus
+*/
   useEffect(() => {
     const unsubscribe = onUnauthorized(() => {
       setSessionAndPersist({ token: null, user: null });
@@ -99,6 +113,10 @@ export const AuthProvider = ({ children }) => {
     return unsubscribe;
   }, [setSessionAndPersist]);
 
+  /* Both login() and register() below funnel through handleAuthResponse
+     so persistence + status updates happen in exactly one place.
+// @see docs/ARCHITECTURE.md#sec-auth-context
+*/
   const handleAuthResponse = useCallback(
     (res) => {
       const next = { token: res.data.token, user: res.data.user };
@@ -137,6 +155,14 @@ export const AuthProvider = ({ children }) => {
     [handleAuthResponse]
   );
 
+  /* Logging out is purely client-side: logging in gives you a token, and
+     logging out just means the app forgets that token. There's nothing on
+     the server that needs to be told, because the server doesn't keep
+     track of who's logged in — it just checks whether the token you send
+     it is still valid.
+
+// @see docs/ARCHITECTURE.md#sec-auth-context
+*/
   const logout = useCallback(() => {
     setSessionAndPersist({ token: null, user: null });
     setStatus('unauthenticated');
@@ -155,12 +181,15 @@ export const AuthProvider = ({ children }) => {
       token,
       status,
       bootstrapped,
-      /* "Authenticated" covers both the verified state and the
-         optimistic state of having a persisted token that we're
-         currently re-validating. Without this, a hard refresh would
-         briefly flash a "Sign In" button before /api/me returns.
-         A genuine logout (token cleared) still flips it back to
-         false because token is null. */
+      /* NOTE: without this, refreshing the page would show a "Sign In"
+         button for a split second even if you're actually logged in,
+         because the app hasn't finished double-checking the token yet.
+         Counting "still checking" as logged-in avoids that flash. A real
+         logout still works instantly because it also clears the token
+         itself.
+
+// @see docs/ARCHITECTURE.md#sec-auth-context
+*/
       isAuthenticated: !!token && (status === 'authenticated' || status === 'authenticating'),
       login,
       register,
