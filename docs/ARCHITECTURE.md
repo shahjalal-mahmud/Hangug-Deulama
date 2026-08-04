@@ -20,10 +20,10 @@ without breaking links.
 - Single Axios instance (`src/api/client.js:22`) wraps every API call.
 - Two React contexts: `AuthContext` (session + 401) → `DramaContext`
   (catalog + library mutations) → Router — wired in `src/App.jsx`
-  (PROJECT.md §21.1, §21.2).
+  ([PROJECT.md §21.1](docs/PROJECT.md#sec-proj-state-auth-context), [§21.2](docs/PROJECT.md#sec-proj-state-drama-context)).
 - Backend is stateless PHP 8 with JWT (HS256) and one standard response
   envelope (`{ success, message, data }` / `{ success, message, errors }`)
-  (PROJECT.md §10, §15.11; [Standard Response Format](docs/API.md#sec-response-format)).
+  ([PROJECT.md §10](docs/PROJECT.md#sec-proj-tech-stack), [§15.11](docs/PROJECT.md#sec-proj-api-envelope); [Standard Response Format](docs/API.md#sec-response-format)).
 
 ---
 
@@ -378,7 +378,7 @@ favorite_genres }` (NOT a `user` sub-object — important for cache keys).
   recording future swipes against the server; past anonymous swipes live
   only in `localStorage`. The `DramaContext.jsx:113` comment ("There's no
   GET for swipes, so we keep the localStorage copies") corroborates that
-  intent. This is a gap vs. PROJECT.md §2 "the activity syncs automatically
+  intent. This is a gap vs. [PROJECT.md §2](docs/PROJECT.md#sec-proj-overview) "the activity syncs automatically
   on registration" — call it out as a known divergence if asked.
 
 ---
@@ -389,17 +389,17 @@ favorite_genres }` (NOT a `user` sub-object — important for cache keys).
 
 > These claims are **not code-verified**; they come straight from the docs.
 
-- per PROJECT.md §14 and §7.6: rule-based engine. Signals blended per
+- per [PROJECT.md §14](docs/PROJECT.md#sec-proj-recommendation-strategy) and [§7.6](docs/PROJECT.md#sec-proj-fr-recommendation-engine): rule-based engine. Signals blended per
   candidate drama: likes (strong positive on shared genres), dislikes
   (negative; excluded when dominant), favorites (boost for similar),
   watch later (light boost), watched (excluded), per-genre preference
   score (from cumulative likes/swipes), recent interaction history
   weighted higher.
-- per PROJECT.md §14.1 and [GET /api/recommendations](docs/API.md#sec-recommendations-endpoint):
+- per [PROJECT.md §14.1](docs/PROJECT.md#sec-proj-cold-start) and [GET /api/recommendations](docs/API.md#sec-recommendations-endpoint):
   cold-start fallback when the user has no swipe / watched / favorites /
   watch-later activity — returns highest-rated dramas sorted by
   `imdb_rating DESC`, with `is_personalized: false`, `fallback: true`.
-- per PROJECT.md §14.2 and [GET /api/profile/genre-statistics](docs/API.md#sec-genre-statistics-endpoint):
+- per [PROJECT.md §14.2](docs/PROJECT.md#sec-proj-genre-scoring) and [GET /api/profile/genre-statistics](docs/API.md#sec-genre-statistics-endpoint):
   per-genre scoring for the stats endpoint — `+5` per like, `+2` per
   watched, `-3` per dislike, clamped at `0`.
 - per [GET /api/recommendations](docs/API.md#sec-recommendations-endpoint): internal scores are never
@@ -419,7 +419,7 @@ favorite_genres }` (NOT a `user` sub-object — important for cache keys).
 Pulled strictly by cross-reading README.md, PROJECT.md, and
 docs/DATABASE_DESIGN.md. Real file:lines cited.
 
-1. **`users.profile_image` vs `users.avatar_url`.** PROJECT.md §12.1
+1. **`users.profile_image` vs `users.avatar_url`.** [PROJECT.md §12.1](docs/PROJECT.md#sec-proj-db-users)
    (`/PROJECT.md:158`) says `avatar_url / profile_image` (i.e. both names
    permitted). [docs/api.md §"GET /api/me"](docs/API.md#sec-auth-me) example payload and the success
    response for `/api/auth/login` and `/api/auth/register` consistently use
@@ -431,8 +431,8 @@ docs/DATABASE_DESIGN.md. Real file:lines cited.
    column name; the response payload uses two names (`profile_image` vs
    `image`) in the same spec.
 2. **`dramas.genre` size.** DATABASE_DESIGN.md §2
-   (`docs/DATABASE_DESIGN.md:33`) declares `genre VARCHAR(255)`. PROJECT.md
-   §12.2 (`/PROJECT.md:542`) describes it as "comma-separated string"
+   (`docs/DATABASE_DESIGN.md:33`) declares `genre VARCHAR(255)`. [PROJECT.md
+   §12.2](docs/PROJECT.md#sec-proj-db-dramas) (`/PROJECT.md:542`) describes it as "comma-separated string"
    without a length. [docs/api.md §"GET /api/dramas"](docs/API.md#sec-dramas-list) sample
    (`docs/api.md:575`) returns the field **both** as a string (`genre`)
    and as an array (`genres`); the schema doc only mentions the string.
@@ -440,9 +440,9 @@ docs/DATABASE_DESIGN.md. Real file:lines cited.
    Schema" (`/README.md:532`) lists `rating` as the column.
    docs/DATABASE_DESIGN.md §2 (`docs/DATABASE_DESIGN.md:32`) and docs/api.md
    §"GET /api/dramas" use **`imdb_rating`** with type `DECIMAL(3,1)`.
-   PROJECT.md §12.2 (`/PROJECT.md:543`) agrees on `imdb_rating`. ⇒ README
+   [PROJECT.md §12.2](docs/PROJECT.md#sec-proj-db-dramas) (`/PROJECT.md:543`) agrees on `imdb_rating`. ⇒ README
    is wrong on this single field name.
-4. **`swipes.created_at` + `updated_at` vs `swiped_at`.** PROJECT.md §12.3
+4. **`swipes.created_at` + `updated_at` vs `swiped_at`.** [PROJECT.md §12.3](docs/PROJECT.md#sec-proj-db-swipes)
    (`/PROJECT.md:550`) lists `created_at, updated_at` on `swipes`.
    DATABASE_DESIGN.md §3 (`docs/DATABASE_DESIGN.md:64`) lists a single
    column **`swiped_at`**. [docs/api.md §"POST /api/swipe"](docs/API.md#sec-swipe-endpoint) success
@@ -450,12 +450,12 @@ docs/DATABASE_DESIGN.md. Real file:lines cited.
    agree with the API output; DATABASE_DESIGN.md is out of date.
 5. **`recommendations` table.** DATABASE_DESIGN.md §7
    (`docs/DATABASE_DESIGN.md:143`) describes a persisted
-   `recommendations` table (Optional / academic). PROJECT.md §12 doesn't
-   list this table; PROJECT.md §14 implies the engine computes scores on
+   `recommendations` table (Optional / academic). [PROJECT.md §12](docs/PROJECT.md#sec-proj-db-design) doesn't
+   list this table; [PROJECT.md §14](docs/PROJECT.md#sec-proj-recommendation-strategy) implies the engine computes scores on
    read. The API exposes no endpoint that writes to such a table.
    README.md §"Database Schema" (`/README.md:531`) does not list it,
    substituting `user_preferences` — but **DOCUMENTATION DESCREPANCY**:
-   PROJECT.md §12.7 (`/PROJECT.md:582`) and README.md schema table
+   [PROJECT.md §12.7](docs/PROJECT.md#sec-proj-db-user-preferences) (`/PROJECT.md:582`) and README.md schema table
    (`/README.md:537`) list `user_preferences` with columns
    `preference_id, user_id, genre, preference_score`. DATABASE_DESIGN.md
    has no such table at all (it lists `recommendations` instead). So the
@@ -463,15 +463,15 @@ docs/DATABASE_DESIGN.md. Real file:lines cited.
    per-row in `user_preferences` or runtime-computed for the statistics
    endpoint — the API doesn't expose a `/user_preferences` route either
    way.
-6. **Watched timestamp.** PROJECT.md §12.6 (`/PROJECT.md:579`) and
+6. **Watched timestamp.** [PROJECT.md §12.6](docs/PROJECT.md#sec-proj-db-watched) (`/PROJECT.md:579`) and
    DATABASE_DESIGN.md §6 (`docs/DATABASE_DESIGN.md:130`) both use
    `watched_at`. [docs/api.md §"POST /api/watched"](docs/API.md#sec-watched-add) payload uses
    `watched_at`. (Consistent across docs — included for completeness.)
-7. **Number of API endpoints.** PROJECT.md §15 ("the full API surface
+7. **Number of API endpoints.** [PROJECT.md §15](docs/PROJECT.md#sec-proj-api-planning) ("the full API surface
    is **19 endpoints**") and README.md §"API Surface" both list exactly
    the same 19 routes. (Consistent — flag any future mismatch.)
 8. **`users.email` length.** DATABASE_DESIGN.md §1
-   (`docs/DATABASE_DESIGN.md:11`) shows `VARCHAR(100)`. PROJECT.md §12.1
+   (`docs/DATABASE_DESIGN.md:11`) shows `VARCHAR(100)`. [PROJECT.md §12.1](docs/PROJECT.md#sec-proj-db-users)
    (`/PROJECT.md:156`) and [docs/api.md §"POST /api/auth/register"](docs/API.md#sec-auth-register)
    (`docs/api.md:368`) use `≤ 191`. ⇒ DATABASE_DESIGN column is too
    narrow; docs/api.md trumps it (MySQL utf8mb4 indexing limit).
@@ -516,7 +516,7 @@ docs/DATABASE_DESIGN.md. Real file:lines cited.
    verified this. There is no loop in `AuthContext` or `DramaContext` that
    iterates the two LS keys on the auth transition and POSTs them. The
    in-file comment at `DramaContext.jsx:113` explicitly notes there's no
-   GET-swipes endpoint so we keep the localStorage copies. PROJECT.md §2
+   GET-swipes endpoint so we keep the localStorage copies. [PROJECT.md §2](docs/PROJECT.md#sec-proj-overview)
    implies the sync; the code only syncs _new_ swipes from the moment a
    user is logged in.
 9. **"Are mutations optimistic or pessimistic?"** → Optimistic by default.
@@ -542,7 +542,7 @@ docs/DATABASE_DESIGN.md. Real file:lines cited.
     than `409 Conflict`" — the endpoint is intentionally idempotent. We
     also early-return in `likeDrama` / `dislikeDrama` if the id is already
     in the local arrays, so this is double-safe.
-14. **"How are recommendations computed?"** → per PROJECT.md §14: a
+14. **"How are recommendations computed?"** → per [PROJECT.md §14](docs/PROJECT.md#sec-proj-recommendation-strategy): a
     rule-based engine on the server that blends likes, dislikes,
     favorites, watch-later, watched exclusions, and a per-genre
     preference score. Cold-start users get highest-rated dramas, flagged

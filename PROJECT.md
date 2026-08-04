@@ -1,3 +1,5 @@
+<a id="sec-proj-top"></a>
+
 # Hangug Deulama
 
 ## A Personalized K-Drama Recommendation System Using Swipe-Based User Interaction
@@ -5,6 +7,8 @@
 ### Software Development II — Project Documentation
 
 ---
+
+<a id="sec-proj-info"></a>
 
 # 1. Project Information
 
@@ -42,6 +46,8 @@
 
 ---
 
+<a id="sec-proj-overview"></a>
+
 # 2. Project Overview
 
 Hangug Deulama is a user-friendly K-Drama recommendation web application designed to help users discover dramas based on their personal interests and viewing preferences.
@@ -62,6 +68,8 @@ A key design goal is **anonymous-mode usage** — users can swipe and build a ta
 
 ---
 
+<a id="sec-proj-problem"></a>
+
 # 3. Problem Statement
 
 With thousands of Korean dramas available across multiple streaming platforms, users often spend significant time searching for something to watch. Traditional recommendation systems require manual searching, complicated filtering, or extensive account setup before any personalization can begin.
@@ -69,6 +77,8 @@ With thousands of Korean dramas available across multiple streaming platforms, u
 **Hangug Deulama** simplifies this by letting users express their preferences naturally through swipe interactions, automatically generating recommendations from accumulated behavior — **without requiring an account upfront**.
 
 ---
+
+<a id="sec-proj-objectives"></a>
 
 # 4. Project Objectives
 
@@ -94,6 +104,8 @@ With thousands of Korean dramas available across multiple streaming platforms, u
 - Provide an editable profile with avatar upload.
 
 ---
+
+<a id="sec-proj-scope"></a>
 
 # 5. Project Scope
 
@@ -127,6 +139,8 @@ With thousands of Korean dramas available across multiple streaming platforms, u
 
 ---
 
+<a id="sec-proj-target-users"></a>
+
 # 6. Target Users
 
 - K-Drama enthusiasts looking for their next watch
@@ -137,7 +151,11 @@ With thousands of Korean dramas available across multiple streaming platforms, u
 
 ---
 
+<a id="sec-proj-functional-reqs"></a>
+
 # 7. Functional Requirements
+
+<a id="sec-proj-fr-user-mgmt"></a>
 
 ## 7.1 User Management
 
@@ -159,6 +177,8 @@ With thousands of Korean dramas available across multiple streaming platforms, u
 - `created_at`
 
 ---
+
+<a id="sec-proj-fr-drama-browsing"></a>
 
 ## 7.2 Drama Browsing
 
@@ -207,6 +227,8 @@ Each drama record includes:
 
 ---
 
+<a id="sec-proj-fr-swipe-system"></a>
+
 ## 7.3 Swipe System
 
 ### Right Swipe (Like)
@@ -228,6 +250,8 @@ Each drama record includes:
 - Re-swiping with the same type returns `200 OK` (not `409 Conflict`).
 
 ---
+
+<a id="sec-proj-fr-engagement"></a>
 
 ## 7.4 Engagement Actions
 
@@ -256,6 +280,8 @@ In addition to swipes, users can perform three explicit actions on any drama:
 
 ---
 
+<a id="sec-proj-fr-profile-mgmt"></a>
+
 ## 7.5 User Profile Management
 
 - `GET /api/profile` — fetch full profile (id, name, email, image, liked_count, watched_count, favorite_genres top-3)
@@ -269,6 +295,8 @@ In addition to swipes, users can perform three explicit actions on any drama:
 - `GET /api/profile/genre-statistics` — per-genre preference score and activity totals
 
 ---
+
+<a id="sec-proj-fr-recommendation-engine"></a>
 
 ## 7.6 Recommendation Engine
 
@@ -300,12 +328,16 @@ For the genre-statistics endpoint, each genre's score is computed as:
 
 ---
 
+<a id="sec-proj-fr-activity-timeline"></a>
+
 ## 7.7 Activity Timeline
 
 - Records every swipe, like, favorite change, watch-later change, and watched mark
 - Surfaced on the Activity page with relative timestamps
 
 ---
+
+<a id="sec-proj-nonfunctional-reqs"></a>
 
 # 8. Non-Functional Requirements
 
@@ -346,6 +378,8 @@ For the genre-statistics endpoint, each genre's score is computed as:
 
 ---
 
+<a id="sec-proj-architecture"></a>
+
 # 9. System Architecture
 
 ```text
@@ -385,6 +419,8 @@ The Axios client on the frontend automatically attaches `Authorization: Bearer <
 
 ---
 
+<a id="sec-proj-tech-stack"></a>
+
 # 10. Technology Stack
 
 ### Frontend
@@ -421,6 +457,8 @@ The Axios client on the frontend automatically attaches `Authorization: Bearer <
 - Git & GitHub
 
 ---
+
+<a id="sec-proj-structure"></a>
 
 # 11. Project Structure
 
@@ -523,7 +561,11 @@ Hangug-Deulama/
 
 ---
 
+<a id="sec-proj-db-design"></a>
+
 # 12. Proposed Database Design
+
+<a id="sec-proj-db-users"></a>
 
 ## 12.1 `users`
 
@@ -533,6 +575,8 @@ Hangug-Deulama/
 - `password_hash`
 - `avatar_url` / `profile_image`
 - `created_at`
+
+<a id="sec-proj-db-dramas"></a>
 
 ## 12.2 `dramas`
 
@@ -547,6 +591,8 @@ Hangug-Deulama/
 - `stars` (cast)
 - `created_at`
 
+<a id="sec-proj-db-swipes"></a>
+
 ## 12.3 `swipes`
 
 - `swipe_id` (PK)
@@ -557,12 +603,16 @@ Hangug-Deulama/
 - `updated_at`
 - Unique on `(user_id, drama_id)` — supports upsert
 
+<a id="sec-proj-db-favorites"></a>
+
 ## 12.4 `favorites`
 
 - `favorite_id` (PK)
 - `user_id` (FK)
 - `drama_id` (FK)
 - `created_at`
+
+<a id="sec-proj-db-watch-later"></a>
 
 ## 12.5 `watch_later`
 
@@ -571,6 +621,8 @@ Hangug-Deulama/
 - `drama_id` (FK)
 - `created_at`
 
+<a id="sec-proj-db-watched"></a>
+
 ## 12.6 `watched`
 
 - `watched_id` (PK)
@@ -578,12 +630,16 @@ Hangug-Deulama/
 - `drama_id` (FK)
 - `watched_at`
 
+<a id="sec-proj-db-user-preferences"></a>
+
 ## 12.7 `user_preferences`
 
 - `preference_id` (PK)
 - `user_id` (FK)
 - `genre`
 - `preference_score`
+
+<a id="sec-proj-db-relationships"></a>
 
 ## 12.8 Entity Relationships
 
@@ -598,6 +654,8 @@ users (1) ────────< user_preferences >── (1) dramas.genre
 Full ER diagram lives in [`docs/DATABASE_DESIGN.md`](docs/DATABASE_DESIGN.md).
 
 ---
+
+<a id="sec-proj-dataset-plan"></a>
 
 # 13. Dataset Preparation Plan
 
@@ -625,6 +683,8 @@ Each drama record contains:
 
 ---
 
+<a id="sec-proj-recommendation-strategy"></a>
+
 # 14. Recommendation Strategy
 
 The system uses a **rule-based recommendation engine** that blends the following signals into a single score per candidate drama:
@@ -637,9 +697,13 @@ The system uses a **rule-based recommendation engine** that blends the following
 - **Genre preference score** — derived from cumulative likes/swipes
 - **User interaction history** — recent activity weighted higher
 
+<a id="sec-proj-cold-start"></a>
+
 ### 14.1 Cold-Start Fallback
 
 When a user has no swipe / watched / favorites / watch-later activity, the system falls back to **highest-rated dramas** (sorted by `imdb_rating DESC`). The response flags this with `is_personalized: false` and `fallback: true`.
+
+<a id="sec-proj-genre-scoring"></a>
 
 ### 14.2 Per-Genre Scoring (statistics endpoint)
 
@@ -654,15 +718,21 @@ The result is a personalized Top 10 list that avoids content the user has alread
 
 ---
 
+<a id="sec-proj-api-planning"></a>
+
 # 15. API Planning
 
 The full API surface is **19 endpoints** organized by feature area. Detailed request / response contracts live in [`docs/api.md`](docs/api.md). Summary:
+
+<a id="sec-proj-api-health"></a>
 
 ### 15.1 Health
 
 | Method | Endpoint      | Purpose        | Auth |
 | ------ | ------------- | -------------- | :--: |
 | GET    | `/api/health` | Liveness check |  No  |
+
+<a id="sec-proj-api-auth"></a>
 
 ### 15.2 Authentication
 
@@ -672,12 +742,16 @@ The full API surface is **19 endpoints** organized by feature area. Detailed req
 | POST   | `/api/auth/login`    | Obtain a JWT                    |  No  |
 | GET    | `/api/me`            | Validate token / fetch self     | Yes  |
 
+<a id="sec-proj-api-dramas"></a>
+
 ### 15.3 Dramas
 
 | Method | Endpoint           | Purpose                       | Auth |
 | ------ | ------------------ | ----------------------------- | :--: |
 | GET    | `/api/dramas`      | Browse catalog (paged/sorted) |  No  |
 | GET    | `/api/dramas/{id}` | Drama details                 |  No  |
+
+<a id="sec-proj-api-favorites"></a>
 
 ### 15.4 Favorites
 
@@ -687,6 +761,8 @@ The full API surface is **19 endpoints** organized by feature area. Detailed req
 | DELETE | `/api/favorites/{drama_id}` | Remove favorite | Yes  |
 | GET    | `/api/favorites`            | List favorites  | Yes  |
 
+<a id="sec-proj-api-watch-later"></a>
+
 ### 15.5 Watch Later
 
 | Method | Endpoint                      | Purpose           | Auth |
@@ -695,6 +771,8 @@ The full API surface is **19 endpoints** organized by feature area. Detailed req
 | DELETE | `/api/watch-later/{drama_id}` | Remove from queue | Yes  |
 | GET    | `/api/watch-later`            | List queue        | Yes  |
 
+<a id="sec-proj-api-watched"></a>
+
 ### 15.6 Watched
 
 | Method | Endpoint       | Purpose         | Auth |
@@ -702,11 +780,15 @@ The full API surface is **19 endpoints** organized by feature area. Detailed req
 | POST   | `/api/watched` | Mark as watched | Yes  |
 | GET    | `/api/watched` | List watched    | Yes  |
 
+<a id="sec-proj-api-swipe"></a>
+
 ### 15.7 Swipe
 
 | Method | Endpoint     | Purpose               | Auth |
 | ------ | ------------ | --------------------- | :--: |
 | POST   | `/api/swipe` | Record like / dislike | Yes  |
+
+<a id="sec-proj-api-profile"></a>
 
 ### 15.8 User Profile
 
@@ -716,11 +798,15 @@ The full API surface is **19 endpoints** organized by feature area. Detailed req
 | PUT    | `/api/profile`                  | Update profile (JSON/multipart)  | Yes  |
 | GET    | `/api/profile/genre-statistics` | Taste profile (per-genre scores) | Yes  |
 
+<a id="sec-proj-api-recommendations"></a>
+
 ### 15.9 Recommendations
 
 | Method | Endpoint               | Purpose             | Auth |
 | ------ | ---------------------- | ------------------- | :--: |
 | GET    | `/api/recommendations` | Personalized Top 10 | Yes  |
+
+<a id="sec-proj-api-auth-notes"></a>
 
 ### 15.10 Authentication Notes
 
@@ -728,6 +814,8 @@ The full API surface is **19 endpoints** organized by feature area. Detailed req
 - JWT TTL: 7 days (configurable via `config/app.php → jwt.ttl_seconds`).
 - `204 No Content` is reserved by `Response::noContent()` but no current endpoint emits 204.
 - The login endpoint returns identical messages for wrong password and unknown email (no user enumeration).
+
+<a id="sec-proj-api-envelope"></a>
 
 ### 15.11 Standard Response Envelope
 
@@ -754,6 +842,8 @@ or on error:
 The `errors` field is either a per-field validation map, or a single `code` key for domain errors (e.g. `auth.user_not_found`).
 
 ---
+
+<a id="sec-proj-ui-plan"></a>
 
 # 16. User Interface Plan
 
@@ -826,6 +916,8 @@ The `errors` field is either a per-field validation map, or a single `code` key 
 
 ---
 
+<a id="sec-proj-deployment"></a>
+
 # 17. Deployment & Environment Strategy
 
 The frontend is deployed as a static bundle that talks to **one of two** backends depending on the value of `VITE_API_BASE_URL`.
@@ -853,6 +945,8 @@ The frontend is deployed as a static bundle that talks to **one of two** backend
 Both `.env.example` and `.env` ship pre-documented with both presets — see [`README.md`](README.md#-switching-between-local--production) for the full walkthrough.
 
 ---
+
+<a id="sec-proj-dev-plan"></a>
 
 # 18. Development Plan
 
@@ -915,6 +1009,8 @@ Both `.env.example` and `.env` ship pre-documented with both presets — see [`R
 
 ---
 
+<a id="sec-proj-outcomes"></a>
+
 # 19. Expected Outcomes
 
 After completion, the system should:
@@ -933,6 +1029,8 @@ After completion, the system should:
 
 ---
 
+<a id="sec-proj-future"></a>
+
 # 20. Future Improvements
 
 - 🧠 ML-based recommendations (collaborative filtering on swipe data)
@@ -946,6 +1044,8 @@ After completion, the system should:
 
 ---
 
+<a id="sec-proj-state-mgmt"></a>
+
 # 21. State Management
 
 The app uses two React Contexts layered in [`src/App.jsx`](src/App.jsx):
@@ -956,12 +1056,16 @@ The app uses two React Contexts layered in [`src/App.jsx`](src/App.jsx):
       └─ <RouterProvider>
 ```
 
+<a id="sec-proj-state-auth-context"></a>
+
 ### 21.1 `AuthContext`
 
 - Token + user payload persisted in `localStorage` (`hd_jwt`, `hd_user`)
 - `bootstrapped` flag tracks initial session restore
 - Global 401 listener auto-signs-out on expired tokens
 - Login, register, logout, updateUser actions
+
+<a id="sec-proj-state-drama-context"></a>
 
 ### 21.2 `DramaContext`
 
@@ -973,6 +1077,8 @@ The app uses two React Contexts layered in [`src/App.jsx`](src/App.jsx):
 Liked and disliked drama IDs are mirrored in `localStorage` so anonymous users keep a consistent experience across reloads.
 
 ---
+
+<a id="sec-proj-conclusion"></a>
 
 # 22. Conclusion
 
@@ -986,3 +1092,66 @@ The current build covers the full vertical slice: discovery → swipe → librar
 
 **Author:** Md. Shahajalal Mahmud
 **Course:** Software Development II
+
+---
+
+<a id="sec-proj-anchor-index"></a>
+
+## Anchor Index
+
+| Anchor id                                 | Heading                                       |
+| ----------------------------------------- | --------------------------------------------- |
+| `sec-proj-top`                            | Hangug Deulama (title / cover)                |
+| `sec-proj-info`                           | 1. Project Information                        |
+| `sec-proj-overview`                       | 2. Project Overview                           |
+| `sec-proj-problem`                        | 3. Problem Statement                          |
+| `sec-proj-objectives`                     | 4. Project Objectives                         |
+| `sec-proj-scope`                          | 5. Project Scope                              |
+| `sec-proj-target-users`                   | 6. Target Users                               |
+| `sec-proj-functional-reqs`                | 7. Functional Requirements                    |
+| `sec-proj-fr-user-mgmt`                   | 7.1 User Management                           |
+| `sec-proj-fr-drama-browsing`              | 7.2 Drama Browsing                             |
+| `sec-proj-fr-swipe-system`                | 7.3 Swipe System                              |
+| `sec-proj-fr-engagement`                  | 7.4 Engagement Actions                        |
+| `sec-proj-fr-profile-mgmt`                | 7.5 User Profile Management                   |
+| `sec-proj-fr-recommendation-engine`       | 7.6 Recommendation Engine                     |
+| `sec-proj-fr-activity-timeline`           | 7.7 Activity Timeline                         |
+| `sec-proj-nonfunctional-reqs`             | 8. Non-Functional Requirements                |
+| `sec-proj-architecture`                   | 9. System Architecture                        |
+| `sec-proj-tech-stack`                     | 10. Technology Stack                          |
+| `sec-proj-structure`                      | 11. Project Structure                         |
+| `sec-proj-db-design`                      | 12. Proposed Database Design                  |
+| `sec-proj-db-users`                       | 12.1 `users`                                  |
+| `sec-proj-db-dramas`                      | 12.2 `dramas`                                 |
+| `sec-proj-db-swipes`                      | 12.3 `swipes`                                 |
+| `sec-proj-db-favorites`                   | 12.4 `favorites`                              |
+| `sec-proj-db-watch-later`                 | 12.5 `watch_later`                            |
+| `sec-proj-db-watched`                     | 12.6 `watched`                                |
+| `sec-proj-db-user-preferences`            | 12.7 `user_preferences`                       |
+| `sec-proj-db-relationships`               | 12.8 Entity Relationships                     |
+| `sec-proj-dataset-plan`                   | 13. Dataset Preparation Plan                  |
+| `sec-proj-recommendation-strategy`        | 14. Recommendation Strategy                   |
+| `sec-proj-cold-start`                     | 14.1 Cold-Start Fallback                      |
+| `sec-proj-genre-scoring`                  | 14.2 Per-Genre Scoring (statistics endpoint)  |
+| `sec-proj-api-planning`                   | 15. API Planning                              |
+| `sec-proj-api-health`                     | 15.1 Health                                   |
+| `sec-proj-api-auth`                       | 15.2 Authentication                           |
+| `sec-proj-api-dramas`                     | 15.3 Dramas                                   |
+| `sec-proj-api-favorites`                  | 15.4 Favorites                                |
+| `sec-proj-api-watch-later`                | 15.5 Watch Later                              |
+| `sec-proj-api-watched`                    | 15.6 Watched                                  |
+| `sec-proj-api-swipe`                      | 15.7 Swipe                                    |
+| `sec-proj-api-profile`                    | 15.8 User Profile                             |
+| `sec-proj-api-recommendations`            | 15.9 Recommendations                          |
+| `sec-proj-api-auth-notes`                 | 15.10 Authentication Notes                    |
+| `sec-proj-api-envelope`                   | 15.11 Standard Response Envelope              |
+| `sec-proj-ui-plan`                        | 16. User Interface Plan                       |
+| `sec-proj-deployment`                     | 17. Deployment & Environment Strategy         |
+| `sec-proj-dev-plan`                       | 18. Development Plan                          |
+| `sec-proj-outcomes`                       | 19. Expected Outcomes                         |
+| `sec-proj-future`                         | 20. Future Improvements                       |
+| `sec-proj-state-mgmt`                     | 21. State Management                          |
+| `sec-proj-state-auth-context`             | 21.1 `AuthContext`                            |
+| `sec-proj-state-drama-context`            | 21.2 `DramaContext`                           |
+| `sec-proj-conclusion`                     | 22. Conclusion                                |
+| `sec-proj-anchor-index`                   | Anchor Index                                  |
