@@ -1,7 +1,10 @@
 /* src/components/discover/DiscoverFilters.jsx
    Search + genre chip row that actually drives the swipe queue.
    Sits between the hero and the card stack; sticky on scroll so
-   filters stay reachable without pushing the deck off-screen. */
+   filters stay reachable without pushing the deck off-screen.
+
+   @see docs/components/discover/SwipeDeck.jsx
+   @see docs/utils/dramaHelpers.js (filterByGenre, filterBySearch) */
 
 import { useState } from 'react';
 
@@ -13,6 +16,11 @@ const DiscoverFilters = ({
   onSearchChange,
   resultCount,
 }) => {
+  // NOTE: searchOpen is local state because whether the search bar is
+  // expanded doesn't need to be coordinated with anything else — it's
+  // purely a UI toggle. The actual search value stays in the parent
+  // (Discover.jsx) so it can survive route navigations or unmounting
+  // of this component.
   const [searchOpen, setSearchOpen] = useState(false);
   const chips = ['All', ...genres];
 

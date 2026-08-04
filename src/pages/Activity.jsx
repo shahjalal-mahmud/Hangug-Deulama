@@ -12,7 +12,11 @@
      - Watch Later (server: watch-later)
      - Watched    (server: watched)
      - Disliked   (local-only, persisted to localStorage)
-*/
+
+   @see docs/API.md#sec-favorites-list
+   @see docs/API.md#sec-watch-later-list
+   @see docs/API.md#sec-watched-list
+   @see docs/ARCHITECTURE.md#sec-drama-context */
 
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
@@ -34,6 +38,11 @@ const Activity = () => {
   const [error, setError] = useState(null);
   const [activeTab, setActiveTab] = useState('liked');
 
+  // NOTE: firing all three list endpoints in parallel via Promise.all
+  // instead of awaiting them in sequence saves ~2× the wall time on a
+  // cold network. The single error catch is acceptable here because
+  // if any one fails the whole page needs to show the error state —
+  // we don't have UX for partial success on this screen.
   const load = async () => {
     setLoading(true);
     setError(null);

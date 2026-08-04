@@ -1,3 +1,12 @@
+/* src/components/discover/SwipeDeck.jsx
+   The main swipe experience on the Discover page. Orchestrates a
+   stack of SwipeCards (the top one is interactive, the others are
+   static "peeking" decorations), the action button row, the
+   progress bar, and the keyboard shortcuts.
+
+   @see docs/ARCHITECTURE.md#sec-drama-context
+   @see docs/components/discover/SwipeCard.jsx */
+
 import { useRef, useEffect, useCallback } from 'react';
 import SwipeCard from './SwipeCard';
 import ActionButtons from './ActionButtons';
@@ -23,6 +32,27 @@ const SwipeDeck = ({
 }) => {
   const topCardRef = useRef(null);
 
+  // NOTE: the keyboard handler is mounted on `window` (not on the
+  // SwipeCard) so the user can press arrow keys without first clicking
+  // the card. We bail out early if the user is typing in an input
+  // or select — otherwise every keystroke would also swipe.
+  useEffect(() => {
+    const handleKey = (e) => {
+      if (e.target instanceof HTMLInputElement || e.target instanceof HTMLSelectElement) return;
+      if (e.key === 'ArrowRight') triggerSwipe('like');
+      else if (e.key === 'ArrowLeft') triggerSwipe('dislike');
+      else if (e.key === 'ArrowUp') triggerSwipe('watched');
+      else if (e.key.toLowerCase() === 'b') bookmarkTop();
+    };
+    window.addEventListener('keydown', handleKey);
+    return () => window.removeEventListener('keydown', handleKey);
+  }, [triggerSwipe, bookmarkTop]);
+
+  // NOTE: triggerSwipe reaches through the ref to call the top card's
+  // imperative method. We use a ref-funnel instead of a callback prop
+  // because the swipe animation (translate + fade-out) lives inside
+  // SwipeCard, and the buttons above shouldn't have to re-implement
+  // it just to fire a programmatic swipe.
   const triggerSwipe = useCallback(
     (direction) => {
       if (!queue.length) return;
@@ -39,18 +69,6 @@ const SwipeDeck = ({
     if (queue[0]) onFavorite(queue[0].drama_id);
   }, [queue, onFavorite]);
 
-  useEffect(() => {
-    const handleKey = (e) => {
-      if (e.target instanceof HTMLInputElement || e.target instanceof HTMLSelectElement) return;
-      if (e.key === 'ArrowRight') triggerSwipe('like');
-      else if (e.key === 'ArrowLeft') triggerSwipe('dislike');
-      else if (e.key === 'ArrowUp') triggerSwipe('watched');
-      else if (e.key.toLowerCase() === 'b') bookmarkTop();
-    };
-    window.addEventListener('keydown', handleKey);
-    return () => window.removeEventListener('keydown', handleKey);
-  }, [triggerSwipe, bookmarkTop]);
-
   if (!queue.length) {
     return (
       <div className="py-6">
@@ -63,6 +81,9 @@ const SwipeDeck = ({
     );
   }
 
+  // NOTE: `stack` is the top 3 cards (the front one is interactive, the
+  // other two are decorative peeks behind it). Rendering the rest of
+  // the queue would be wasted DOM — the user only ever sees the top 3.
   const stack = queue.slice(0, STACK_SIZE);
   const topDrama = stack[0];
 

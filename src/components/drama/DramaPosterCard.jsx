@@ -1,4 +1,18 @@
-/* src/components/drama/DramaPosterCard.jsx */
+/* src/components/drama/DramaPosterCard.jsx
+   Feature-rail poster card used by Trending Now and every genre row on
+   the homepage. The card itself is portrait-only (2:3) with a hover-
+   reveal title strip; an optional `rank` prop paints a giant stroked
+   numeral behind the poster when the list is genuinely ordered.
+
+   @see docs/components/home/TrendingSection.jsx
+   @see docs/components/home/GenreRow.jsx
+   @see docs/utils/dramaHelpers.js (parseGenres, pickImage) */
+
+// NOTE: memo() here is real performance. Trending Now renders the same
+// 6–10 cards on every state change in the parent (e.g. when a swipe
+// updates the activity totals). Without memo, every card would
+// re-render. With memo, only the card whose `drama` reference changed
+// re-renders — the others return the cached output.
 import { memo } from 'react';
 import { Link } from 'react-router-dom';
 import ImageWithSkeleton from '../ui/ImageWithSkeleton';

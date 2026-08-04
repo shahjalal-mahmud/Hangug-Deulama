@@ -4,7 +4,10 @@
    in isolation.
 
    The backend returns both `genre` (comma-separated string) and
-   `genres` (array), so `parseGenres` accepts either shape. */
+   `genres` (array), so `parseGenres` accepts either shape.
+
+   @see docs/ARCHITECTURE.md#sec-drama-context
+   @see docs/PROJECT.md#sec-proj-recommendation-strategy */
 
 export const parseGenres = (drama) => {
   if (!drama) return [];
@@ -78,6 +81,12 @@ export const getMatchScore = (drama, likedGenres = []) => {
     // No taste signal yet — fall back to rating as a proxy, never below 60.
     return Math.max(60, Math.round((drama.imdb_rating || 7) * 10));
   }
+  // NOTE: the floor of 60 here matters more than it looks. Without it,
+  // a drama with zero genre overlap would score 0% and the UI would
+  // flag it as "you'll probably hate this". Even when our match logic
+  // can't find overlap, the platform still wants to surface suggestions
+  // rather than leave the rails empty — so we guarantee the card never
+  // reads worse than "decent".
   const shared = dramaGenres.filter((g) => likedGenres.includes(g)).length;
   const score = Math.round((shared / dramaGenres.length) * 100);
   return Math.max(score, 60);
@@ -139,6 +148,17 @@ export const getRecommendations = (
    a watch-history API/field exists; the rest of the component tree
    won't need to change since it just reads `drama.progress`. */
 const hashToPercent = (str) => {
+  // NOTE: the modulo at the end clamps the percentage to 0–99 range, and
+  // the `Math.max(8, ...)` floor keeps the bar from looking empty
+  // (which would read like "you haven't started this yet" rather than
+  // "you're partway through"). Determinism matters here — without it,
+  // the bar would jump every re-render as Math.random re-rolled.
+  let hash = 0;
+  for (let i = 0; i < str.length; i++) {
+    hash = (hash * 31 + str.charCodeAt(i)) % 100;
+  }
+  return Math.max(8, Math.min(96, Math.abs(hash)));
+};
   let hash = 0;
   for (let i = 0; i < str.length; i++) {
     hash = (hash * 31 + str.charCodeAt(i)) % 100;

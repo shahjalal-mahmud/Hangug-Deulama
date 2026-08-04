@@ -16,7 +16,12 @@
    profile" — a ranked genre-affinity chart that's the page's one signature
    element. A collapsed "Developer details" panel at the bottom preserves
    the original verbatim-field verification view without it being the
-   first thing a user sees. */
+   first thing a user sees.
+
+   @see docs/API.md#sec-profile-get
+   @see docs/API.md#sec-genre-statistics-endpoint
+   @see docs/API.md#sec-favorites-list
+   @see docs/ARCHITECTURE.md#sec-auth-context */
 
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -42,6 +47,10 @@ const Profile = () => {
   const [error, setError] = useState(null);
   const [editOpen, setEditOpen] = useState(false);
 
+  // NOTE: the three endpoints fire in parallel — there are no shared
+  // inputs so Promise.all beats awaited-sequential by ~⅔ the latency.
+  // favorites count is fished out of the favorites endpoint because
+  // /api/profile does not surface a favorite_count field at all.
   const load = async () => {
     setLoading(true);
     setError(null);

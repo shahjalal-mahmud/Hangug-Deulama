@@ -1,4 +1,10 @@
-/* src/pages/DramaDetails.jsx */
+/* src/pages/DramaDetails.jsx
+   The /dramas/:id route. Single-drama detail page: backdrop, poster,
+   info grid, cast row, similar-dramas list, and a share-with-friends
+   affordance.
+
+   @see docs/API.md#sec-dramas-detail
+   @see docs/ARCHITECTURE.md#sec-drama-context */
 import { useEffect, useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useDrama } from '../context/DramaContext';
@@ -43,7 +49,12 @@ const DramaDetails = () => {
   }, [id]);
 
   /* Try the catalog cache first for a snappy first paint, then fetch
-     /api/dramas/{id} for fresh authoritative data. */
+     /api/dramas/{id} for fresh authoritative data.
+
+     NOTE: the `refreshTick` dep on this effect is what makes the
+     "Retry" button feel lightweight. Bumping the tick re-runs the
+     fetch without unmounting the whole page, so scroll position and
+     the user's interaction state survive a transient 5xx. */
   useEffect(() => {
     let cancelled = false;
 
@@ -103,6 +114,11 @@ const DramaDetails = () => {
       .slice(0, 6);
   }, [drama, dramas, likedGenres]);
 
+  // NOTE: navigator.share is mobile-friendly (opens the native sheet)
+  // but only exists on HTTPS + supported browsers, so we always have a
+  // clipboard fallback. The empty catch swallows both the user-cancel
+  // path on a successful sheet AND the "permission denied" on the
+  // clipboard — different users, but the UI outcome is the same.
   const handleShare = async () => {
     const url = window.location.href;
     try {

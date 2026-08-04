@@ -3,7 +3,9 @@
    visual anchor (largest, gradient-filled); Pass, Watched, and Save
    are secondary, equal-weight actions flanking it — mirrors the
    card's own gesture vocabulary so keyboard/click users get the
-   same three-way choice as a swipe, plus bookmark as a bonus. */
+   same three-way choice as a swipe, plus bookmark as a bonus.
+
+   @see docs/components/discover/SwipeDeck.jsx */
 
 const ActionButtons = ({
   onDislike,

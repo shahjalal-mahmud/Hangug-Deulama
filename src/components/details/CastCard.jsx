@@ -1,5 +1,18 @@
+/* src/components/details/CastCard.jsx
+   One entry in the cast carousel. Renders a colored circle with the
+   actor's initials (since the catalog has no actor photos), with the
+   background hue deterministically derived from the name so the same
+   actor always shows up in the same color across the app.
+
+   @see docs/utils/dramaHelpers.js (hashToHue, getInitials)
+   @see docs/components/details/CastSection.jsx */
+
 import { hashToHue, getInitials } from '../../utils/dramaHelpers';
 
+// NOTE: hashing the name into a hue means we never need to ask a
+// designer to pick colors per actor. The trade-off is that two
+// similarly-named actors could clash — acceptable for a small
+// catalog, and we can revisit once real photos are available.
 const CastCard = ({ name }) => {
   const hue = hashToHue(name);
 

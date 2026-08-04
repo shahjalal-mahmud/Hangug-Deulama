@@ -100,6 +100,12 @@ export const AuthProvider = ({ children }) => {
     // mutator functions, not by re-running bootstrap.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+    // NOTE: the empty dependency array above means this effect only runs
+    // once, on first render. We silence the exhaustive-deps lint warning
+    // because the values captured in the closure (setSessionAndPersist,
+    // authApi.me, etc.) are stable for the component's lifetime, and
+    // re-running bootstrap whenever `token` changes would create an
+    // infinite loop with itself.
 
   /* Wire the global 401 listener so any protected request that fails
      for auth reasons automatically signs the user out.

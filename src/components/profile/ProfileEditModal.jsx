@@ -1,7 +1,10 @@
 /* src/components/profile/ProfileEditModal.jsx
    Modal for updating name, password, and avatar via PUT /api/profile.
    Sends JSON when no image is present, multipart when an image is.
-*/
+
+   @see docs/API.md#sec-profile-update
+   @see docs/api/profile.js (updateProfile — picks JSON vs multipart)
+   @see docs/utils/formErrors.js (toFieldErrors) */
 
 import { useEffect, useState } from 'react';
 import * as profileApi from '../../api/profile';
@@ -24,6 +27,10 @@ const ProfileEditModal = ({ open, onClose, profile, onUpdated }) => {
   const [successMessage, setSuccessMessage] = useState('');
 
   useEffect(() => {
+    // NOTE: every time the modal opens we wipe its form state and reseed
+    // from the latest profile — otherwise the previous "save" attempt's
+    // error messages, success banner, and password fields would still
+    // be visible the next time the user opens the modal.
     if (!open) return;
     setName(profile?.name || '');
     setCurrentPassword('');
@@ -36,6 +43,10 @@ const ProfileEditModal = ({ open, onClose, profile, onUpdated }) => {
     setSuccessMessage('');
   }, [open, profile]);
 
+  // NOTE: returning null when the modal isn't open means it stays
+  // mounted in the React tree but never produces DOM. We do that
+  // (instead of conditionally rendering the JSX at the call site) so
+  // the useEffect above still runs and resets the form correctly.
   if (!open) return null;
 
   const avatarSrc = imagePreview || resolveAvatar(profile?.image);
@@ -47,6 +58,9 @@ const ProfileEditModal = ({ open, onClose, profile, onUpdated }) => {
       setImagePreview(null);
       return;
     }
+    // NOTE: the 5 MB cap and the strict PNG/JPEG/WebP whitelist mirror
+    // the backend's validation. We reject the file client-side so the
+    // user gets an instant message instead of a round-trip error.
     if (file.size > MAX_IMAGE_BYTES) {
       setErrors((prev) => ({ ...prev, image: 'Image must be 5 MB or smaller.' }));
       return;
@@ -98,7 +112,10 @@ const ProfileEditModal = ({ open, onClose, profile, onUpdated }) => {
       }
       if (image) payload.image = image;
 
-      // If nothing changed, don't bother hitting the API.
+      // NOTE: the "if nothing changed, don't bother hitting the API"
+      // branch saves a round-trip and avoids touching the backend's
+      // last-modified timestamps for a no-op save. The user just gets
+      // the modal closed.
       if (Object.keys(payload).length === 0) {
         onClose?.();
         return;

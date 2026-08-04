@@ -1,4 +1,12 @@
-/* src/routes/index.jsx */
+/* src/routes/index.jsx
+   The app's URL → component map, built once with createBrowserRouter.
+   Auth-required pages sit behind ProtectedRoute; everything else
+   (browse, drama details) stays public so casual visitors can poke
+   around without signing up first.
+
+   @see docs/PROJECT.md#sec-proj-ui-plan
+   @see docs/ARCHITECTURE.md#sec-auth-context */
+
 import { createBrowserRouter } from 'react-router-dom';
 import MainLayout from '../layouts/MainLayout';
 import Home from '../pages/Home';
@@ -11,6 +19,11 @@ import Register from '../pages/Register';
 import Profile from '../pages/Profile';
 import ProtectedRoute from '../components/layout/ProtectedRoute';
 
+// NOTE: `basename: '/deulama'` means the whole app is mounted under
+// /deulama on the live server — every URL in the app becomes
+// /deulama/discover, /deulama/profile, etc. This keeps the frontend
+// in its own folder behind a reverse proxy (Apache), separate from
+// the PHP backend at /api.
 const router = createBrowserRouter(
   [
     { path: '/login', element: <Login /> },

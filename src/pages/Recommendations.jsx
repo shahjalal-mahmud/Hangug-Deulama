@@ -1,7 +1,10 @@
 /* src/pages/Recommendations.jsx
    Reads /api/recommendations and renders the result. The endpoint
    returns at most 10 dramas and a `is_personalized` / `fallback` flag
-   that we surface to the user. */
+   that we surface to the user.
+
+   @see docs/API.md#sec-recommendations-endpoint
+   @see docs/ARCHITECTURE.md#sec-auth-context */
 
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
@@ -21,7 +24,12 @@ const Recommendations = () => {
 
   const load = async () => {
     /* /api/recommendations is JWT-protected. Don't hit it for guests —
-       the global 401 listener would sign them out for "no reason". */
+       the global 401 listener would sign them out for "no reason".
+
+       NOTE: the early return here matters more than it looks. Without
+       it, a guest visitor would hit a 401 → AuthContext dispatches
+       the auto-logout event → the user is bounced to /login even
+       though they were happy reading the marketing-only state. */
     if (!isAuthenticated) {
       setLoading(false);
       setItems([]);

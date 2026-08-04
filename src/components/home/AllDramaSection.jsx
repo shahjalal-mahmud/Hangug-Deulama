@@ -5,7 +5,12 @@
    since that card, not the rail card, is built for a dense grid layout.
    Paginates client-side with a Load More button; the whole catalog is
    already fetched once by DramaContext (limit=100), so this just reveals
-   more of what's already in memory rather than re-fetching. */
+   more of what's already in memory rather than re-fetching.
+
+   @see docs/ARCHITECTURE.md#sec-drama-context
+   @see docs/components/drama/DramaCard.jsx
+   @see docs/api/dramas.js (listDramas, limit=100) */
+
 import { useState } from 'react';
 import SectionHeader from '../ui/SectionHeader';
 import DramaCard from '../drama/DramaCard';

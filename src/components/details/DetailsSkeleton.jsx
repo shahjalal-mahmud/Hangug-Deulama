@@ -1,3 +1,13 @@
+/* src/components/details/DetailsSkeleton.jsx
+   Loading placeholder rendered while DramaDetails is fetching the drama
+   record. The shape mirrors the actual details page so the layout
+   doesn't jump when the real data arrives.
+
+   @see docs/pages/DramaDetails.jsx */
+
+// NOTE: we set aria-busy + aria-live so screen readers announce the
+// loading state and the eventual transition to real content, instead
+// of staying silent during the fetch.
 const DetailsSkeleton = () => (
   <div aria-busy="true" aria-live="polite">
     <div className="px-5 md:px-16 max-w-6xl mx-auto pt-28 md:pt-32 pb-16">

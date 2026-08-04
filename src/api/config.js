@@ -17,6 +17,10 @@ const fromEnv =
 // frontend bundle and the PHP backend share one domain (e.g. Apache
 // serving both the built React app and /api on the same origin).
 // @see docs/ARCHITECTURE.md#sec-api-client-config
+// NOTE: we strip trailing slashes from the URL. Without this, a config
+// value of "https://api.example.com/" would produce URLs like
+// "/api/dramas" with a double slash, which Axios sends as-is and some
+// servers reject.
 export const API_BASE_URL = (fromEnv || '').replace(/\/+$/, '');
 
 /* Tokens are persisted under one key so we can clear them in one shot

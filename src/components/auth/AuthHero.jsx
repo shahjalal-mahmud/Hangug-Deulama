@@ -2,7 +2,17 @@
    Cinematic left half of the auth screens: a rotated, staggered
    2x2 poster collage under a maroon glass-overlay gradient, matching
    the approved design reference. Purely presentational — swap the
-   URLs for the platform's own CDN-hosted artwork when available. */
+   URLs for the platform's own CDN-hosted artwork when available.
+
+   @see docs/pages/Login.jsx
+   @see docs/pages/Register.jsx
+   @see docs/PROJECT.md#sec-proj-ui-plan */
+
+// NOTE: the four external image URLs are placeholders pointing at
+// public GStatic thumbnails — they're allowed because they're hosted
+// by Google directly (no CORS issues, no broken image fallbacks).
+// Swap them for your own CDN-hosted artwork before going to production.
+import ImageWithSkeleton from '../ui/ImageWithSkeleton';
 
 import ImageWithSkeleton from '../ui/ImageWithSkeleton';
 

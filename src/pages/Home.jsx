@@ -1,4 +1,12 @@
-/* src/pages/Home.jsx */
+/* src/pages/Home.jsx
+   The / route — the "everything, every time" landing page. Builds ten
+   horizontal rails (Trending + Top Picks For You + 7 genre rows + All
+   Drama) on top of the shared DramaContext catalog.
+
+   @see docs/ARCHITECTURE.md#sec-state-management
+   @see docs/ARCHITECTURE.md#sec-drama-context
+   @see docs/PROJECT.md#sec-proj-ui-plan */
+
 import { useEffect, useMemo, useState } from 'react';
 import { useDrama } from '../context/DramaContext';
 import HeroSection from '../components/home/HeroSection';
@@ -49,6 +57,10 @@ const Home = () => {
   // viewport so the navbar floats over it. The shared <main> reserves
   // pt-24/pt-28 for every other route, so we zero it out only while this
   // page is mounted and put it back on unmount.
+  //
+  // NOTE: we save the previous `paddingTop` instead of hard-coding a
+  // restore value. Routes that need extra top spacing (e.g. DramaDetails)
+  // would otherwise get silently flattened after this page unmounts.
   useEffect(() => {
     const main = document.querySelector('main');
     if (!main) return undefined;

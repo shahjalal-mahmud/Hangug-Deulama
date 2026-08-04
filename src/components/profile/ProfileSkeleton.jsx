@@ -2,7 +2,9 @@
    Shape-matched loading state for the profile page. Mirrors the final
    layout (hero / stat row / taste profile) instead of a generic spinner,
    so the page doesn't "pop" once data arrives. Uses the same pulse
-   treatment as ImageWithSkeleton for visual consistency. */
+   treatment as ImageWithSkeleton for visual consistency.
+
+   @see docs/pages/Profile.jsx */
 
 const pulse = 'animate-pulse bg-linear-to-br from-surface-elevated to-surface';
 

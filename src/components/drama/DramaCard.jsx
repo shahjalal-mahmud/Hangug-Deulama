@@ -1,3 +1,13 @@
+/* src/components/drama/DramaCard.jsx
+   Dense grid card used on the homepage "Browse All" section and the
+   Activity page. Poster + title + year + two genres, all anchored to
+   the drama's details route. Designed for a many-cards-per-row layout,
+   unlike DramaPosterCard which is tuned for feature rails.
+
+   @see docs/components/drama/DramaPosterCard.jsx
+   @see docs/components/home/AllDramaSection.jsx
+   @see docs/pages/Activity.jsx */
+
 import { memo } from 'react';
 import { Link } from 'react-router-dom';
 import ImageWithSkeleton from '../ui/ImageWithSkeleton';

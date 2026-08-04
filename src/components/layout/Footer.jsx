@@ -1,4 +1,10 @@
-/* src/components/layout/Footer.jsx */
+/* src/components/layout/Footer.jsx
+   Static footer (link columns, social icons, "back to top" button,
+   copyright). Mostly presentational — the data is hardcoded because the
+   footer doesn't reflect any server state and rarely changes.
+
+   @see docs/PROJECT.md#sec-proj-ui-plan */
+
 import { Link } from 'react-router-dom';
 
 const footerColumns = [

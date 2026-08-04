@@ -1,6 +1,21 @@
+/* src/components/details/ActionBar.jsx
+   Row of action buttons shown on the drama details page: Like, Pass,
+   Watched, Bookmark, and Share. The "share" button reads the result
+   returned by the parent's onShare callback and shows a 2-second
+   "Copied!" confirmation when the URL was successfully written to
+   the clipboard.
+
+   @see docs/components/details/DetailsHeader.jsx
+   @see docs/components/details/BackdropHero.jsx
+   @see docs/pages/DramaDetails.jsx */
+
 import { useState } from 'react';
 
 const ActionBar = ({ status, onLike, onDislike, onWatched, onBookmark, onShare }) => {
+  // NOTE: justShared lives in local state because it's a purely visual
+  // confirmation that only the action bar cares about. The parent
+  // (DramaDetails.jsx) owns the actual clipboard copy — we just track
+  // whether to show the "Copied!" label for the next 2 seconds.
   const [justShared, setJustShared] = useState(false);
 
   const handleShare = async () => {

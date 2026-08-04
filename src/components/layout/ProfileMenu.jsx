@@ -1,4 +1,14 @@
-/* src/components/layout/ProfileMenu.jsx */
+/* src/components/layout/ProfileMenu.jsx
+   The right side of the navbar. Renders one of two things depending
+   on auth state:
+     - logged-out: a "Sign In" pill that links to /login
+     - logged-in:  an avatar in a click-to-open details dropdown with
+                   profile / list / logout links
+   This guarantees exactly one auth button in the navbar in each state.
+
+   @see docs/ARCHITECTURE.md#sec-auth-context
+   @see docs/components/layout/Navbar.jsx */
+
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { resolveAvatar } from '../../utils/avatar';
@@ -9,6 +19,11 @@ const ProfileMenu = () => {
   const navigate = useNavigate();
   const avatarSrc = resolveAvatar(user?.profile_image);
 
+  // NOTE: we redirect to "/" after logout (rather than staying on the
+  // current page) because the current page is often a protected route
+  // like /profile or /activity. Without the redirect, ProtectedRoute
+  // would immediately bounce the user to /login anyway — so we cut out
+  // the middle step and give them a clean landing page.
   const handleLogout = () => {
     logout();
     navigate('/');

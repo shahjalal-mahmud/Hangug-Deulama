@@ -1,7 +1,10 @@
 /* src/components/details/PosterPanel.jsx
    Poster-only left column. No overlay, no gradient, no text on top —
    just the artwork, presented cleanly. Sticks in place on desktop so
-   it stays in view as the details column scrolls. */
+   it stays in view as the details column scrolls.
+
+   @see docs/components/details/DetailsHeader.jsx
+   @see docs/utils/dramaHelpers.js (pickImage) */
 
 import ImageWithSkeleton from '../ui/ImageWithSkeleton';
 import { pickImage } from '../../utils/dramaHelpers';

@@ -1,3 +1,12 @@
+/* src/components/details/SimilarDramas.jsx
+   "More Like This" rail at the bottom of the details page. The parent
+   (DramaDetails.jsx) decides which dramas count as similar — this
+   component just renders them as a horizontal poster carousel, or an
+   empty-state message when the list is empty.
+
+   @see docs/components/drama/DramaPosterCard.jsx
+   @see docs/pages/DramaDetails.jsx */
+
 import SectionHeader from '../ui/SectionHeader';
 import DramaPosterCard from '../drama/DramaPosterCard';
 import EmptyState from '../ui/EmptyState';

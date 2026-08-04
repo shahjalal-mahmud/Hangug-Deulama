@@ -1,6 +1,10 @@
-/* src/components/home/SpotlightRail.jsx */
-/* Thumbnail selector beneath the hero — makes the rotation transparent
-   and user-controllable instead of a black-box auto-carousel. */
+/* src/components/home/SpotlightRail.jsx
+   Thumbnail selector beneath the hero — makes the rotation transparent
+   and user-controllable instead of a black-box auto-carousel.
+
+   @see docs/components/home/HeroSection.jsx
+   @see docs/utils/dramaHelpers.js (pickImage) */
+
 import { pickImage } from '../../utils/dramaHelpers';
 
 const SpotlightRail = ({ items, activeIndex, onSelect }) => {

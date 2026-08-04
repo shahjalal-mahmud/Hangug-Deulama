@@ -1,7 +1,10 @@
 /* src/components/details/DetailsHeader.jsx
    Right-column header: back link, rating/year, title, genres, and the
    action bar. Replaces the text-over-image treatment from the old
-   BackdropHero now that the poster lives in its own column. */
+   BackdropHero now that the poster lives in its own column.
+
+   @see docs/components/details/PosterPanel.jsx
+   @see docs/pages/DramaDetails.jsx */
 
 import { useNavigate } from 'react-router-dom';
 import GenreBadge from '../ui/GenreBadge';

@@ -1,4 +1,14 @@
-/* src/components/home/HeroSection.jsx */
+/* src/components/home/HeroSection.jsx
+   The full-bleed auto-rotating spotlight at the top of the homepage.
+   Pulls the real Top 10 by rating from the backend, falls back to the
+   first 10 catalog items if that call fails, and exposes prev/next,
+   keyboard, and touch-swipe controls. Every interaction resets the
+   same 5s auto-advance so the next slide is never a surprise.
+
+   @see docs/API.md#sec-dramas-list
+   @see docs/ARCHITECTURE.md#sec-drama-context
+   @see docs/components/home/SpotlightRail.jsx */
+
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import clsx from 'clsx';
 import * as dramasApi from '../../api/dramas';
@@ -78,6 +88,10 @@ const HeroSection = ({ items: fallbackItems = [], loading: catalogLoading }) => 
 
   // Every change to `index` — auto, manual, swipe, keyboard — restarts
   // this exact 5s window, so the next advance is always predictable.
+  // NOTE: the auto-advance timer below is keyed off `index`, `paused`,
+  // and `total`. Each variable change restarts the 5s window — that's
+  // what makes every interaction (prev button, keyboard, swipe, hover
+  // pause) feel predictable instead of "the carousel jumped on me".
   useEffect(() => {
     if (paused || total <= 1 || reducedMotion) return;
     const timer = setTimeout(() => goNext(), ROTATE_MS);

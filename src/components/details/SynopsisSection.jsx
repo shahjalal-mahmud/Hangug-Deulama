@@ -1,3 +1,12 @@
+/* src/components/details/SynopsisSection.jsx
+   The storyline paragraph with a "Read more" / "Read less" toggle for
+   long descriptions. We measure the text element's natural height and
+   only show the toggle when the synopsis actually overflows the
+   collapsed cap.
+
+   @see docs/components/ui/SectionHeader.jsx
+   @see docs/pages/DramaDetails.jsx */
+
 import { useState, useRef, useEffect } from 'react';
 import SectionHeader from '../ui/SectionHeader';
 
@@ -8,6 +17,11 @@ const SynopsisSection = ({ storyline }) => {
   const [overflows, setOverflows] = useState(false);
   const textRef = useRef(null);
 
+  // NOTE: scrollHeight is the natural (un-clipped) height of the
+  // paragraph. We compare it to COLLAPSED_HEIGHT + a 4px buffer to
+  // decide whether the synopsis actually overflows. Without this
+  // measurement we'd always render a "Read more" button even on
+  // short synopses, which is dead UI.
   useEffect(() => {
     if (textRef.current) {
       setOverflows(textRef.current.scrollHeight > COLLAPSED_HEIGHT + 4);

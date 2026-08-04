@@ -1,7 +1,11 @@
 /* src/pages/Login.jsx
    Sign-in screen. Posts to /api/auth/login, persists the returned JWT
    via AuthContext, and redirects to the page the user came from (or
-   the home page if they navigated here directly). */
+   the home page if they navigated here directly).
+
+   @see docs/API.md#sec-auth-login
+   @see docs/ARCHITECTURE.md#sec-auth-context
+   @see docs/PROJECT.md#sec-proj-fr-user-mgmt */
 
 import { useState } from 'react';
 import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom';
@@ -27,6 +31,11 @@ const Login = () => {
   const [submitError, setSubmitError] = useState('');
   const [submitting, setSubmitting] = useState(false);
 
+  // NOTE: `from` is the URL ProtectedRoute redirected us from before
+  // we kicked the user to /login. Post-auth we want to bounce them
+  // back to that page — not always to "/" — otherwise visiting
+  // /profile while logged-out would land the user on home after
+  // sign-in, which feels broken.
   const from = location.state?.from?.pathname || '/';
 
   if (bootstrapped && isAuthenticated) {

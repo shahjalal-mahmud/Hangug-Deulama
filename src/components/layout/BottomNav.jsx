@@ -1,4 +1,12 @@
-/* src/components/layout/BottomNav.jsx */
+/* src/components/layout/BottomNav.jsx
+   Mobile-only tab bar pinned to the bottom of the screen. Mirrors the
+   desktop navbar so users on phones get the same primary destinations
+   without scrolling. Hidden on md+ screens where the top navbar takes
+   over.
+
+   @see docs/PROJECT.md#sec-proj-ui-plan
+   @see docs/components/layout/Navbar.jsx */
+
 import { NavLink, useNavigate } from 'react-router-dom';
 import clsx from 'clsx';
 import { useAuth } from '../../context/AuthContext';
@@ -14,6 +22,9 @@ const BottomNav = () => {
   const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
 
+  // NOTE: same pattern as Navbar — auth-required tabs intercept clicks
+  // for anonymous users and send them to /login with a `from` state so
+  // Login.jsx can bounce them back after a successful sign-in.
   const handleTabClick = (e, tab) => {
     if (tab.requireAuth && !isAuthenticated) {
       e.preventDefault();

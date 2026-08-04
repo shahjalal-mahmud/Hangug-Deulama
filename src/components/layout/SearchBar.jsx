@@ -1,4 +1,12 @@
-/* src/components/SearchBar.jsx */
+/* src/components/layout/SearchBar.jsx
+   Collapsible search field that lives in the navbar. Click the magnifier
+   to expand the input, click outside or press Escape to collapse it.
+   The auto-focus + click-outside together give a quick "type and go"
+   flow without ever needing the keyboard to manage focus by hand.
+
+   @see docs/components/layout/Navbar.jsx
+   @see docs/utils/dramaHelpers.js (filterBySearch) */
+
 import { useState, useRef, useEffect } from 'react';
 
 const SearchBar = () => {
@@ -6,12 +14,24 @@ const SearchBar = () => {
   const inputRef = useRef(null);
   const containerRef = useRef(null);
 
+  // NOTE: auto-focusing the input on open is the difference between
+  // "click the icon, then click the input again to start typing" and
+  // "click the icon and start typing immediately". The optional
+  // chaining (?.) handles the case where the ref hasn't been attached
+  // yet — the effect runs after render, so the ref is normally set,
+  // but this guards against an edge timing case in StrictMode.
   useEffect(() => {
     if (isOpen) {
       inputRef.current?.focus();
     }
   }, [isOpen]);
 
+  // NOTE: the listeners are attached to `document` rather than the input
+  // because click-outside and global Escape keys need to work even when
+  // the user clicks anywhere else on the page. We return a cleanup
+  // function so the listeners get removed on unmount — otherwise
+  // they'd leak across page navigations and fire on pages that no
+  // longer have a SearchBar.
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (containerRef.current && !containerRef.current.contains(e.target)) {

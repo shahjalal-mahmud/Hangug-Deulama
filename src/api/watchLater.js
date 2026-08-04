@@ -8,6 +8,10 @@
 
 import apiClient from './client';
 
+// NOTE: Watch-later is a "save for later" list — adding and removing are
+// separate endpoints rather than a single toggle. DramaContext's
+// toggleBookmark() calls them in pairs based on whether the drama is
+// already in the list (see @see docs/ARCHITECTURE.md#sec-drama-context).
 // @see docs/API.md#sec-watch-later-add
 export const addWatchLater = (dramaId) =>
   apiClient.post('/watch-later', { drama_id: dramaId }).then((r) => r.data);

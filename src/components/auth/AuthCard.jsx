@@ -1,7 +1,10 @@
 /* src/components/auth/AuthCard.jsx
    Right-hand auth content. Deliberately flat/borderless to match the
    approved reference — content sits directly on the page background
-   rather than in a boxed card. */
+   rather than in a boxed card.
+
+   @see docs/pages/Login.jsx
+   @see docs/pages/Register.jsx */
 
 const AuthCard = ({
   title = 'Welcome Back',

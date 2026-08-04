@@ -1,3 +1,13 @@
+/* src/components/discover/SwipeProgress.jsx
+   Thin progress bar above the swipe deck. Shows how far the user has
+   explored the catalog as a percentage, plus the raw count of cards
+   still in the queue.
+
+   @see docs/components/discover/SwipeDeck.jsx */
+
+// NOTE: the `total ? ... : 0` guard avoids a divide-by-zero when the
+// catalog is empty. Without it, NaN would render and the progressbar
+// ARIA value would be invalid for screen readers.
 const SwipeProgress = ({ decided, total, remaining }) => {
   const percent = total ? Math.round((decided / total) * 100) : 0;
 

@@ -5,7 +5,11 @@
 
    UI redesign only — every interaction (validation, submit, redirect,
    show/hide password) is identical to the previous version, and the
-   visual language is shared 1:1 with the redesigned Login page. */
+   visual language is shared 1:1 with the redesigned Login page.
+
+   @see docs/API.md#sec-auth-register
+   @see docs/ARCHITECTURE.md#sec-auth-context
+   @see docs/PROJECT.md#sec-proj-fr-user-mgmt */
 
 import { useState } from 'react';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
@@ -74,6 +78,11 @@ const Register = () => {
 
     setSubmitting(true);
     try {
+      // NOTE: `register` doubles as a sign-in. The backend's
+      // /api/auth/register endpoint already returns the JWT in its
+      // 201 response, so AuthContext.login's persistence path runs
+      // and we navigate straight to "/" — no separate sign-in step
+      // is needed or wanted.
       await register({
         full_name: form.full_name.trim(),
         email: form.email.trim(),

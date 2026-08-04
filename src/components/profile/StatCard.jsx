@@ -1,7 +1,9 @@
 /* src/components/profile/StatCard.jsx
    A single glanceable metric. `accentClass` carries a text+bg color pair
    (e.g. "text-primary bg-primary/10") so the icon token colors are static
-   Tailwind classes at each call site rather than built dynamically. */
+   Tailwind classes at each call site rather than built dynamically.
+
+   @see docs/pages/Profile.jsx */
 
 const StatCard = ({ icon, label, value, accentClass, hint }) => (
   <div className="surface-card-elevated rounded-2xl p-5 flex items-center gap-4">

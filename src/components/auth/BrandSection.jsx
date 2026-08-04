@@ -1,6 +1,10 @@
 /* src/components/auth/BrandSection.jsx
    Mobile-only brand mark that sits above the auth form. The full
-   cinematic collage (AuthHero) is hidden on small screens. */
+   cinematic collage (AuthHero) is hidden on small screens.
+
+   @see docs/components/auth/AuthHero.jsx
+   @see docs/pages/Login.jsx
+   @see docs/pages/Register.jsx */
 
 const BrandSection = () => (
   <div className="lg:hidden mb-10 text-center animate-fade-up">

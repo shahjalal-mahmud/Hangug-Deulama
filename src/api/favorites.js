@@ -8,7 +8,10 @@
 
 import apiClient from './client';
 
-// @see docs/API.md#sec-favorites-add
+// NOTE: each function unwraps the response body with `.then((r) => r.data)`,
+// so callers receive just the JSON payload and never have to think about
+// the Axios wrapper. Every api/* file follows this same convention so
+// the import shape is consistent across the app.
 export const addFavorite = (dramaId) =>
   apiClient.post('/favorites', { drama_id: dramaId }).then((r) => r.data);
 

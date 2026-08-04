@@ -1,9 +1,21 @@
-/* src/components/drama/LandscapeDramaCard.jsx */
+/* src/components/drama/LandscapeDramaCard.jsx
+   16:9 landscape card with a play-button hover effect, used by the
+   "Continue Watching" rail. The progress bar at the bottom is a
+   placeholder — see dramaHelpers.getContinueWatching for how the
+   percentage is computed today.
+
+   @see docs/utils/dramaHelpers.js (getContinueWatching, hashToPercent)
+   @see docs/pages/Activity.jsx */
+
 import { memo } from 'react';
 import { Link } from 'react-router-dom';
 import ImageWithSkeleton from '../ui/ImageWithSkeleton';
 import { pickImage } from '../../utils/dramaHelpers';
 
+// NOTE: the "Continue watching X, Y% complete" aria-label is what a
+// screen reader user hears when this card receives focus. Including
+// the percent up front lets them skip to the next card without having
+// to read further into the card body.
 const LandscapeDramaCard = ({ drama }) => {
   return (
     <Link

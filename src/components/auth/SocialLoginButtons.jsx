@@ -2,7 +2,17 @@
    Presentational-only social login row, matching the approved design.
    The API doesn't support OAuth yet, so these are visually complete
    but intentionally disabled — wire real handlers in once a provider
-   is set up, then drop the `disabled`/title props. */
+   is set up, then drop the `disabled`/title props.
+
+   @see docs/pages/Login.jsx
+   @see docs/pages/Register.jsx
+   @see docs/PROJECT.md#sec-proj-api-auth-notes */
+
+// NOTE: both buttons are `disabled` AND have `title="Coming soon"` —
+// the title shows the browser's native tooltip on hover so users know
+// it's not a regression, and `disabled` makes them unclickable so the
+// disabled visual state stays honest.
+const SocialLoginButtons = () => (
 
 const GoogleIcon = () => (
   <svg className="w-5 h-5" viewBox="0 0 24 24" aria-hidden="true">

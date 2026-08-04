@@ -5,8 +5,15 @@
    screen. The avatar ring reuses the exact primary→secondary gradient
    from .btn-gradient, tying the page's one accent together. Avatar
    fallback (missing image or a broken backend URL) is handled centrally
-   by the Avatar component. */
+   by the Avatar component.
 
+   @see docs/components/ui/Avatar.jsx
+   @see docs/pages/Profile.jsx */
+
+// NOTE: the `name || 'Unknown user'` fallback is here for the very narrow
+// case where the page is rendered before AuthContext has finished
+// hydrating. Showing "Unknown user" is uglier than a real name but is
+// clearly placeholder, so the user knows the page is still loading.
 import Avatar from '../ui/Avatar';
 
 const ProfileHero = ({ name, email, avatarSrc, topGenreLabel, onEdit, onLogout }) => (

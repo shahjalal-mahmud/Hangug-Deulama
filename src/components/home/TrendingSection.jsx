@@ -1,4 +1,11 @@
-/* src/components/home/TrendingSection.jsx */
+/* src/components/home/TrendingSection.jsx
+   "Trending Now" rail at the top of the homepage — the highest-rated
+   dramas in the catalog, ordered by IMDB rating. Each card shows a
+   rank numeral so the order is legible at a glance.
+
+   @see docs/components/home/GenreRow.jsx
+   @see docs/components/drama/DramaPosterCard.jsx */
+
 import SectionHeader from '../ui/SectionHeader';
 import DramaPosterCard from '../drama/DramaPosterCard';
 import SkeletonCard from '../ui/SkeletonCard';

@@ -3,7 +3,11 @@
    section on the homepage (Rom-Com, Historical, Thriller, Fantasy,
    Action, Horror, Comedy). Reuses the exact same DramaPosterCard as
    Trending Now so the whole homepage feels like one consistent system,
-   the way Netflix's row components all share one card. */
+   the way Netflix's row components all share one card.
+
+   @see docs/components/home/TrendingSection.jsx
+   @see docs/components/drama/DramaPosterCard.jsx */
+
 import SectionHeader from '../ui/SectionHeader';
 import DramaPosterCard from '../drama/DramaPosterCard';
 import SkeletonCard from '../ui/SkeletonCard';

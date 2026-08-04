@@ -1,9 +1,22 @@
+/* src/components/details/BackdropHero.jsx
+   Full-bleed hero used by the legacy details layout: backdrop image
+   with title, rating, genres, and the action bar overlaid on top.
+   The newer layout uses DetailsHeader + PosterPanel instead (poster
+   on the left, info on the right) — this version is kept for any
+   routes still rendering the old treatment.
+
+   @see docs/components/details/DetailsHeader.jsx
+   @see docs/components/details/ActionBar.jsx */
+
 import { useNavigate } from 'react-router-dom';
 import ImageWithSkeleton from '../ui/ImageWithSkeleton';
 import GenreBadge from '../ui/GenreBadge';
 import ActionBar from './ActionBar';
 import { parseGenres, pickImage } from '../../utils/dramaHelpers';
 
+// NOTE: the three backdrop gradients (bottom-to-top dim, left-to-right
+// dim) build the dark wash behind the text. Without them, the title
+// would float over the bright parts of the image and become unreadable.
 const BackdropHero = ({ drama, status, onLike, onDislike, onWatched, onBookmark, onShare }) => {
   const navigate = useNavigate();
   const genres = parseGenres(drama);

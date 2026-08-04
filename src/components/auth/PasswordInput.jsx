@@ -1,7 +1,18 @@
 /* src/components/auth/PasswordInput.jsx
    Password field built on top of AuthInput. Keeps the existing
    show/hide logic (a single boolean toggle lifted to the parent) so
-   the Login/Register pages don't lose control of state. */
+   the Login/Register pages don't lose control of state.
+
+   @see docs/components/auth/AuthInput.jsx
+   @see docs/pages/Login.jsx
+   @see docs/pages/Register.jsx */
+
+// NOTE: the "Forgot?" link is hardcoded to "coming soon" because the
+// app doesn't have a password-reset flow yet. Keeping the affordance
+// visible maintains visual parity with similar products (and helps
+// users discover the feature once it ships) without promising
+// something the backend can't deliver.
+import AuthInput from './AuthInput';
 
 import AuthInput from './AuthInput';
 

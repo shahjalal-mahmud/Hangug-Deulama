@@ -1,5 +1,9 @@
 /* src/components/auth/AuthDivider.jsx
-   "Or continue with email" separator between social login and the form. */
+   "Or continue with email" separator between social login and the form.
+
+   @see docs/pages/Login.jsx
+   @see docs/pages/Register.jsx
+   @see docs/components/auth/SocialLoginButtons.jsx */
 
 const AuthDivider = ({ label = 'OR CONTINUE WITH EMAIL' }) => (
   <div className="relative flex items-center" role="separator">

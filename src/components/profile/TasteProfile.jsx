@@ -4,8 +4,16 @@
    score), so numbering the rows encodes actual information rather than
    decorating a flat list. Bar fill reuses the primary→secondary gradient
    already established by .btn-gradient / .match-badge elsewhere in the
-   app, so the chart reads as part of the same visual system. */
+   app, so the chart reads as part of the same visual system.
 
+   @see docs/API.md#sec-genre-statistics-endpoint
+   @see docs/PROJECT.md#sec-proj-genre-scoring
+   @see docs/pages/Profile.jsx */
+
+// NOTE: titleCase is inlined here (rather than reused from a util) because
+// it's two lines and used exactly once, on a single genre label. Pulling
+// it into dramaHelpers.js would mean a hot util module importing nothing
+// genre-related. Local is fine.
 const titleCase = (s) => (s ? s.replace(/\b\w/g, (c) => c.toUpperCase()) : s);
 
 const TotalPill = ({ icon, label, value, className }) => (

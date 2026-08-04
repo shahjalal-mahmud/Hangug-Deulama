@@ -3,7 +3,17 @@
 
    Pure presentation: receives the existing form state and change handler
    from the parent so the Login/Register pages keep full control of
-   validation, state, and accessibility wiring. */
+   validation, state, and accessibility wiring.
+
+   @see docs/components/auth/PasswordInput.jsx
+   @see docs/pages/Login.jsx
+   @see docs/pages/Register.jsx */
+
+// NOTE: we set `aria-describedby` to the error message's id whenever
+// the input is invalid. That way a screen reader user gets the error
+// announced right after the field label, instead of having to navigate
+// to it separately.
+const AuthInput = ({
 
 const AuthInput = ({
   id,

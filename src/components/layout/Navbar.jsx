@@ -1,4 +1,12 @@
-/* src/components/layout/Navbar.jsx */
+/* src/components/layout/Navbar.jsx
+   Top app bar shown on every page inside MainLayout. Handles the
+   brand mark, primary desktop navigation, and the right-side
+   auth-aware ProfileMenu (Sign In button vs. avatar dropdown).
+
+   @see docs/PROJECT.md#sec-proj-ui-plan
+   @see docs/ARCHITECTURE.md#sec-auth-context
+   @see docs/components/layout/ProfileMenu.jsx */
+
 import { NavLink, useNavigate } from 'react-router-dom';
 import clsx from 'clsx';
 import ProfileMenu from './ProfileMenu';
@@ -8,6 +16,11 @@ const Navbar = () => {
   const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
 
+  // NOTE: links marked `requireAuth` (like "My List") redirect to /login
+  // when an anonymous user clicks them, instead of letting React Router
+  // try to navigate and ProtectedRoute throw the bounce. Doing the
+  // check at click time keeps the link itself always reachable so the
+  // user gets visual feedback rather than an unexplained silent no-op.
   const handleNavClick = (e, link) => {
     if (link.requireAuth && !isAuthenticated) {
       e.preventDefault();

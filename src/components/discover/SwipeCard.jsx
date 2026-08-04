@@ -1,3 +1,12 @@
+/* src/components/discover/SwipeCard.jsx
+   A single swipeable drama card. The top card in the deck is interactive
+   — it tracks pointer drag, rotates while you drag, fades the green/red/
+   blue overlay to preview your verdict, and animates off-screen when
+   you cross the threshold or call triggerSwipe() from a button.
+
+   @see docs/components/discover/SwipeDeck.jsx
+   @see docs/ARCHITECTURE.md#sec-drama-context */
+
 import { forwardRef, useImperativeHandle, useRef, useState, memo } from 'react';
 import { Link } from 'react-router-dom';
 import ImageWithSkeleton from '../ui/ImageWithSkeleton';
@@ -21,6 +30,11 @@ const SwipeCard = forwardRef(
     onSwipe,
   }, ref) => {
     const cardRef = useRef(null);
+    // NOTE: dragState lives in a ref rather than state. Storing it in
+    // state would re-render the whole card on every pointer move (every
+    // single pixel), which is wasteful when nothing visible needs to
+    // change. A ref mutates silently and only the visible offset state
+    // below triggers a re-render.
     const dragState = useRef({ startX: 0, startY: 0, dragging: false });
     const [offset, setOffset] = useState({ x: 0, y: 0 });
     const [exiting, setExiting] = useState(null);
@@ -33,6 +47,12 @@ const SwipeCard = forwardRef(
       const exitY = direction === 'watched' ? -700 : 60;
       setExiting(direction);
       setOffset({ x: exitX, y: exitY });
+      // NOTE: the 260ms timeout matches the CSS transform transition
+      // (transition: transform 0.35s in non-drag state) — once the card
+      // has flown off-screen, we tell the parent "this swipe is
+      // committed" so it can advance the queue. The parent re-renders,
+      // drops this card from the deck, and the new top card is the
+      // one that was behind it.
       window.setTimeout(() => onSwipe(direction), 260);
     };
 
@@ -61,6 +81,13 @@ const SwipeCard = forwardRef(
       );
     }
 
+    // NOTE: setPointerCapture ties subsequent pointer events to this
+    // specific element even when the cursor drifts over a different
+    // element (or off the card entirely). Without it, a fast swipe
+    // would lose the pointer move events mid-drag — the browser would
+    // start firing them on whatever element is under the cursor. The
+    // optional chaining (?.) guards older browsers that don't support
+    // the API.
     const handlePointerDown = (e) => {
       if (exiting) return;
       dragState.current = { startX: e.clientX, startY: e.clientY, dragging: true };
@@ -75,6 +102,11 @@ const SwipeCard = forwardRef(
       });
     };
 
+    // NOTE: handlePointerUp decides whether the drag was big enough to
+    // count as a swipe in any direction, or whether to snap back. We
+    // check the X axis first (the most common gestures) and only fall
+    // back to Y if X is below threshold, so an unintentional vertical
+    // drag doesn't register as an "up = watched" swipe.
     const handlePointerUp = () => {
       if (!dragState.current.dragging) return;
       dragState.current.dragging = false;
@@ -86,6 +118,12 @@ const SwipeCard = forwardRef(
       else setOffset({ x: 0, y: 0 });
     };
 
+    // NOTE: the three opacity values are clamped to 0–1 with Math.min/
+    // Math.max so dragging far past the threshold can't blow up the
+    // overlay beyond fully visible. The per-axis opacities are
+    // independent so a horizontal drag doesn't tint the "Watched"
+    // overlay (which is keyed to the Y axis), keeping the visual
+    // feedback unambiguous.
     const rotation = offset.x * ROTATION_FACTOR;
     const likeOpacity = Math.min(Math.max(offset.x / SWIPE_THRESHOLD, 0), 1);
     const dislikeOpacity = Math.min(Math.max(-offset.x / SWIPE_THRESHOLD, 0), 1);

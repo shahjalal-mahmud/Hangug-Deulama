@@ -10,6 +10,10 @@ import apiClient from './client';
    this map translates between the two.
 // @see docs/API.md#sec-dramas-list
 */
+// NOTE: the `if (SORT_TO_API[sort])` guard below silently drops unknown
+// sort keys instead of throwing. That way the UI can pass user-friendly
+// labels through this wrapper without crashing if a label is added that
+// the API doesn't recognize yet — it just falls back to the default sort.
 const SORT_TO_API = {
   rating: 'imdb_rating',
   newest: 'release_year',
