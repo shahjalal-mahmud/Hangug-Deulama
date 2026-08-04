@@ -91,8 +91,6 @@ The application ships in two modes, sharing the same frontend — only `VITE_API
 
 ## 📸 Screenshots
 
-> Replace the placeholders below with real captures — drop your image files into `docs/screenshots/web/` and `docs/screenshots/mobile/` and update the paths. Keep filenames descriptive (`home.png`, `discover-swipe.png`, `recommendations.png`, etc.) so the table stays easy to maintain.
-
 ### 🖥️ Website
 
 <div align="center">
