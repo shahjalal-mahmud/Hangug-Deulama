@@ -2,18 +2,30 @@
    Wraps profile read/write endpoints and the genre statistics endpoint.
    PUT /api/profile has two distinct shapes — JSON for name/password
    and multipart/form-data when an image is included — so we expose
-   both via a single helper that picks the right one. */
+   both via a single helper that picks the right one.
+
+   @see docs/API.md#sec-profile-get
+   @see docs/API.md#sec-profile-update
+   @see docs/API.md#sec-genre-statistics-endpoint
+*/
 
 import apiClient from './client';
 
+// @see docs/API.md#sec-profile-get
 export const getProfile = () =>
   apiClient.get('/profile').then((r) => r.data);
 
+// @see docs/API.md#sec-genre-statistics-endpoint
+// NOTE: the +5/+2/-3 scoring math itself lives on the server, not here.
+// @see docs/PROJECT.md#sec-proj-genre-scoring for the formula — this file
+// just fetches the result.
 export const getGenreStatistics = () =>
   apiClient.get('/profile/genre-statistics').then((r) => r.data);
 
 /**
  * Update the authenticated user's profile.
+ *
+ * @see docs/API.md#sec-profile-update
  *
  * @param {Object} params
  * @param {string} [params.name]                new display name
@@ -37,7 +49,14 @@ export const updateProfile = ({
     if (newPassword) form.append('new_password', newPassword);
     if (confirmPassword) form.append('confirm_password', confirmPassword);
     form.append('image', image);
-    /* IMPORTANT: do NOT set Content-Type manually here. When you pass a
+    /* NOTE: this is a common beginner mistake in web development — when
+       you're uploading a file, the browser needs to add a special marker
+       (called a "boundary") to the request so the server can tell where
+       one field ends and the next begins. Only the browser knows what
+       that marker is, so if you set the header yourself, you'll get the
+       marker wrong and the whole upload silently breaks.
+
+       Below: do NOT set Content-Type manually here. When you pass a
        FormData body, axios auto-generates the correct
        `multipart/form-data; boundary=------...` header. Forcing
        `multipart/form-data` without a boundary produces a malformed

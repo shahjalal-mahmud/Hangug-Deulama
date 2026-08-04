@@ -10,8 +10,13 @@ import { API_BASE_URL, TOKEN_STORAGE_KEY } from './config';
  * Read the latest token from storage. Always re-read on each request so
  * a login / logout in another tab is picked up immediately without
  * needing a full reload.
+ *
+ * @see docs/ARCHITECTURE.md#sec-api-client-config
  */
 const readToken = () => {
+  // NOTE: we check for the login token fresh every time, so if you log in
+  // or out in another browser tab, this tab notices right away without
+  // needing a refresh.
   try {
     return localStorage.getItem(TOKEN_STORAGE_KEY);
   } catch {
@@ -19,6 +24,11 @@ const readToken = () => {
   }
 };
 
+// Every API call in this app goes through this one Axios object, so we
+// only have to set things like the base URL and timeout once. If you need
+// to send a request, import `apiClient` from this file — don't make a new
+// axios instance.
+// @see docs/ARCHITECTURE.md#sec-api-client-config
 export const apiClient = axios.create({
   baseURL: `${API_BASE_URL}/api`,
   headers: {
@@ -29,7 +39,12 @@ export const apiClient = axios.create({
   timeout: 15000,
 });
 
-/* Request interceptor — attach Bearer token automatically. */
+/* Request interceptor — an "interceptor" is just code that Axios runs
+   for you automatically, before each request goes out (and similarly
+   for responses, below). Here it attaches the JWT as a Bearer token so
+   every API file doesn't have to do that by hand.
+// @see docs/ARCHITECTURE.md#sec-api-request-interceptor
+*/
 apiClient.interceptors.request.use((config) => {
   const token = readToken();
   if (token) {
@@ -41,7 +56,13 @@ apiClient.interceptors.request.use((config) => {
 
 /* Lightweight event bus for cross-cutting concerns. The auth layer
    subscribes to this so a 401 from any request triggers an automatic
-   logout + redirect without each component having to handle it. */
+   logout + redirect without each component having to handle it.
+
+   Think of it as a simple way for one part of the app (the API client)
+   to say "hey, something logged us out" to another part of the app
+   (AuthContext) without the two being directly wired to each other.
+// @see docs/ARCHITECTURE.md#sec-api-401-bus
+*/
 const listeners = new Set();
 export const onUnauthorized = (handler) => {
   listeners.add(handler);
@@ -66,9 +87,16 @@ const emitUnauthorized = (payload) => {
  *     errors,   // per-field validation errors OR a domain code
  *   }
  *
+ * The backend, a lost internet connection, and a plain JavaScript bug
+ * all produce very different error shapes — this function turns all
+ * three into one consistent shape so the rest of the app only has to
+ * handle one format.
+ *
  * The backend uses the standard envelope documented in docs/api.md, so
  * when Axios parses a JSON body we forward it as-is. Everything else
  * falls back to sensible defaults.
+ *
+ * @see docs/ARCHITECTURE.md#sec-api-error-normalization
  */
 export const normalizeError = (err) => {
   if (err?.response) {
@@ -95,6 +123,7 @@ export const normalizeError = (err) => {
   };
 };
 
+// @see docs/ARCHITECTURE.md#sec-api-error-normalization
 const defaultMessageForStatus = (status) => {
   switch (status) {
     case 400:
@@ -117,7 +146,11 @@ const defaultMessageForStatus = (status) => {
 };
 
 /* Response interceptor — translate 401 into a logout signal so the UI
-   can react without each caller having to know about auth. */
+   can react without each caller having to know about auth. The 401 is
+   sent through the event bus above (emitUnauthorized), which is what
+   AuthContext is listening to.
+// @see docs/ARCHITECTURE.md#sec-api-response-interceptor
+*/
 apiClient.interceptors.response.use(
   (response) => response,
   (err) => {
