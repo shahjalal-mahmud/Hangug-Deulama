@@ -1,3 +1,5 @@
+<a id="sec-top"></a>
+
 # Hangug Deulama — REST API Documentation
 
 > **Version:** 1.0 · **Last Updated:** 2026-07-06
@@ -8,6 +10,8 @@
 > original roadmap, the actual implementation is documented here.
 
 ---
+
+<a id="sec-toc"></a>
 
 ## Table of Contents
 
@@ -94,8 +98,11 @@
     - [Recommendations](#recommendations-1)
   - [Postman Examples](#postman-examples)
   - [Changelog](#changelog)
+  - [Anchor Index](#anchor-index)
 
 ---
+
+<a id="sec-project-info"></a>
 
 ## Project Information
 
@@ -114,9 +121,13 @@
 
 ---
 
+<a id="sec-response-format"></a>
+
 ## Standard Response Format
 
 **Every** response from the API — success or failure — uses the same envelope.
+
+<a id="sec-response-success"></a>
 
 ### Success
 
@@ -134,6 +145,8 @@
 | `message` | `string`                  | Human-readable message safe to display to end-users.                |
 | `data`    | `object \| array \| null` | The payload. May be an object, an array, an empty array, or `null`. |
 
+<a id="sec-response-error"></a>
+
 ### Error
 
 ```json
@@ -150,6 +163,8 @@
 | `message` | `string`  | Human-readable summary of the error.                                                                                                         |
 | `errors`  | `object`  | Per-field details (validation errors) OR a single `code` key (for domain errors such as `auth.user_not_found`). May be an empty object `{}`. |
 
+<a id="sec-response-headers"></a>
+
 ### Response Headers
 
 Every response carries:
@@ -164,6 +179,8 @@ Every response carries:
 `204 No Content` is supported by the `Response::noContent()` helper but is not used by any endpoint as of v1.
 
 ---
+
+<a id="sec-http-status-codes"></a>
 
 ## HTTP Status Codes
 
@@ -184,10 +201,14 @@ The API uses a small, consistent set of HTTP status codes. Every code is documen
 
 ---
 
+<a id="sec-auth-guide"></a>
+
 ## Authentication Guide
 
 Hangug Deulama uses **JWT (HS256)** for stateless authentication. Tokens are
 signed with HMAC-SHA256 using the secret in `config/app.php → jwt.secret`.
+
+<a id="sec-auth-how-it-works"></a>
 
 ### How it works
 
@@ -200,6 +221,8 @@ signed with HMAC-SHA256 using the secret in `config/app.php → jwt.secret`.
    ```
 
 4. `AuthMiddleware` validates the signature, expiry, and `user_id` claim, attaches the payload to the `Request`, and the controller can read `$request->userId()`.
+
+<a id="sec-auth-obtaining-token"></a>
 
 ### Obtaining a token
 
@@ -229,6 +252,8 @@ The 200 response includes:
 }
 ```
 
+<a id="sec-auth-token-claims"></a>
+
 ### Token claims
 
 | Claim     | Type   | Description                                                          |
@@ -237,6 +262,8 @@ The 200 response includes:
 | `iat`     | int    | Issued-at unix timestamp.                                            |
 | `exp`     | int    | Expiry unix timestamp. Default TTL: 7 days (`60*60*24*7`).           |
 | `user_id` | int    | The authenticated user. Always present on tokens issued by this app. |
+
+<a id="sec-auth-sending-header"></a>
 
 ### Sending the Authorization header
 
@@ -250,6 +277,8 @@ Accept: application/json
 ```
 
 The `Authorization` header is **case-sensitive** in the scheme part. `Token xxxx` is **not** accepted.
+
+<a id="sec-auth-common-errors"></a>
 
 ### Common authentication errors
 
@@ -270,6 +299,8 @@ password.`) so that an attacker cannot enumerate registered addresses.
 
 ---
 
+<a id="sec-error-reference"></a>
+
 ## Error Reference
 
 Beyond the standard envelope, a few errors carry machine-readable codes that the frontend can branch on:
@@ -282,6 +313,8 @@ All other error responses use `errors` as a `{ field: [messages] }` map.
 
 ---
 
+<a id="sec-api-endpoints"></a>
+
 # API Endpoints
 
 The 19 endpoints are organized below by feature area. Each section lists
@@ -289,7 +322,11 @@ the routes in that group with full request and response samples.
 
 ---
 
+<a id="sec-health"></a>
+
 ## Health
+
+<a id="sec-health-endpoint"></a>
 
 ### `GET /api/health`
 
@@ -334,11 +371,15 @@ the routes in that group with full request and response samples.
 
 ---
 
+<a id="sec-auth-endpoints"></a>
+
 ## Authentication
 
 The three endpoints in this group cover registration, login, and a "who am I?" check that doubles as the JWT-round-trip smoke test.
 
 ---
+
+<a id="sec-auth-register"></a>
 
 ### `POST /api/auth/register`
 
@@ -407,6 +448,8 @@ The three endpoints in this group cover registration, login, and a "who am I?" c
 
 ---
 
+<a id="sec-auth-login"></a>
+
 ### `POST /api/auth/login`
 
 | Field              | Value                                                                      |
@@ -472,6 +515,8 @@ The three endpoints in this group cover registration, login, and a "who am I?" c
 
 ---
 
+<a id="sec-auth-me"></a>
+
 ### `GET /api/me`
 
 | Field              | Value                                                                |
@@ -519,11 +564,15 @@ The three endpoints in this group cover registration, login, and a "who am I?" c
 
 ---
 
+<a id="sec-dramas"></a>
+
 ## Dramas
 
 Read-only, public catalog endpoints. Browse-before-login is intentional.
 
 ---
+
+<a id="sec-dramas-list"></a>
 
 ### `GET /api/dramas`
 
@@ -599,6 +648,8 @@ Read-only, public catalog endpoints. Browse-before-login is intentional.
 
 ---
 
+<a id="sec-dramas-detail"></a>
+
 ### `GET /api/dramas/{id}`
 
 | Field              | Value                              |
@@ -655,11 +706,15 @@ Read-only, public catalog endpoints. Browse-before-login is intentional.
 
 ---
 
+<a id="sec-favorites"></a>
+
 ## Favorites
 
 The user's persistent "heart" list. JWT-protected.
 
 ---
+
+<a id="sec-favorites-add"></a>
 
 ### `POST /api/favorites`
 
@@ -718,6 +773,8 @@ The user's persistent "heart" list. JWT-protected.
 
 ---
 
+<a id="sec-favorites-remove"></a>
+
 ### `DELETE /api/favorites/{drama_id}`
 
 | Field              | Value                                                   |
@@ -758,6 +815,8 @@ The user's persistent "heart" list. JWT-protected.
 | `404`  | The drama is not in the user's favorites. | `{ "success": false, "message": "Drama not found in favorites", "errors": {} }`                                    |
 
 ---
+
+<a id="sec-favorites-list"></a>
 
 ### `GET /api/favorites`
 
@@ -809,11 +868,15 @@ The user's persistent "heart" list. JWT-protected.
 
 ---
 
+<a id="sec-watch-later"></a>
+
 ## Watch Later
 
 The user's watch queue. JWT-protected.
 
 ---
+
+<a id="sec-watch-later-add"></a>
 
 ### `POST /api/watch-later`
 
@@ -872,6 +935,8 @@ The user's watch queue. JWT-protected.
 
 ---
 
+<a id="sec-watch-later-remove"></a>
+
 ### `DELETE /api/watch-later/{drama_id}`
 
 | Field              | Value                                      |
@@ -912,6 +977,8 @@ The user's watch queue. JWT-protected.
 | `404`  | Drama is not in the user's queue. | `{ "success": false, "message": "Drama not found in watch later", "errors": {} }`                                  |
 
 ---
+
+<a id="sec-watch-later-list"></a>
 
 ### `GET /api/watch-later`
 
@@ -963,11 +1030,15 @@ The user's watch queue. JWT-protected.
 
 ---
 
+<a id="sec-watched"></a>
+
 ## Watched
 
 Mark a drama as already-watched. There is intentionally **no** `DELETE` endpoint (no un-watch).
 
 ---
+
+<a id="sec-watched-add"></a>
 
 ### `POST /api/watched`
 
@@ -1026,6 +1097,8 @@ Mark a drama as already-watched. There is intentionally **no** `DELETE` endpoint
 
 ---
 
+<a id="sec-watched-list"></a>
+
 ### `GET /api/watched`
 
 | Field              | Value                                                          |
@@ -1076,11 +1149,15 @@ Mark a drama as already-watched. There is intentionally **no** `DELETE` endpoint
 
 ---
 
+<a id="sec-swipe"></a>
+
 ## Swipe
 
 Record a **like** or **dislike** against a drama. Upserts — first insert returns `201`, subsequent changes return `200`.
 
 ---
+
+<a id="sec-swipe-endpoint"></a>
 
 ### `POST /api/swipe`
 
@@ -1163,11 +1240,15 @@ Record a **like** or **dislike** against a drama. Upserts — first insert retur
 
 ---
 
+<a id="sec-profile"></a>
+
 ## User Profile
 
 Read and update the authenticated user's profile. The response never leaks `password_hash` or any password material.
 
 ---
+
+<a id="sec-profile-get"></a>
 
 ### `GET /api/profile`
 
@@ -1218,6 +1299,8 @@ Read and update the authenticated user's profile. The response never leaks `pass
 | `404`  | JWT valid but the user no longer exists. | `{ "success": false, "message": "Account no longer exists.", "errors": { "code": "auth.user_not_found" } }` |
 
 ---
+
+<a id="sec-profile-update"></a>
 
 ### `PUT /api/profile`
 
@@ -1334,11 +1417,15 @@ The `updated_fields` array echoes which fields actually changed on this call.
 
 ---
 
+<a id="sec-genre-statistics"></a>
+
 ## Genre Statistics
 
 Per-genre preference scores computed from the user's activity.
 
 ---
+
+<a id="sec-genre-statistics-endpoint"></a>
 
 ### `GET /api/profile/genre-statistics`
 
@@ -1398,11 +1485,15 @@ Brand-new users (no activity) receive `statistics: []` and zero-valued `totals`.
 
 ---
 
+<a id="sec-recommendations"></a>
+
 ## Recommendations
 
 Personalized drama recommendations with a cold-start fallback.
 
 ---
+
+<a id="sec-recommendations-endpoint"></a>
 
 ### `GET /api/recommendations`
 
@@ -1457,9 +1548,13 @@ Personalized drama recommendations with a cold-start fallback.
 
 ---
 
+<a id="sec-workflow"></a>
+
 # Example Workflow
 
 This walkthrough shows how a client uses the API from a clean database to a fully personalized recommendation feed. Assumes the base URL is `http://localhost/hangug-api/public`.
+
+<a id="sec-workflow-register"></a>
 
 ### 1. Register a new user
 
@@ -1477,6 +1572,8 @@ Content-Type: application/json
 
 → `201 Created`. Save `data.token` — the response already logged the user in.
 
+<a id="sec-workflow-login"></a>
+
 ### 2. Log in (or refresh the token)
 
 ```http
@@ -1488,6 +1585,8 @@ Content-Type: application/json
 
 → `200 OK`. Save `data.token` (every login issues a fresh JWT).
 
+<a id="sec-workflow-save-token"></a>
+
 ### 3. Save the JWT
 
 ```js
@@ -1495,6 +1594,8 @@ Content-Type: application/json
 const token = response.data.token;
 localStorage.setItem("jwt", token);
 ```
+
+<a id="sec-workflow-browse"></a>
 
 ### 4. Browse dramas
 
@@ -1504,6 +1605,8 @@ GET /api/dramas?page=1&limit=10&sort=imdb_rating&order=desc
 
 → `200 OK`. Pick a few `drama_id`s for the next steps (e.g. 1, 2, 3).
 
+<a id="sec-workflow-drama-detail"></a>
+
 ### 5. View drama details
 
 ```http
@@ -1511,6 +1614,8 @@ GET /api/dramas/1
 ```
 
 → `200 OK` with the full record (poster, banner, storyline, stars, etc.).
+
+<a id="sec-workflow-add-favorite"></a>
 
 ### 6. Add to favorites
 
@@ -1524,6 +1629,8 @@ Content-Type: application/json
 
 → `201 Created`.
 
+<a id="sec-workflow-add-watch-later"></a>
+
 ### 7. Add to watch later
 
 ```http
@@ -1535,6 +1642,8 @@ Content-Type: application/json
 ```
 
 → `201 Created`.
+
+<a id="sec-workflow-mark-watched"></a>
 
 ### 8. Mark as watched
 
@@ -1548,6 +1657,8 @@ Content-Type: application/json
 
 → `201 Created`.
 
+<a id="sec-workflow-swipe"></a>
+
 ### 9. Swipe like / dislike
 
 ```http
@@ -1560,6 +1671,8 @@ Content-Type: application/json
 
 → `201 Created` on first call, `200 OK` when updating an existing swipe.
 
+<a id="sec-workflow-recommendations"></a>
+
 ### 10. Get personalized recommendations
 
 ```http
@@ -1569,6 +1682,8 @@ Authorization: Bearer <jwt>
 
 → `200 OK` with `is_personalized: true` after activity is recorded.
 
+<a id="sec-workflow-view-profile"></a>
+
 ### 11. View your profile
 
 ```http
@@ -1577,6 +1692,8 @@ Authorization: Bearer <jwt>
 ```
 
 → `200 OK` with `liked_count`, `watched_count`, and your top three `favorite_genres`.
+
+<a id="sec-workflow-update-profile"></a>
 
 ### 12. Update your profile
 
@@ -1596,17 +1713,25 @@ For a full profile-update including image + password, swap the
 
 ---
 
+<a id="sec-testing"></a>
+
 # Testing Reference
+
+<a id="sec-curl"></a>
 
 ## cURL Examples
 
 Replace `<JWT>` with a token from `/api/auth/login`, and adjust `<BASE_URL>` to your deployment (e.g. `http://localhost/hangug-api/public`).
+
+<a id="sec-curl-health"></a>
 
 ### Health
 
 ```bash
 curl -s "<BASE_URL>/api/health"
 ```
+
+<a id="sec-curl-register"></a>
 
 ### Register
 
@@ -1617,6 +1742,8 @@ curl -s -X POST "<BASE_URL>/api/auth/register" \
   -d '{"full_name":"John Doe","email":"john@example.com","password":"secret123","password_confirmation":"secret123"}'
 ```
 
+<a id="sec-curl-login"></a>
+
 ### Login
 
 ```bash
@@ -1625,6 +1752,8 @@ curl -s -X POST "<BASE_URL>/api/auth/login" \
   -d '{"email":"john@example.com","password":"secret123"}'
 ```
 
+<a id="sec-curl-me"></a>
+
 ### Authenticated `GET /api/me`
 
 ```bash
@@ -1632,17 +1761,23 @@ curl -s "<BASE_URL>/api/me" \
   -H "Authorization: Bearer <JWT>"
 ```
 
+<a id="sec-curl-browse"></a>
+
 ### Browse dramas
 
 ```bash
 curl -s "<BASE_URL>/api/dramas?page=1&limit=10&sort=imdb_rating&order=desc"
 ```
 
+<a id="sec-curl-drama-detail"></a>
+
 ### Single drama
 
 ```bash
 curl -s "<BASE_URL>/api/dramas/1"
 ```
+
+<a id="sec-curl-add-favorite"></a>
 
 ### Add favorite
 
@@ -1653,6 +1788,8 @@ curl -s -X POST "<BASE_URL>/api/favorites" \
   -d '{"drama_id":1}'
 ```
 
+<a id="sec-curl-remove-favorite"></a>
+
 ### Remove favorite
 
 ```bash
@@ -1660,12 +1797,16 @@ curl -s -X DELETE "<BASE_URL>/api/favorites/1" \
   -H "Authorization: Bearer <JWT>"
 ```
 
+<a id="sec-curl-list-favorites"></a>
+
 ### List favorites
 
 ```bash
 curl -s "<BASE_URL>/api/favorites" \
   -H "Authorization: Bearer <JWT>"
 ```
+
+<a id="sec-curl-add-watch-later"></a>
 
 ### Add to watch later
 
@@ -1676,6 +1817,8 @@ curl -s -X POST "<BASE_URL>/api/watch-later" \
   -d '{"drama_id":2}'
 ```
 
+<a id="sec-curl-remove-watch-later"></a>
+
 ### Remove from watch later
 
 ```bash
@@ -1683,12 +1826,16 @@ curl -s -X DELETE "<BASE_URL>/api/watch-later/2" \
   -H "Authorization: Bearer <JWT>"
 ```
 
+<a id="sec-curl-list-watch-later"></a>
+
 ### List watch later
 
 ```bash
 curl -s "<BASE_URL>/api/watch-later" \
   -H "Authorization: Bearer <JWT>"
 ```
+
+<a id="sec-curl-mark-watched"></a>
 
 ### Mark as watched
 
@@ -1699,12 +1846,16 @@ curl -s -X POST "<BASE_URL>/api/watched" \
   -d '{"drama_id":3}'
 ```
 
+<a id="sec-curl-list-watched"></a>
+
 ### List watched
 
 ```bash
 curl -s "<BASE_URL>/api/watched" \
   -H "Authorization: Bearer <JWT>"
 ```
+
+<a id="sec-curl-swipe"></a>
 
 ### Record a swipe
 
@@ -1715,12 +1866,16 @@ curl -s -X POST "<BASE_URL>/api/swipe" \
   -d '{"drama_id":4,"swipe_type":"like"}'
 ```
 
+<a id="sec-curl-profile"></a>
+
 ### Get profile
 
 ```bash
 curl -s "<BASE_URL>/api/profile" \
   -H "Authorization: Bearer <JWT>"
 ```
+
+<a id="sec-curl-update-profile-name"></a>
 
 ### Update profile (JSON — name only)
 
@@ -1731,6 +1886,8 @@ curl -s -X PUT "<BASE_URL>/api/profile" \
   -d '{"name":"Johnathan Doe"}'
 ```
 
+<a id="sec-curl-update-profile-password"></a>
+
 ### Update profile (JSON — change password)
 
 ```bash
@@ -1740,6 +1897,8 @@ curl -s -X PUT "<BASE_URL>/api/profile" \
   -d '{"current_password":"secret123","new_password":"newSecret!9","confirm_password":"newSecret!9"}'
 ```
 
+<a id="sec-curl-update-profile-image"></a>
+
 ### Update profile (multipart — image upload)
 
 ```bash
@@ -1748,12 +1907,16 @@ curl -s -X PUT "<BASE_URL>/api/profile" \
   -F "image=@/path/to/avatar.jpg"
 ```
 
+<a id="sec-curl-genre-statistics"></a>
+
 ### Genre statistics
 
 ```bash
 curl -s "<BASE_URL>/api/profile/genre-statistics" \
   -H "Authorization: Bearer <JWT>"
 ```
+
+<a id="sec-curl-recommendations"></a>
 
 ### Recommendations
 
@@ -1763,6 +1926,8 @@ curl -s "<BASE_URL>/api/recommendations" \
 ```
 
 ---
+
+<a id="sec-postman"></a>
 
 ## Postman Examples
 
@@ -1809,8 +1974,103 @@ The project ships a ready-made collection + environment at:
 
 ---
 
+<a id="sec-changelog"></a>
+
 ## Changelog
 
 | Version | Date       | Notes                                                          |
 | :-----: | ---------- | -------------------------------------------------------------- |
 |  `1.0`  | 2026-07-06 | Initial docs for all 19 endpoints implemented through Phase 9. |
+
+---
+
+<a id="sec-anchor-index"></a>
+
+## Anchor Index
+
+| Anchor                             | Heading                                       |
+| ---------------------------------- | --------------------------------------------- |
+| `sec-top`                          | # Hangug Deulama — REST API Documentation     |
+| `sec-toc`                          | ## Table of Contents                          |
+| `sec-project-info`                 | ## Project Information                        |
+| `sec-response-format`              | ## Standard Response Format                   |
+| `sec-response-success`             | ### Success                                   |
+| `sec-response-error`               | ### Error                                     |
+| `sec-response-headers`             | ### Response Headers                          |
+| `sec-http-status-codes`            | ## HTTP Status Codes                          |
+| `sec-auth-guide`                   | ## Authentication Guide                       |
+| `sec-auth-how-it-works`            | ### How it works                              |
+| `sec-auth-obtaining-token`         | ### Obtaining a token                         |
+| `sec-auth-token-claims`            | ### Token claims                              |
+| `sec-auth-sending-header`          | ### Sending the Authorization header          |
+| `sec-auth-common-errors`           | ### Common authentication errors              |
+| `sec-error-reference`              | ## Error Reference                            |
+| `sec-api-endpoints`                | # API Endpoints                               |
+| `sec-health`                       | ## Health                                     |
+| `sec-health-endpoint`              | ### `GET /api/health`                         |
+| `sec-auth-endpoints`               | ## Authentication                             |
+| `sec-auth-register`                | ### `POST /api/auth/register`                 |
+| `sec-auth-login`                   | ### `POST /api/auth/login`                    |
+| `sec-auth-me`                      | ### `GET /api/me`                             |
+| `sec-dramas`                       | ## Dramas                                     |
+| `sec-dramas-list`                  | ### `GET /api/dramas`                         |
+| `sec-dramas-detail`                | ### `GET /api/dramas/{id}`                    |
+| `sec-favorites`                    | ## Favorites                                  |
+| `sec-favorites-add`                | ### `POST /api/favorites`                     |
+| `sec-favorites-remove`             | ### `DELETE /api/favorites/{drama_id}`        |
+| `sec-favorites-list`               | ### `GET /api/favorites`                      |
+| `sec-watch-later`                  | ## Watch Later                                |
+| `sec-watch-later-add`              | ### `POST /api/watch-later`                   |
+| `sec-watch-later-remove`           | ### `DELETE /api/watch-later/{drama_id}`      |
+| `sec-watch-later-list`             | ### `GET /api/watch-later`                    |
+| `sec-watched`                      | ## Watched                                    |
+| `sec-watched-add`                  | ### `POST /api/watched`                       |
+| `sec-watched-list`                 | ### `GET /api/watched`                        |
+| `sec-swipe`                        | ## Swipe                                      |
+| `sec-swipe-endpoint`               | ### `POST /api/swipe`                         |
+| `sec-profile`                      | ## User Profile                               |
+| `sec-profile-get`                  | ### `GET /api/profile`                        |
+| `sec-profile-update`               | ### `PUT /api/profile`                        |
+| `sec-genre-statistics`             | ## Genre Statistics                           |
+| `sec-genre-statistics-endpoint`    | ### `GET /api/profile/genre-statistics`       |
+| `sec-recommendations`              | ## Recommendations                            |
+| `sec-recommendations-endpoint`     | ### `GET /api/recommendations`                |
+| `sec-workflow`                     | # Example Workflow                            |
+| `sec-workflow-register`            | ### 1. Register a new user                    |
+| `sec-workflow-login`               | ### 2. Log in (or refresh the token)          |
+| `sec-workflow-save-token`          | ### 3. Save the JWT                           |
+| `sec-workflow-browse`              | ### 4. Browse dramas                          |
+| `sec-workflow-drama-detail`        | ### 5. View drama details                     |
+| `sec-workflow-add-favorite`        | ### 6. Add to favorites                       |
+| `sec-workflow-add-watch-later`     | ### 7. Add to watch later                     |
+| `sec-workflow-mark-watched`        | ### 8. Mark as watched                        |
+| `sec-workflow-swipe`               | ### 9. Swipe like / dislike                   |
+| `sec-workflow-recommendations`     | ### 10. Get personalized recommendations      |
+| `sec-workflow-view-profile`        | ### 11. View your profile                     |
+| `sec-workflow-update-profile`      | ### 12. Update your profile                   |
+| `sec-testing`                      | # Testing Reference                           |
+| `sec-curl`                         | ## cURL Examples                              |
+| `sec-curl-health`                  | ### Health                                    |
+| `sec-curl-register`                | ### Register                                  |
+| `sec-curl-login`                   | ### Login                                     |
+| `sec-curl-me`                      | ### Authenticated `GET /api/me`               |
+| `sec-curl-browse`                  | ### Browse dramas                             |
+| `sec-curl-drama-detail`            | ### Single drama                              |
+| `sec-curl-add-favorite`            | ### Add favorite                              |
+| `sec-curl-remove-favorite`         | ### Remove favorite                           |
+| `sec-curl-list-favorites`          | ### List favorites                            |
+| `sec-curl-add-watch-later`         | ### Add to watch later                        |
+| `sec-curl-remove-watch-later`      | ### Remove from watch later                   |
+| `sec-curl-list-watch-later`        | ### List watch later                          |
+| `sec-curl-mark-watched`            | ### Mark as watched                           |
+| `sec-curl-list-watched`            | ### List watched                              |
+| `sec-curl-swipe`                   | ### Record a swipe                            |
+| `sec-curl-profile`                 | ### Get profile                               |
+| `sec-curl-update-profile-name`     | ### Update profile (JSON — name only)         |
+| `sec-curl-update-profile-password` | ### Update profile (JSON — change password)   |
+| `sec-curl-update-profile-image`    | ### Update profile (multipart — image upload) |
+| `sec-curl-genre-statistics`        | ### Genre statistics                          |
+| `sec-curl-recommendations`         | ### Recommendations                           |
+| `sec-postman`                      | ## Postman Examples                           |
+| `sec-changelog`                    | ## Changelog                                  |
+| `sec-anchor-index`                 | ## Anchor Index                               |
