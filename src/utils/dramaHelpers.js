@@ -159,12 +159,6 @@ const hashToPercent = (str) => {
   }
   return Math.max(8, Math.min(96, Math.abs(hash)));
 };
-  let hash = 0;
-  for (let i = 0; i < str.length; i++) {
-    hash = (hash * 31 + str.charCodeAt(i)) % 100;
-  }
-  return Math.max(8, Math.min(96, Math.abs(hash)));
-};
 
 export const getContinueWatching = (
   dramas,

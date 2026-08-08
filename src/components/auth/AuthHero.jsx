@@ -14,8 +14,6 @@
 // Swap them for your own CDN-hosted artwork before going to production.
 import ImageWithSkeleton from '../ui/ImageWithSkeleton';
 
-import ImageWithSkeleton from '../ui/ImageWithSkeleton';
-
 const collageImages = [
   {
     src: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTj22lTtvmEFNKw7q8jral89qFY8hL0re3URl3RKNF6xg&s=10',

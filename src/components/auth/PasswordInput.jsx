@@ -14,8 +14,6 @@
 // something the backend can't deliver.
 import AuthInput from './AuthInput';
 
-import AuthInput from './AuthInput';
-
 const PasswordInput = ({
   id,
   value,

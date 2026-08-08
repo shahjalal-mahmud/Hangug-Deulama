@@ -12,7 +12,6 @@
 // the title shows the browser's native tooltip on hover so users know
 // it's not a regression, and `disabled` makes them unclickable so the
 // disabled visual state stays honest.
-const SocialLoginButtons = () => (
 
 const GoogleIcon = () => (
   <svg className="w-5 h-5" viewBox="0 0 24 24" aria-hidden="true">

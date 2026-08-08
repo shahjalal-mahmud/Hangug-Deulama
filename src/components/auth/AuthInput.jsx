@@ -13,7 +13,6 @@
 // the input is invalid. That way a screen reader user gets the error
 // announced right after the field label, instead of having to navigate
 // to it separately.
-const AuthInput = ({
 
 const AuthInput = ({
   id,
